@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ViraNode – Innovative IT Team</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Lucide Icons for professional vector icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -26,7 +26,7 @@
             --radius: 16px;
             --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             --font-sans: 'Poppins', sans-serif;
-            --font-display: 'Orbitron', sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
         }
 
         /* Reset & Base */
@@ -87,6 +87,13 @@
         .logo .dot {
             color: var(--color-secondary);
         }
+        .logo-mark { width: 32px; height: 32px; overflow: visible; }
+        .logo-mark .node { fill: var(--color-primary); }
+        .logo-mark .node.star { fill: var(--color-secondary); }
+        .logo-mark .edge { stroke: var(--color-primary); stroke-width: 1.4; opacity: 0.55; }
+        .logo-mark .edge.gold { stroke: var(--color-secondary); opacity: 0.7; }
+        .logo-mark .pulse { animation: logoPulse 2.6s ease-in-out infinite; }
+        @keyframes logoPulse { 0%, 100% { opacity: 0.6; r: 3.2; } 50% { opacity: 1; r: 4.2; } }
 
         .nav { display: flex; gap: 2rem; }
         .nav-link {
@@ -164,9 +171,27 @@
         .hero-tagline { 
             font-size: 1.25rem; 
             color: var(--color-muted); 
-            margin-bottom: 2.5rem; 
+            margin-bottom: 2rem; 
             max-width: 500px;
             font-weight: 300;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-size: 0.78rem; letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--color-secondary); margin-bottom: 1.4rem; font-weight: 500;
+        }
+        .hero-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--color-secondary); }
+
+        .hero-pills { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2.4rem; }
+        .hero-pill {
+            font-size: 0.78rem; padding: 0.4rem 0.9rem;
+            border: 1px solid var(--color-border); border-radius: 100px; color: var(--color-muted);
+        }
+
+        .hero-watermark {
+            position: absolute; right: -6%; top: 50%; transform: translateY(-50%);
+            width: 640px; opacity: 0.08; z-index: 0; pointer-events: none;
         }
 
         /* Buttons */
@@ -357,6 +382,17 @@
             color: #fff;
         }
         .team-card:hover .team-avatar::after { opacity: 1; }
+
+        .team-avatar.placeholder {
+            border: 2px dashed var(--color-border);
+            color: var(--color-muted);
+        }
+        .team-card:hover .team-avatar.placeholder {
+            background: var(--color-bg);
+            color: var(--color-muted);
+            box-shadow: none;
+        }
+        .team-name.placeholder, .team-role.placeholder { color: var(--color-muted); }
         
         .team-name { 
             font-size: 1.25rem; 
@@ -510,6 +546,15 @@
     <header class="header" id="header">
         <div class="container">
             <div class="logo">
+                <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true">
+                    <line class="edge" x1="8" y1="10" x2="20" y2="32"></line>
+                    <line class="edge" x1="32" y1="10" x2="20" y2="32"></line>
+                    <line class="edge gold" x1="32" y1="10" x2="37" y2="4"></line>
+                    <circle class="node pulse" cx="8" cy="10" r="3.4"></circle>
+                    <circle class="node pulse" cx="32" cy="10" r="3.4" style="animation-delay:.5s"></circle>
+                    <circle class="node pulse" cx="20" cy="32" r="3.4" style="animation-delay:1s"></circle>
+                    <circle class="node star pulse" cx="37" cy="4" r="2.8" style="animation-delay:1.4s"></circle>
+                </svg>
                 Vira<span>Node</span><span class="dot">.</span>
             </div>
             <nav class="nav">
@@ -526,11 +571,21 @@
     <section class="hero" id="home">
         <!-- Interactive Particle Network Canvas -->
         <canvas id="hero-canvas"></canvas>
-        
+        <svg class="hero-watermark" viewBox="0 0 200 200" aria-hidden="true">
+            <path d="M30 20 L100 180 L170 20" fill="none" stroke="#3b82f6" stroke-width="2"></path>
+        </svg>
+
         <div class="container">
             <div class="hero-content reveal active">
+                <div class="hero-eyebrow">IT engineering collective</div>
                 <h1>Everything is a node.<br>We are that <span class="gradient-text">Vira</span> <span class="highlight-gold">one.</span></h1>
                 <p class="hero-tagline">Connecting ideas, technology, and people. A premium IT engineering hub focusing on innovation, scalable architecture, and a sustainable digital future.</p>
+                <div class="hero-pills">
+                    <div class="hero-pill">Software engineering</div>
+                    <div class="hero-pill">AI &amp; ML</div>
+                    <div class="hero-pill">Cloud &amp; DevOps</div>
+                    <div class="hero-pill">Product design</div>
+                </div>
                 <a href="#contact" class="btn-primary">
                     Initiate Connection <i data-lucide="arrow-right" size="20"></i>
                 </a>
@@ -594,32 +649,32 @@
             
             <div class="team-grid">
                 <div class="team-card reveal" style="transition-delay: 100ms;">
-                    <div class="team-avatar">TE</div>
-                    <h3 class="team-name">Top Engineer</h3>
-                    <p class="team-role">Software Engineer</p>
-                    <p class="team-location"><i data-lucide="map-pin" size="14"></i> Tehran, Iran</p>
-                    <p class="team-bio">Full-stack architect passionate about highly scalable systems, microservices, and AI integration.</p>
+                    <div class="team-avatar placeholder"><i data-lucide="user" size="30"></i></div>
+                    <h3 class="team-name placeholder">Name</h3>
+                    <p class="team-role placeholder">Role</p>
+                    <p class="team-location"><i data-lucide="map-pin" size="14"></i> Location</p>
+                    <p class="team-bio">Short bio goes here.</p>
                 </div>
                 <div class="team-card reveal" style="transition-delay: 200ms;">
-                    <div class="team-avatar">DS</div>
-                    <h3 class="team-name">Data Scientist</h3>
-                    <p class="team-role">ML Engineer</p>
-                    <p class="team-location"><i data-lucide="map-pin" size="14"></i> Isfahan, Iran</p>
-                    <p class="team-bio">Specialist in predictive modeling, neural networks, and extracting actionable intelligence from raw data.</p>
+                    <div class="team-avatar placeholder"><i data-lucide="user" size="30"></i></div>
+                    <h3 class="team-name placeholder">Name</h3>
+                    <p class="team-role placeholder">Role</p>
+                    <p class="team-location"><i data-lucide="map-pin" size="14"></i> Location</p>
+                    <p class="team-bio">Short bio goes here.</p>
                 </div>
                 <div class="team-card reveal" style="transition-delay: 300ms;">
-                    <div class="team-avatar">DV</div>
-                    <h3 class="team-name">DevOps Lead</h3>
-                    <p class="team-role">Cloud Engineer</p>
-                    <p class="team-location"><i data-lucide="map-pin" size="14"></i> Shiraz, Iran</p>
-                    <p class="team-bio">Master of CI/CD. Automates deployment pipelines and ensures rock-solid, zero-downtime cloud infrastructure.</p>
+                    <div class="team-avatar placeholder"><i data-lucide="user" size="30"></i></div>
+                    <h3 class="team-name placeholder">Name</h3>
+                    <p class="team-role placeholder">Role</p>
+                    <p class="team-location"><i data-lucide="map-pin" size="14"></i> Location</p>
+                    <p class="team-bio">Short bio goes here.</p>
                 </div>
                 <div class="team-card reveal" style="transition-delay: 400ms;">
-                    <div class="team-avatar">PD</div>
-                    <h3 class="team-name">Product Designer</h3>
-                    <p class="team-role">UX/UI Designer</p>
-                    <p class="team-location"><i data-lucide="map-pin" size="14"></i> Mashhad, Iran</p>
-                    <p class="team-bio">Transforms complex user flows into intuitive, high-conversion interfaces and premium brand experiences.</p>
+                    <div class="team-avatar placeholder"><i data-lucide="user" size="30"></i></div>
+                    <h3 class="team-name placeholder">Name</h3>
+                    <p class="team-role placeholder">Role</p>
+                    <p class="team-location"><i data-lucide="map-pin" size="14"></i> Location</p>
+                    <p class="team-bio">Short bio goes here.</p>
                 </div>
             </div>
         </div>

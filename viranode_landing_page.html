@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViraNode – Innovative IT Team</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons for professional vector icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            /* Premium Blue & Yellow Palette */
+            --color-bg: #030712; /* Very dark blue-gray, almost black */
+            --color-bg-alt: #0a1024;
+            --color-primary: #3b82f6; /* Bright Blue */
+            --color-primary-glow: rgba(59, 130, 246, 0.4);
+            --color-secondary: #fbbf24; /* Amber/Yellow */
+            --color-secondary-glow: rgba(251, 191, 36, 0.4);
+            --color-text: #f8fafc;
+            --color-muted: #94a3b8;
+            --color-surface: rgba(255, 255, 255, 0.03);
+            --color-surface-hover: rgba(255, 255, 255, 0.06);
+            --color-border: rgba(59, 130, 246, 0.15);
+            
+            --radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --font-sans: 'Poppins', sans-serif;
+            --font-display: 'Orbitron', sans-serif;
+        }
+
+        /* Reset & Base */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        a { color: inherit; text-decoration: none; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; position: relative; z-index: 10; }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header */
+        .header {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(3, 7, 18, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 1.2rem 0; 
+            z-index: 1000;
+            border-bottom: 1px solid var(--color-border);
+            transition: padding 0.3s ease;
+        }
+        .header.scrolled { padding: 0.8rem 0; }
+        .header .container { display: flex; align-items: center; justify-content: space-between; }
+        
+        .logo {
+            font-family: var(--font-display); 
+            font-size: 1.6rem; 
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .logo span {
+            color: var(--color-text);
+        }
+        .logo span.highlight {
+            color: var(--color-primary);
+        }
+        .logo .dot {
+            color: var(--color-secondary);
+        }
+
+        .nav { display: flex; gap: 2rem; }
+        .nav-link {
+            font-weight: 500; 
+            font-size: 0.95rem;
+            color: var(--color-muted);
+            transition: var(--transition); 
+            position: relative;
+        }
+        .nav-link:hover { color: var(--color-text); }
+        .nav-link::after {
+            content: ''; position: absolute; left: 0; bottom: -6px;
+            width: 0; height: 2px; 
+            background: var(--color-secondary);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh; 
+            position: relative; 
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Particle Canvas Background */
+        #hero-canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: auto;
+        }
+
+        /* Background glow effects */
+        .hero::before {
+            content: ''; position: absolute; top: -20%; left: -10%;
+            width: 50%; height: 50%;
+            background: radial-gradient(circle, var(--color-primary-glow) 0%, transparent 70%);
+            filter: blur(80px); z-index: 0; opacity: 0.5;
+        }
+        .hero::after {
+            content: ''; position: absolute; bottom: -20%; right: -10%;
+            width: 50%; height: 50%;
+            background: radial-gradient(circle, var(--color-secondary-glow) 0%, transparent 70%);
+            filter: blur(80px); z-index: 0; opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative; 
+            z-index: 10;
+            max-width: 800px;
+            padding-top: 4rem;
+        }
+        
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 4.5rem; 
+            line-height: 1.1; 
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        .hero h1 .gradient-text {
+            background: linear-gradient(to right, var(--color-primary), #60a5fa);
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        .hero h1 .highlight-gold {
+            color: var(--color-secondary);
+        }
+        
+        .hero-tagline { 
+            font-size: 1.25rem; 
+            color: var(--color-muted); 
+            margin-bottom: 2.5rem; 
+            max-width: 500px;
+            font-weight: 300;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            background: var(--color-primary);
+            color: #fff; 
+            border-radius: 8px; 
+            font-weight: 500;
+            font-family: var(--font-display);
+            letter-spacing: 1px;
+            transition: var(--transition); 
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 20px var(--color-primary-glow);
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+            border-color: var(--color-secondary);
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        /* Standard Sections */
+        .section { padding: 7rem 0; position: relative; }
+        .section-alt { background: var(--color-bg-alt); }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 2.5rem; 
+            color: var(--color-text); 
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: ''; 
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px; 
+            height: 3px;
+            background: var(--color-secondary); 
+            border-radius: 2px;
+        }
+        
+        .section-text { 
+            max-width: 700px; 
+            margin: 1.5rem auto 0; 
+            text-align: center; 
+            color: var(--color-muted); 
+            font-size: 1.1rem;
+        }
+
+        /* Mission / Values Grid */
+        .values-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 2rem; 
+        }
+        .value-card {
+            background: var(--color-surface); 
+            border-radius: var(--radius); 
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: var(--transition); 
+            border: 1px solid var(--color-border);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--color-primary);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+            transform-origin: left;
+        }
+        .value-card:hover { 
+            background: var(--color-surface-hover); 
+            transform: translateY(-8px); 
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .value-card:hover::before {
+            transform: scaleX(1);
+        }
+        .value-icon-wrapper { 
+            width: 70px; height: 70px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--color-primary);
+            transition: var(--transition);
+        }
+        .value-card:hover .value-icon-wrapper {
+            background: var(--color-primary);
+            color: #fff;
+            box-shadow: 0 0 20px var(--color-primary-glow);
+        }
+        .value-card h3 { 
+            margin-bottom: 1rem; 
+            color: var(--color-text); 
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+        }
+        .value-card p { 
+            font-size: 0.95rem; 
+            color: var(--color-muted); 
+        }
+
+        /* Team Section */
+        .team-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+            gap: 2.5rem; 
+        }
+        .team-card {
+            background: var(--color-surface); 
+            border-radius: var(--radius);
+            text-align: center; 
+            padding: 3rem 2rem 2rem; 
+            transition: var(--transition);
+            border: 1px solid var(--color-border); 
+            position: relative; 
+        }
+        .team-card:hover { 
+            background: var(--color-surface-hover); 
+            transform: translateY(-8px); 
+            border-color: rgba(251, 191, 36, 0.3);
+        }
+        .team-avatar {
+            width: 100px; height: 100px;
+            background: var(--color-bg);
+            border: 2px solid var(--color-primary);
+            border-radius: 50%; 
+            margin: 0 auto 1.5rem;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-secondary); 
+            font-weight: 600; 
+            font-size: 1.5rem;
+            font-family: var(--font-display);
+            transition: var(--transition);
+            position: relative;
+        }
+        .team-avatar::after {
+            content: ''; position: absolute;
+            inset: -6px; border-radius: 50%;
+            border: 1px dashed var(--color-secondary);
+            animation: rotate 10s linear infinite;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+        
+        .team-card:hover .team-avatar {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px var(--color-primary-glow);
+            background: var(--color-primary);
+            color: #fff;
+        }
+        .team-card:hover .team-avatar::after { opacity: 1; }
+        
+        .team-name { 
+            font-size: 1.25rem; 
+            margin-bottom: 0.3rem; 
+            color: var(--color-text); 
+            font-family: var(--font-display);
+        }
+        .team-role { 
+            font-size: 0.9rem; 
+            color: var(--color-primary); 
+            margin-bottom: 0.8rem; 
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .team-location { 
+            font-size: 0.85rem; 
+            color: var(--color-muted); 
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+        .team-bio { 
+            font-size: 0.95rem; 
+            color: var(--color-muted); 
+            line-height: 1.5;
+        }
+
+        /* Contact Section */
+        .contact-container {
+            max-width: 700px; 
+            margin: 0 auto;
+            background: var(--color-surface);
+            padding: 3rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--color-border);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .contact-form { 
+            display: grid; 
+            gap: 1.5rem; 
+        }
+        .form-group {
+            position: relative;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            background: rgba(0,0,0,0.2); 
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px; 
+            padding: 1.2rem 1rem;
+            color: var(--color-text); 
+            font-family: inherit; 
+            font-size: 1rem; 
+            transition: var(--transition);
+        }
+        .contact-form textarea { resize: vertical; min-height: 120px; }
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none; 
+            border-color: var(--color-primary);
+            background: rgba(0,0,0,0.4);
+            box-shadow: 0 0 0 4px var(--color-primary-glow);
+        }
+        .contact-form button[type="submit"] { 
+            width: 100%; 
+            padding: 1.2rem;
+            font-size: 1.1rem;
+        }
+        
+        /* Form Success Message */
+        .form-message {
+            display: none;
+            padding: 1rem;
+            border-radius: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            color: #10b981;
+            text-align: center;
+            font-weight: 500;
+        }
+        .form-message.show { display: block; }
+
+        /* Footer */
+        .footer {
+            background: #02040a; 
+            padding: 3rem 0; 
+            border-top: 1px solid var(--color-border);
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-muted);
+        }
+        .footer-logo span { color: var(--color-primary); }
+        .footer-text {
+            font-size: 0.9rem; 
+            color: var(--color-muted);
+        }
+        .social-links { 
+            display: flex;
+            gap: 1rem;
+        }
+        .social-links a { 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            color: var(--color-muted);
+            transition: var(--transition); 
+        }
+        .social-links a:hover { 
+            color: var(--color-secondary); 
+            border-color: var(--color-secondary);
+            transform: translateY(-3px); 
+            background: rgba(251, 191, 36, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 3.5rem; }
+        }
+        @media (max-width: 768px) {
+            .header .nav { display: none; } /* Could add a hamburger menu here */
+            .hero h1 { font-size: 2.8rem; }
+            .hero-content { padding-top: 6rem; text-align: center; margin: 0 auto; }
+            .section { padding: 4rem 0; }
+            .footer-content { flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.2rem; }
+            .contact-container { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="logo">
+                Vira<span>Node</span><span class="dot">.</span>
+            </div>
+            <nav class="nav">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#mission" class="nav-link">Mission</a>
+                <a href="#team" class="nav-link">Team</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <!-- Interactive Particle Network Canvas -->
+        <canvas id="hero-canvas"></canvas>
+        
+        <div class="container">
+            <div class="hero-content reveal active">
+                <h1>Everything is a node.<br>We are that <span class="gradient-text">Vira</span> <span class="highlight-gold">one.</span></h1>
+                <p class="hero-tagline">Connecting ideas, technology, and people. A premium IT engineering hub focusing on innovation, scalable architecture, and a sustainable digital future.</p>
+                <a href="#contact" class="btn-primary">
+                    Initiate Connection <i data-lucide="arrow-right" size="20"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section section-alt" id="about">
+        <div class="container reveal">
+            <div class="section-header">
+                <h2 class="section-title">About Us</h2>
+                <p class="section-text">
+                    ViraNode merges the Persian word <strong>"Vira"</strong> (knowledge/intelligence) with the English <strong>"Node"</strong> (connection point). 
+                    We are a dedicated IT collective developing innovative solutions. Our roadmap includes expanding into interdisciplinary fields, bridging advanced computational technology with global industry challenges.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Values Section -->
+    <section class="section" id="mission">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="section-title">Core Directives</h2>
+            </div>
+            
+            <div class="values-grid">
+                <div class="value-card reveal" style="transition-delay: 100ms;">
+                    <div class="value-icon-wrapper">
+                        <i data-lucide="cpu" size="32"></i>
+                    </div>
+                    <h3>Innovation</h3>
+                    <p>We actively seek novel architectural patterns and transform complex ideas into robust, tangible digital solutions.</p>
+                </div>
+                <div class="value-card reveal" style="transition-delay: 200ms;">
+                    <div class="value-icon-wrapper">
+                        <i data-lucide="leaf" size="32"></i>
+                    </div>
+                    <h3>Sustainability</h3>
+                    <p>Our code and infrastructure are designed for longevity, aiming for a lasting impact and highly optimized resource utilization.</p>
+                </div>
+                <div class="value-card reveal" style="transition-delay: 300ms;">
+                    <div class="value-icon-wrapper">
+                        <i data-lucide="git-merge" size="32"></i>
+                    </div>
+                    <h3>Flexibility</h3>
+                    <p>Agile by nature. We adapt rapidly to new frameworks, shifting paradigms, and complex interdisciplinary opportunities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="section section-alt" id="team">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="section-title">The Network Nodes</h2>
+                <p class="section-text">Meet the specialists powering the ViraNode infrastructure.</p>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-card reveal" style="transition-delay: 100ms;">
+                    <div class="team-avatar">TE</div>
+                    <h3 class="team-name">Top Engineer</h3>
+                    <p class="team-role">Software Engineer</p>
+                    <p class="team-location"><i data-lucide="map-pin" size="14"></i> Tehran, Iran</p>
+                    <p class="team-bio">Full-stack architect passionate about highly scalable systems, microservices, and AI integration.</p>
+                </div>
+                <div class="team-card reveal" style="transition-delay: 200ms;">
+                    <div class="team-avatar">DS</div>
+                    <h3 class="team-name">Data Scientist</h3>
+                    <p class="team-role">ML Engineer</p>
+                    <p class="team-location"><i data-lucide="map-pin" size="14"></i> Isfahan, Iran</p>
+                    <p class="team-bio">Specialist in predictive modeling, neural networks, and extracting actionable intelligence from raw data.</p>
+                </div>
+                <div class="team-card reveal" style="transition-delay: 300ms;">
+                    <div class="team-avatar">DV</div>
+                    <h3 class="team-name">DevOps Lead</h3>
+                    <p class="team-role">Cloud Engineer</p>
+                    <p class="team-location"><i data-lucide="map-pin" size="14"></i> Shiraz, Iran</p>
+                    <p class="team-bio">Master of CI/CD. Automates deployment pipelines and ensures rock-solid, zero-downtime cloud infrastructure.</p>
+                </div>
+                <div class="team-card reveal" style="transition-delay: 400ms;">
+                    <div class="team-avatar">PD</div>
+                    <h3 class="team-name">Product Designer</h3>
+                    <p class="team-role">UX/UI Designer</p>
+                    <p class="team-location"><i data-lucide="map-pin" size="14"></i> Mashhad, Iran</p>
+                    <p class="team-bio">Transforms complex user flows into intuitive, high-conversion interfaces and premium brand experiences.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="section-title">Establish Connection</h2>
+                <p class="section-text">We welcome technology enthusiasts, idea generators, and visionary investors ready to build the future.</p>
+            </div>
+            
+            <div class="contact-container reveal">
+                <div id="form-message" class="form-message mb-4">
+                    Connection established. Your message has been encrypted and transmitted successfully.
+                </div>
+                
+                <form id="contact-form" class="contact-form">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Name / Designation" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Communication Address (Email)" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Data payload (Your Message)" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        Transmit Data <i data-lucide="send" size="18"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    Vira<span>Node</span>.
+                </div>
+                <div class="footer-text">
+                    &copy; <span id="year"></span> ViraNode Network. All rights reserved.
+                </div>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter"><i data-lucide="twitter" size="20"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i data-lucide="linkedin" size="20"></i></a>
+                    <a href="#" aria-label="Github"><i data-lucide="github" size="20"></i></a>
+                    <a href="#" aria-label="Mail"><i data-lucide="mail" size="20"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- UI Setup ---
+            document.getElementById('year').textContent = new Date().getFullYear();
+            
+            // --- Scroll Header ---
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // --- Scroll Reveal Animation ---
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); // Reveal only once
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.15, // Trigger when 15% of element is visible
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // --- Contact Form Handler ---
+            const form = document.getElementById('contact-form');
+            const formMessage = document.getElementById('form-message');
+            
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Simulate sending
+                const btn = form.querySelector('button');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i data-lucide="loader-2" class="spin" size="18"></i> Transmitting...';
+                btn.style.opacity = '0.7';
+                lucide.createIcons();
+
+                setTimeout(() => {
+                    form.reset();
+                    form.style.display = 'none';
+                    formMessage.classList.add('show');
+                    
+                    // Reset after 5 seconds
+                    setTimeout(() => {
+                        form.style.display = 'grid';
+                        formMessage.classList.remove('show');
+                        btn.innerHTML = originalText;
+                        btn.style.opacity = '1';
+                        lucide.createIcons();
+                    }, 5000);
+                }, 1500);
+            });
+
+            // --- Interactive Particle Network Canvas (Stars/Nodes) ---
+            const canvas = document.getElementById('hero-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            let particlesArray = [];
+            let width, height;
+            
+            // Colors from our CSS variables
+            const colorPrimary = 'rgba(59, 130, 246,'; // Blue
+            const colorSecondary = 'rgba(251, 191, 36,'; // Yellow
+            
+            // Mouse object
+            let mouse = {
+                x: null,
+                y: null,
+                radius: 150
+            }
+            
+            window.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+            });
+            
+            window.addEventListener('mouseleave', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            function resizeCanvas() {
+                const heroSection = document.querySelector('.hero');
+                width = heroSection.offsetWidth;
+                height = heroSection.offsetHeight;
+                canvas.width = width;
+                canvas.height = height;
+                initParticles();
+            }
+
+            class Particle {
+                constructor(x, y, isHero = false) {
+                    this.x = x;
+                    this.y = y;
+                    this.isHero = isHero;
+                    // Hero stars are larger and yellow, regular nodes are smaller and blue
+                    this.size = isHero ? Math.random() * 3 + 2 : Math.random() * 1.5 + 0.5;
+                    this.baseX = this.x;
+                    this.baseY = this.y;
+                    this.density = (Math.random() * 30) + 1;
+                    
+                    // Random velocity
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    
+                    this.color = isHero ? colorSecondary : colorPrimary;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.closePath();
+                    ctx.fillStyle = this.color + (this.isHero ? '0.8)' : '0.5)');
+                    
+                    // Add glow to hero stars
+                    if (this.isHero) {
+                        ctx.shadowBlur = 15;
+                        ctx.shadowColor = this.color + '1)';
+                    } else {
+                        ctx.shadowBlur = 0;
+                    }
+                    
+                    ctx.fill();
+                }
+
+                update() {
+                    // Constant slow movement
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    
+                    // Bounce off edges
+                    if (this.x < 0 || this.x > width) this.vx = -this.vx;
+                    if (this.y < 0 || this.y > height) this.vy = -this.vy;
+
+                    // Mouse interaction
+                    if (mouse.x != null && mouse.y != null) {
+                        let dx = mouse.x - this.x;
+                        let dy = mouse.y - this.y;
+                        let distance = Math.sqrt(dx * dx + dy * dy);
+                        let forceDirectionX = dx / distance;
+                        let forceDirectionY = dy / distance;
+                        let maxDistance = mouse.radius;
+                        let force = (maxDistance - distance) / maxDistance;
+                        let directionX = forceDirectionX * force * this.density;
+                        let directionY = forceDirectionY * force * this.density;
+
+                        if (distance < maxDistance) {
+                            this.x -= directionX * 0.5;
+                            this.y -= directionY * 0.5;
+                        }
+                    }
+                    this.draw();
+                }
+            }
+
+            function initParticles() {
+                particlesArray = [];
+                // Number of particles based on screen size
+                const numberOfParticles = (width * height) / 9000;
+                
+                for (let i = 0; i < numberOfParticles; i++) {
+                    let x = Math.random() * width;
+                    let y = Math.random() * height;
+                    // 10% of particles are "Hero" yellow stars
+                    let isHero = Math.random() > 0.9;
+                    particlesArray.push(new Particle(x, y, isHero));
+                }
+            }
+
+            function connectParticles() {
+                let opacityValue = 1;
+                for (let a = 0; a < particlesArray.length; a++) {
+                    for (let b = a; b < particlesArray.length; b++) {
+                        let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
+                                    + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                        
+                        if (distance < (canvas.width / 10) * (canvas.height / 10)) {
+                            opacityValue = 1 - (distance / 20000);
+                            ctx.shadowBlur = 0; // Turn off shadow for lines
+                            ctx.strokeStyle = colorPrimary + opacityValue + ')';
+                            
+                            // If connecting to a hero node, make the line yellowish
+                            if(particlesArray[a].isHero || particlesArray[b].isHero) {
+                                ctx.strokeStyle = colorSecondary + (opacityValue * 0.5) + ')';
+                            }
+                            
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animateParticles() {
+                requestAnimationFrame(animateParticles);
+                ctx.clearRect(0, 0, width, height);
+                
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                }
+                connectParticles();
+            }
+
+            // Init canvas
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+            animateParticles();
+        });
+    </script>
+</body>
+</html>

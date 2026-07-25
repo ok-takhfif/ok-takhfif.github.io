@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:transparent;font-family:sans-serif;}
+.panels{display:flex;gap:0;width:100%;}
+.panel{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:16px 12px 12px;}
+.panel.dark{background:#0d1117;border-radius:12px 0 0 12px;}
+.panel.light{background:#f0f2f5;border-radius:0 12px 12px 0;}
+.label{font-size:11px;font-weight:500;letter-spacing:0.08em;margin-bottom:10px;opacity:0.55;}
+.panel.dark .label{color:#fff;}
+.panel.light .label{color:#222;}
+canvas{display:block;}
+</style></head>
+<body>
+<div class="panels">
+  <div class="panel dark">
+    <div class="label">DARK PAGE</div>
+    <canvas id="cd"></canvas>
+  </div>
+  <div class="panel light">
+    <div class="label">LIGHT PAGE</div>
+    <canvas id="cl"></canvas>
+  </div>
+</div>
+<script>
+const BASE_W = 680, BASE_H = 490;
+
+const NODES_DEF = {
+  TL:  { x: 210, y: 80  },
+  TR:  { x: 470, y: 80  },
+  ORG: { x: 510, y: 38  },
+  ML:  { x: 275, y: 175 },
+  MR:  { x: 405, y: 175 },
+  CL:  { x: 300, y: 278 },
+  CR:  { x: 380, y: 278 },
+  BOT: { x: 340, y: 400 },
+};
+
+// Removed ML↔MR (top edge of inner square)
+const BLUE_EDGES = [
+  ['TL','ML'], ['TL','CL'],
+  ['TR','MR'], ['TR','CR'],
+  // inner shape — no top edge
+  ['ML','CL'], ['MR','CR'],
+  ['CL','CR'],
+  ['ML','CR'], ['MR','CL'],
+  ['CL','BOT'], ['CR','BOT'],
+];
+const ORANGE_EDGES = [['ORG','TR']];
+const ALL_SPARK_EDGES = [...BLUE_EDGES, ...BLUE_EDGES, ...ORANGE_EDGES];
+
+function makeLogoRenderer(canvas, bgHint) {
+  const ctx = canvas.getContext('2d');
+  let sparks = [], lastSpawn = 0, startTime = null;
+  // bgHint: 'dark' | 'light'
+
+  function fit() {
+    const containerW = Math.floor(canvas.parentElement.clientWidth - 24);
+    const w = Math.min(containerW, 320);
+    canvas.width  = w;
+    canvas.height = Math.round(w * (BASE_H / BASE_W));
+  }
+  fit();
+
+  const sx = () => canvas.width  / BASE_W;
+  const sy = () => canvas.height / BASE_H;
+
+  function getNode(k) {
+    const n = NODES_DEF[k];
+    return { x: n.x * sx(), y: n.y * sy() };
+  }
+  function lerp(a, b, t) {
+    return { x: a.x+(b.x-a.x)*t, y: a.y+(b.y-a.y)*t };
+  }
+  function spawn() {
+    const edgeDef = ALL_SPARK_EDGES[Math.floor(Math.random()*ALL_SPARK_EDGES.length)];
+    const rev = Math.random()>0.5;
+    const edge = rev ? [edgeDef[1],edgeDef[0]] : [...edgeDef];
+    const isOr = edge.includes('ORG');
+    sparks.push({ edge, t:0, speed:0.3+Math.random()*0.35, color: isOr?'#FF9B2E':'#38B6FF', width: isOr?2.5:2 });
+  }
+
+  function draw(elapsed) {
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0,0,w,h);
+    const fade = Math.min(1, elapsed/900);
+
+    // edge line alpha — slightly stronger on light bg so it reads well
+    const edgeAlpha = bgHint === 'light' ? 0.65 : 0.55;
+
+    // Edges
+    [...BLUE_EDGES,...ORANGE_EDGES].forEach(([ak,bk]) => {
+      const a=getNode(ak), b=getNode(bk);
+      const isOr = ak==='ORG'||bk==='ORG';
+      ctx.save();
+      ctx.globalAlpha = edgeAlpha * fade;
+      ctx.strokeStyle = isOr?'#FF9B2E':'#38B6FF';
+      ctx.lineWidth   = (isOr?1.5:1.2)*sx();
+      ctx.shadowColor = isOr?'#FF9B2E':'#38B6FF';
+      ctx.shadowBlur  = (bgHint==='light'?3:5)*sx();
+      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+      ctx.restore();
+    });
+
+    // Sparks
+    sparks.forEach(sp => {
+      const a=getNode(sp.edge[0]), b=getNode(sp.edge[1]);
+      const pos  = lerp(a,b,Math.min(sp.t,1));
+      const tail = lerp(a,b,Math.max(0,sp.t-0.18));
+      ctx.save();
+      const g=ctx.createLinearGradient(tail.x,tail.y,pos.x,pos.y);
+      g.addColorStop(0,sp.color+'00');
+      g.addColorStop(1,sp.color+'DD');
+      ctx.strokeStyle=g; ctx.lineWidth=sp.width*sx();
+      ctx.shadowColor=sp.color; ctx.shadowBlur=8*sx(); ctx.lineCap='round';
+      ctx.beginPath(); ctx.moveTo(tail.x,tail.y); ctx.lineTo(pos.x,pos.y); ctx.stroke();
+      ctx.fillStyle=sp.color; ctx.shadowBlur=12*sx();
+      ctx.beginPath(); ctx.arc(pos.x,pos.y,2.5*sx(),0,Math.PI*2); ctx.fill();
+      ctx.restore();
+    });
+
+    // Blue nodes
+    ['TL','TR','ML','MR','CL','CR','BOT'].forEach((key,i) => {
+      const n=getNode(key);
+      const pulse=0.5+0.5*Math.sin((elapsed/2800+i*0.23)*Math.PI*2);
+      const r=(7+pulse*2)*sx();
+      const alpha=(0.7+pulse*0.3)*fade;
+      ctx.save();
+      ctx.globalAlpha=0.12*alpha; ctx.fillStyle='#38B6FF'; ctx.shadowColor='#38B6FF'; ctx.shadowBlur=18*sx();
+      ctx.beginPath(); ctx.arc(n.x,n.y,r*2.2,0,Math.PI*2); ctx.fill();
+      ctx.globalAlpha=alpha; ctx.shadowBlur=10*sx();
+      ctx.beginPath(); ctx.arc(n.x,n.y,r,0,Math.PI*2); ctx.fill();
+      ctx.globalAlpha=0.9*alpha; ctx.fillStyle='white'; ctx.shadowBlur=4*sx();
+      ctx.beginPath(); ctx.arc(n.x,n.y,r*0.42,0,Math.PI*2); ctx.fill();
+      ctx.restore();
+    });
+
+    // Orange star
+    const n=getNode('ORG');
+    const pulse=0.5+0.5*Math.sin((elapsed/2200)*Math.PI*2);
+    const r=(11+pulse*3.5)*sx();
+    ctx.save();
+    ctx.globalAlpha=(0.12+pulse*0.2)*fade; ctx.fillStyle='#FF9B2E'; ctx.shadowColor='#FF9B2E'; ctx.shadowBlur=28*sx();
+    ctx.beginPath(); ctx.arc(n.x,n.y,r*2.4,0,Math.PI*2); ctx.fill();
+    ctx.globalAlpha=(0.22+pulse*0.15)*fade; ctx.shadowBlur=18*sx();
+    ctx.beginPath(); ctx.arc(n.x,n.y,r*1.5,0,Math.PI*2); ctx.fill();
+    ctx.globalAlpha=(0.85+pulse*0.15)*fade; ctx.fillStyle='#FF9B2E'; ctx.shadowBlur=14*sx();
+    ctx.beginPath(); ctx.arc(n.x,n.y,r,0,Math.PI*2); ctx.fill();
+    ctx.globalAlpha=0.95*fade; ctx.fillStyle='white'; ctx.shadowBlur=5*sx();
+    ctx.beginPath(); ctx.arc(n.x,n.y,r*0.38,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+
+  function tick(ts) {
+    if(!startTime) startTime=ts;
+    const elapsed=ts-startTime;
+    if(elapsed-lastSpawn > 260+Math.random()*180) {
+      spawn();
+      if(Math.random()>0.5) spawn();
+      lastSpawn=elapsed;
+    }
+    sparks.forEach(sp=>{ sp.t+=sp.speed*0.016; });
+    sparks=sparks.filter(sp=>sp.t<1.08);
+    draw(elapsed);
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+  window.addEventListener('resize', fit);
+}
+
+makeLogoRenderer(document.getElementById('cd'), 'dark');
+makeLogoRenderer(document.getElementById('cl'), 'light');
+</script>
+</body></html>

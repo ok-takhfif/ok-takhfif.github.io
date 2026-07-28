@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ویرانود | هم‌تیمی فنی شما از ایده تا محصول واقعی</title>
+    <meta name="description" content="ویرانود - تیم تخصصی توسعه نرم‌افزار، طراحی وب‌اپلیکیشن‌های مقیاس‌پذیر و پنل‌های اختصاصی B2B برای استارتاپ‌ها و بنیان‌گذاران ایرانی.">
+    
+    <!-- Google Fonts: Vazirmatn & Lalezar for authentic Persian Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            /* Palette: Deep Dark Navy with Turquoise & Gold accents */
+            --color-bg: #030712;
+            --color-bg-alt: #080f25;
+            --color-surface: rgba(15, 23, 42, 0.7);
+            --color-surface-hover: rgba(30, 41, 59, 0.8);
+            --color-surface-card: rgba(13, 20, 38, 0.85);
+            
+            --color-primary: #06b6d4; /* Turquoise / Cyan */
+            --color-primary-hover: #0891b2;
+            --color-primary-glow: rgba(6, 182, 212, 0.35);
+            
+            --color-secondary: #f59e0b; /* Amber Gold */
+            --color-secondary-hover: #d97706;
+            --color-secondary-glow: rgba(245, 158, 11, 0.35);
+
+            --color-accent-green: #10b981;
+            
+            --color-text: #f8fafc;
+            --color-muted: #94a3b8;
+            --color-subtle: #64748b;
+            --color-border: rgba(6, 182, 212, 0.18);
+            --color-border-hover: rgba(245, 158, 11, 0.4);
+            
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+            
+            --font-sans: 'Vazirmatn', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-display: 'Lalezar', 'Vazirmatn', sans-serif;
+            --transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Reset & Global */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            direction: rtl;
+            text-align: right;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        button, input, select, textarea { font-family: inherit; }
+
+        .container {
+            width: 92%;
+            max-width: 1240px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Utility Components */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-full);
+            color: var(--color-primary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            backdrop-filter: blur(8px);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #06b6d4 50%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-text {
+            color: var(--color-secondary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.85rem 1.8rem;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: #04131f;
+            box-shadow: 0 4px 20px var(--color-primary-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(6, 182, 212, 0.5);
+            background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #1c0e00;
+            box-shadow: 0 4px 20px var(--color-secondary-glow);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.5);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-outline:hover {
+            background: rgba(6, 182, 212, 0.12);
+            border-color: var(--color-primary);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            letter-spacing: 0.5px;
+            margin-top: 0.8rem;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .section-header p {
+            color: var(--color-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* HEADER / NAVBAR                                                            */
+        /* -------------------------------------------------------------------------- */
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 1.2rem 0;
+            background: rgba(3, 7, 18, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.12);
+            transition: padding 0.3s ease, background 0.3s ease;
+        }
+
+        .header.scrolled {
+            padding: 0.8rem 0;
+            background: rgba(3, 7, 18, 0.92);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* ViraNode Persian Girih Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 900;
+            font-size: 1.6rem;
+            color: var(--color-text);
+        }
+
+        .logo-symbol {
+            width: 42px;
+            height: 42px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-symbol svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 8px var(--color-primary-glow));
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .logo-title {
+            font-family: var(--font-display);
+            font-size: 1.7rem;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+        }
+
+        .logo-title span {
+            color: var(--color-secondary);
+        }
+
+        .logo-sub {
+            font-size: 0.65rem;
+            color: var(--color-primary);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2.2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--color-muted);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-secondary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--color-text);
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* HERO SECTION & CANVAS                                                      */
+        /* -------------------------------------------------------------------------- */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            padding-top: 140px;
+            padding-bottom: 80px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #hero-canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: auto;
+        }
+
+        .hero-glow-1 {
+            position: absolute;
+            top: 10%; right: 5%;
+            width: 550px; height: 550px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.18) 0%, transparent 70%);
+            filter: blur(90px);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .hero-glow-2 {
+            position: absolute;
+            bottom: 5%; left: 5%;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+            filter: blur(90px);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 850px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+            line-height: 1.25;
+            margin: 1.5rem 0 1.5rem 0;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.05rem, 2vw, 1.25rem);
+            color: var(--color-muted);
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+
+        /* Metrics / Stats Row */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 1.8rem 2rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .stat-item {
+            text-align: center;
+            position: relative;
+        }
+
+        .stat-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 0; top: 20%; bottom: 20%;
+            width: 1px;
+            background: rgba(6, 182, 212, 0.15);
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            color: var(--color-secondary);
+            line-height: 1;
+            margin-bottom: 0.4rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--color-muted);
+            font-weight: 500;
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* WHY VIRANODE / VALUE PROPOSITION                                            */
+        /* -------------------------------------------------------------------------- */
+        .features-section {
+            padding: 7rem 0;
+            position: relative;
+            background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--color-surface-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 2.2rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(6, 182, 212, 0.4);
+            box-shadow: 0 15px 35px rgba(6, 182, 212, 0.15);
+            background: rgba(18, 28, 54, 0.9);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-md);
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-primary);
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover .feature-icon {
+            background: var(--color-primary);
+            color: #030712;
+            box-shadow: 0 0 20px var(--color-primary-glow);
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: #ffffff;
+        }
+
+        .feature-desc {
+            color: var(--color-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* PROCESS / FOUNDER'S JOURNEY                                                */
+        /* -------------------------------------------------------------------------- */
+        .process-section {
+            padding: 7rem 0;
+            position: relative;
+        }
+
+        .process-timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            position: relative;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 992px) {
+            .process-timeline { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        }
+        @media (max-width: 576px) {
+            .process-timeline { grid-template-columns: 1fr; }
+        }
+
+        .process-step {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .process-step:hover {
+            border-color: var(--color-secondary);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px var(--color-secondary-glow);
+        }
+
+        .step-num {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: rgba(245, 158, 11, 0.3);
+            position: absolute;
+            top: 1rem; left: 1.2rem;
+            line-height: 1;
+            transition: var(--transition);
+        }
+
+        .process-step:hover .step-num {
+            color: var(--color-secondary);
+        }
+
+        .step-icon {
+            width: 48px; height: 48px;
+            border-radius: var(--radius-sm);
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: #ffffff;
+        }
+
+        .step-desc {
+            font-size: 0.9rem;
+            color: var(--color-muted);
+            line-height: 1.7;
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* PROOF / WORK SHOWCASE (OK TAFRIH B2B)                                      */
+        /* -------------------------------------------------------------------------- */
+        .work-section {
+            padding: 7rem 0;
+            background: var(--color-bg-alt);
+            position: relative;
+        }
+
+        .work-card {
+            background: rgba(10, 16, 35, 0.85);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 0;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+            transition: var(--transition);
+        }
+
+        @media (max-width: 992px) {
+            .work-card { grid-template-columns: 1fr; }
+        }
+
+        .work-content {
+            padding: 3.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .work-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-secondary);
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .work-title {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.3;
+            color: #ffffff;
+        }
+
+        .work-desc {
+            color: var(--color-muted);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .tech-stack-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .tech-pill {
+            background: rgba(6, 182, 212, 0.08);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 0.35rem 0.85rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .work-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            width: fit-content;
+        }
+
+        .work-link:hover {
+            color: var(--color-secondary);
+            transform: translateX(-4px);
+        }
+
+        .work-visual {
+            position: relative;
+            overflow: hidden;
+            background: #020610;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 380px;
+        }
+
+        .work-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .work-card:hover .work-visual img {
+            transform: scale(1.04);
+        }
+
+        /* Overlay Gradient for smooth visual blending */
+        .work-visual::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(270deg, rgba(10, 16, 35, 0.8) 0%, transparent 40%);
+            pointer-events: none;
+        }
+        @media (max-width: 992px) {
+            .work-visual::after {
+                background: linear-gradient(180deg, rgba(10, 16, 35, 0.8) 0%, transparent 40%);
+            }
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* TEAM SECTION                                                               */
+        /* -------------------------------------------------------------------------- */
+        .team-section {
+            padding: 7rem 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.8rem;
+        }
+
+        @media (max-width: 992px) {
+            .team-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 576px) {
+            .team-grid { grid-template-columns: 1fr; }
+        }
+
+        .team-card {
+            background: var(--color-surface-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .team-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--color-primary);
+            box-shadow: 0 15px 35px var(--color-primary-glow);
+        }
+
+        .team-avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            margin: 0 auto 1.2rem auto;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            padding: 3px;
+            position: relative;
+        }
+
+        .team-avatar-inner {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            background: #090f22;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-primary);
+            font-size: 2.2rem;
+            font-weight: 800;
+        }
+
+        .team-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.3rem;
+        }
+
+        .team-role {
+            color: var(--color-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .team-skills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+
+        .team-skill-badge {
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--radius-sm);
+            color: var(--color-muted);
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* INTERACTIVE PROJECT ESTIMATOR & CTA SECTION                                */
+        /* -------------------------------------------------------------------------- */
+        .cta-section {
+            padding: 7rem 0;
+            background: linear-gradient(180deg, var(--color-bg) 0%, #02040a 100%);
+            position: relative;
+        }
+
+        .estimator-card {
+            background: rgba(11, 18, 40, 0.9);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 3.5rem;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(16px);
+        }
+
+        @media (max-width: 768px) {
+            .estimator-card { padding: 2rem 1.5rem; }
+        }
+
+        .estimator-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 992px) {
+            .estimator-grid { grid-template-columns: 1fr; }
+        }
+
+        .step-label {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .options-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 576px) {
+            .options-group { grid-template-columns: 1fr; }
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.2rem;
+            color: var(--color-muted);
+            text-align: right;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.92rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-btn:hover {
+            border-color: var(--color-primary);
+            background: rgba(6, 182, 212, 0.08);
+            color: #ffffff;
+        }
+
+        .option-btn.active {
+            border-color: var(--color-secondary);
+            background: rgba(245, 158, 11, 0.12);
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+        }
+
+        .option-btn .check-icon {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            color: var(--color-secondary);
+        }
+
+        .option-btn.active .check-icon {
+            opacity: 1;
+        }
+
+        /* Estimator Output Box */
+        .estimator-summary-box {
+            background: rgba(5, 9, 22, 0.95);
+            border: 1px solid var(--color-secondary-glow);
+            border-radius: var(--radius-lg);
+            padding: 2.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .summary-header {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .summary-row .label { color: var(--color-muted); }
+        .summary-row .value { font-weight: 700; color: var(--color-primary); }
+
+        .summary-total {
+            background: rgba(245, 158, 11, 0.1);
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            border: 1px dashed rgba(245, 158, 11, 0.4);
+        }
+
+        .summary-total .total-label {
+            font-size: 0.85rem;
+            color: var(--color-muted);
+            margin-bottom: 0.3rem;
+        }
+
+        .summary-total .total-time {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: var(--color-secondary);
+        }
+
+        /* Quick Contact Form & Channels */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--color-muted);
+        }
+
+        .form-control {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 0.85rem 1rem;
+            color: #ffffff;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background: rgba(6, 182, 212, 0.08);
+            box-shadow: 0 0 15px var(--color-primary-glow);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .direct-touchpoints {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .touchpoint-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .touchpoint-card:hover {
+            border-color: var(--color-secondary);
+            background: rgba(245, 158, 11, 0.08);
+            transform: translateX(-5px);
+        }
+
+        .touchpoint-icon {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: rgba(6, 182, 212, 0.12);
+            color: var(--color-primary);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .touchpoint-card:hover .touchpoint-icon {
+            background: var(--color-secondary);
+            color: #030712;
+        }
+
+        .touchpoint-title {
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .touchpoint-sub {
+            font-size: 0.875rem;
+            color: var(--color-muted);
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* FOOTER                                                                     */
+        /* -------------------------------------------------------------------------- */
+        .footer {
+            background: #020409;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 4rem 0 2rem 0;
+            color: var(--color-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+        }
+
+        .footer-brand p {
+            margin-top: 1rem;
+            max-width: 400px;
+            line-height: 1.8;
+            font-size: 0.9rem;
+        }
+
+        .footer-title {
+            color: #ffffff;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            font-size: 1.05rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* Responsive Mobile Nav */
+        @media (max-width: 992px) {
+            .nav-menu {
+                position: fixed;
+                top: 76px; right: -100%;
+                width: 80%; max-width: 320px; height: calc(100vh - 76px);
+                background: rgba(3, 7, 18, 0.97);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 3rem 2rem;
+                align-items: flex-start;
+                transition: right 0.4s ease;
+                border-left: 1px solid var(--color-border);
+            }
+            .nav-menu.active { right: 0; }
+            .menu-toggle { display: block; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+            .stat-item:nth-child(2)::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- -------------------------------------------------------------------------- -->
+    <!-- HEADER / NAVBAR                                                            -->
+    <!-- -------------------------------------------------------------------------- -->
+    <header class="header" id="header">
+        <div class="container">
+            <a href="#" class="logo">
+                <div class="logo-symbol">
+                    <!-- Persian Girih 8-Point Star SVG Mark -->
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="50,5 63,37 95,50 63,63 50,95 37,63 5,50 37,37" fill="none" stroke="#06b6d4" stroke-width="4"/>
+                        <polygon points="50,18 72,28 82,50 72,72 50,82 28,72 18,50 28,28" fill="none" stroke="#f59e0b" stroke-width="2.5" opacity="0.8"/>
+                        <circle cx="50" cy="50" r="8" fill="#06b6d4"/>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-title">ویرا<span>نود</span></span>
+                    <span class="logo-sub">VIRANODE TECH</span>
+                </div>
+            </a>
+
+            <nav>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#why-us" class="nav-link">چرا ویرانود؟</a></li>
+                    <li><a href="#process" class="nav-link">مسیر همکاری</a></li>
+                    <li><a href="#work" class="nav-link">نمونه‌کارها</a></li>
+                    <li><a href="#team" class="nav-link">تیم ما</a></li>
+                    <li><a href="#estimator" class="nav-link">برآورد هوشمند</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <a href="#estimator" class="btn btn-primary" style="padding: 0.6rem 1.4rem; font-size: 0.9rem;">
+                    <i data-lucide="calculator"></i>
+                    <span>مشاوره و تخمین</span>
+                </a>
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- -------------------------------------------------------------------------- -->
+    <!-- HERO SECTION & GIRIH CANVAS                                                -->
+    <!-- -------------------------------------------------------------------------- -->
+    <section class="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-glow-1"></div>
+        <div class="hero-glow-2"></div>
+
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge reveal">
+                    <i data-lucide="sparkles"></i>
+                    <span>تیم اختصاصی معماری و توسعه نرم‌افزار</span>
+                </div>
+
+                <h1 class="hero-title reveal">
+                    از ایده تا <span class="gradient-text">محصول واقعی</span>
+                </h1>
+
+                <p class="hero-subtitle reveal">
+                    ویرانود هم‌تیمی فنی استارتاپ‌ها و کسب‌وکارهای نوآور است. ما رویای شما را تحلیل، معماری و با بالاترین استانداردهای مهندسی نرم‌افزار به محصولی مقیاس‌پذیر و آماده بازار تبدیل می‌کنیم.
+                </p>
+
+                <div class="hero-cta-group reveal">
+                    <a href="#estimator" class="btn btn-gold">
+                        <i data-lucide="rocket"></i>
+                        <span>شروع پروژه و برآورد هوشمند</span>
+                    </a>
+                    <a href="#work" class="btn btn-outline">
+                        <i data-lucide="layers"></i>
+                        <span>مشاهده نمونه‌کارها</span>
+                    </a>
+                </div>
+
+                <!-- Stats Metric Ticker -->
+                <div class="stats-grid reveal">
+                    <div class="stat-item">
+                        <div class="stat-number">+۱۵</div>
+                        <div class="stat-label">پلتفرم تحویل‌شده</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">٪۹۸</div>
+                        <div class="stat-label">رضایت کارفرمایان</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">۲X</div>
+                        <div class="stat-label">سرعت توسعه چابک</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">۲۴/۷</div>
+                        <div class="stat-label">پایش و پشتیبانی</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- -------------------------------------------------------------------------- -->
+    <!-- WHY VIRANODE / VALUE PROPOSITION                                            -->
+    <!-- -------------------------------------------------------------------------- -->
+    <section class="features-section" id="why-us">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="badge"><i data-lucide="shield-check"></i> <span>ارزش‌های کلیدی</span></div>
+                <h2>چرا کارفرمایان <span class="gold-text">ویرانود</span> را انتخاب می‌کنند؟</h2>
+                <p>تفاوت ویرانود در نگاه مهندسی عمیق به توسعه محصول، سرعت عمل و تعهد پس از راه‌اندازی است.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i data-lucide="cpu"></i></div>
+                    <h3 class="feature-title">معماری مقیاس‌پذیر</h3>
+                    <p class="feature-desc">طراحی زیرساخت بر پایه معماری Microservices و Modular Clean Code جهت پشتیبانی از میلیون‌ها کاربر بدون کُندی.</p>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i data-lucide="zap"></i></div>
+                    <h3 class="feature-title">توسعه چابک و سریع</h3>
+                    <p class="feature-desc">تحویل MVP عملیاتی در کوتاه‌ترین زمان ممکن با متدولوژی Agile و اسپرینت‌های شفاف هفتگی.</p>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i data-lucide="code-2"></i></div>
+                    <h3 class="feature-title">کد تمیز و استاندارد</h3>
+                    <p class="feature-desc">پایبندی به استانداردهای بین‌المللی کدنویسی، تست خودکار و داکیومنت‌سازی کامل پروژه.</p>
+                </div>
+
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i data-lucide="trending-up"></i></div>
+                    <h3 class="feature-title">همراهی در فاز رشد</h3>
+                    <p class="feature-desc">پشتیبانی فنی مداوم، پایش ۲۴ساعته سرورها و ارتقای پلکانی سیستم بر اساس بازخورد کاربران واقعی.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- -------------------------------------------------------------------------- -->
+    <!-- PROCESS / FOUNDER'S JOURNEY                                                -->
+    <!-- -------------------------------------------------------------------------- -->
+    <section class="process-section" id="process">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="badge"><i data-lucide="git-branch"></i> <span>نقشه راه شفاف</span></div>
+                <h2>مسیر ۴ گام تبدیل ایده به <span class="gradient-text">محصول واقعی</span></h2>
+                <p>ما گام به گام در کنار شما هستیم تا ایده‌تان بدون اتلاف زمان و سرمایه به نتیجه برسد.</p>
+            </div>
+
+            <div class="process-timeline">
+                <div class="process-step reveal">
+                    <span class="step-num">۰۱</span>
+                    <div class="step-icon"><i data-lucide="compass"></i></div>
+                    <h3 class="step-title">کشف و نیازسنجی</h3>
+                    <p class="step-desc">تحلیل دقیق ایده‌، تعریف فیچرهای کلیدی MVP و تدوین نقشه راه تکنولوژی و بودجه.</p>
+                </div>
+
+                <div class="process-step reveal">
+                    <span class="step-num">۰۲</span>
+                    <div class="step-icon"><i data-lucide="layout"></i></div>
+                    <h3 class="step-title">طراحی UI/UX</h3>
+                    <p class="step-desc">خلق تجربه کاربری روان، مدرن و جذاب بر اساس رفتارشناسی مخاطب ایرانی.</p>
+                </div>
+
+                <div class="process-step reveal">
+                    <span class="step-num">۰۳</span>
+                    <div class="step-icon"><i data-lucide="terminal"></i></div>
+                    <h3 class="step-title">توسعه فرانت و بک‌اند</h3>
+                    <p class="step-desc">کدنویسی مقیاس‌پذیر فرانت‌اند، بک‌اند، دیتابیس و اتصال امن به درگاه‌ها و APIها.</p>
+                </div>
+
+                <div class="process-step reveal">
+                    <span class="step-num">۰۴</span>
+                    <div class="step-icon"><i data-lucide="rocket"></i></div>
+                    <h3 class="step-title">استقرار و رشد</h3>
+                    <p class="step-desc">تست خودکار، راه‌اندازی سرور ابری، لانچ رسمی و پشتیبانی و نگهداری مداوم.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- -------------------------------------------------------------------------- -->
+    <!-- PROOF / WORK SHOWCASE (OK TAFRIH B2B)                                      -->
+    <!-- -------------------------------------------------------------------------- -->
+    <section class="work-section" id="work">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="badge"><i data-lucide="briefcase"></i> <span>نمونه کار منتخب</span></div>
+                <h2>پروژه در حال توسعه: <span class="gold-text">اکوتفریح B2B</span></h2>
+                <p>سامانه جامع مدیریت تامین‌کنندگان و رزروهای پلتفرم گردشگری اکوتفریح</p>
+            </div>
+
+            <div class="work-card reveal">
+                <div class="work-content">
+                    <div class="work-tag">
+                        <i data-lucide="check-circle-2"></i>
+                        <span>سامانه اختصاصی B2B (در حال اجرا)</span>
+                    </div>
+
+                    <h3 class="work-title">پنل مدیریت تامین‌کنندگان Ok Tafrih</h3>
+
+                    <p class="work-desc">
+                        سامانه متمرکز تامین‌کنندگان برای مدیریت تورها، رزروها، صورت‌حساب‌های مالی و گیت‌های ورودی. ویرانود زیرساخت این پلتفرم را برای پردازش آنی درخواست‌ها و ارائه گزارش‌های دقیق مالی طراحی و پیاده‌سازی نموده است.
+                    </p>
+
+                    <div class="tech-stack-list">
+                        <span class="tech-pill">React.js</span>
+                        <span class="tech-pill">Node.js</span>
+                        <span class="tech-pill">PostgreSQL</span>
+                        <span class="tech-pill">REST API</span>
+                        <span class="tech-pill">Tailwind CSS</span>
+                        <span class="tech-pill">Docker</span>
+                    </div>
+
+                    <a href="https://b2b.oktafrih.com" target="_blank" rel="noopener" class="work-link">
+                        <span>ورود به سامانه b2b.oktafrih.com</span>
+                        <i data-lucide="external-link"></i>
+                    </a>
+                </div>
+
+                <div class="work-visual">
+                    <img src="oktafrih_b2b_preview.jpg" alt="پیش‌نمایش پنل تامین‌کنندگان اکوتفریح">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- -------------------------------------------------------------------------- -->
+    <!-- TEAM SECTION                                                               -->
+    <!-- -------------------------------------------------------------------------- -->
+    <section class="team-section" id="team">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="badge"><i data-lucide="users"></i> <span>تیم متخصصین</span></div>
+                <h2>اعضای اصلی تیم <span class="gradient-text">ویرانود</span></h2>
+                <p>ترکیبی از تجربه، خلاقیت و دانش مهندسی برای اجرای پروژه‌های چالش‌برانگیز</p>
+            </div>
+
+            <div class="team-grid">
+                <div class="team-card reveal">
+                    <div class="team-avatar">
+                        <div class="team-avatar-inner">VN</div>
+                    </div>
+                    <h3 class="team-name">هم‌بنیان‌گذار / مدیر ارشد فنی</h3>
+                    <div class="team-role">Software Architect & Lead</div>
+                    <div class="team-skills">
+                        <span class="team-skill-badge">معماری سیستم</span>
+                        <span class="team-skill-badge">Node.js</span>
+                        <span class="team-skill-badge">DevOps</span>
+                    </div>
+                </div>
+
+                <div class="team-card reveal">
+                    <div class="team-avatar">
+                        <div class="team-avatar-inner">VN</div>
+                    </div>
+                    <h3 class="team-name">توسعه‌دهنده ارشد فرانت‌اند</h3>
+                    <div class="team-role">Senior Frontend Engineer</div>
+                    <div class="team-skills">
+                        <span class="team-skill-badge">React / Next.js</span>
+                        <span class="team-skill-badge">TypeScript</span>
+                        <span class="team-skill-badge">UI State</span>
+                    </div>
+                </div>
+
+                <div class="team-card reveal">
+                    <div class="team-avatar">
+                        <div class="team-avatar-inner">VN</div>
+                    </div>
+                    <h3 class="team-name">توسعه‌دهنده ارشد بک‌اند</h3>
+                    <div class="team-role">Senior Backend Engineer</div>
+                    <div class="team-skills">
+                        <span class="team-skill-badge">Python / Go</span>
+                        <span class="team-skill-badge">Microservices</span>
+                        <span class="team-skill-badge">Database</span>
+                    </div>
+                </div>
+
+                <div class="team-card reveal">
+                    <div class="team-avatar">
+                        <div class="team-avatar-inner">VN</div>
+                    </div>
+                    <h3 class="team-name">طراح ارشد تجربه کاربری</h3>
+                    <div class="team-role">Lead Product Designer</div>
+                    <div class="team-skills">
+                        <span class="team-skill-badge">Figma</span>
+                        <span class="team-skill-badge">UI/UX</span>
+                        <span class="team-skill-badge">Design Systems</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- -------------------------------------------------------------------------- -->
+    <!-- INTERACTIVE ESTIMATOR & CTA SECTION                                        -->
+    <!-- -------------------------------------------------------------------------- -->
+    <section class="cta-section" id="estimator">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="badge"><i data-lucide="calculator"></i> <span>ابزار هوشمند</span></div>
+                <h2>محاسبه‌گر و برآورد زمان <span class="gold-text">پروژه شما</span></h2>
+                <p>نوع پروژه و نیازمندی‌های خود را مشخص کنید تا تخمین اولیه زمان و ابعاد پروژه را دریافت کنید.</p>
+            </div>
+
+            <div class="estimator-card reveal">
+                <div class="estimator-grid">
+                    <!-- Steps / Selector Form -->
+                    <div class="estimator-form">
+                        <!-- Step 1 -->
+                        <span class="step-label">گام ۱: نوع پلتفرم یا محصول</span>
+                        <div class="options-group" id="type-options">
+                            <button class="option-btn active" data-type="b2b" data-time="۳ الی ۵ هفته">
+                                <span>وب‌اپلیکیشن B2B / پنل مدیریتی</span>
+                                <i data-lucide="check" class="check-icon"></i>
+                            </button>
+                            <button class="option-btn" data-type="mvp" data-time="۲ الی ۴ هفته">
+                                <span>MVP استارتاپ (محصول اولیه)</span>
+                                <i data-lucide="check" class="check-icon"></i>
+                            </button>
+                            <button class="option-btn" data-type="app" data-time="۴ الی ۶ هفته">
+                                <span>اپلیکیشن موبایل (iOS/Android)</span>
+                                <i data-lucide="check" class="check-icon"></i>
+                            </button>
+                            <button class="option-btn" data-type="custom" data-time="۶+ هفته">
+                                <span>سیستم اختصاصی و سازمانی</span>
+                                <i data-lucide="check" class="check-icon"></i>
+                            </button>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <span class="step-label">گام ۲: امکانات مورد نیاز (انتخاب چندتایی)</span>
+                        <div class="options-group" id="feature-options">
+                            <button class="option-btn active" data-feature="auth">
+                                <span>احراز هویت و مدیریت کاربران</span>
+                                <i data-lucide="check" class="check-icon"></i>
+                            </button>
+                            <button class="option-btn active" data-feature="payment">
+                                <span>اتصال به درگاه پرداخت آنلاین</span>
+                                <i data-lucide="check" class="check-icon"></i>
+                            </button>
+                            <button class="option-btn" data-feature="admin">
+                                <span>داشبورد گزارش‌گیری پیشرفته</span>
+                                <i data-lucide="check" class="check-icon"></i>
+                            </button>
+                            <button class="option-btn" data-feature="api">
+                                <span>API اختصاصی و وب‌سرویس</span>
+                                <i data-lucide="check" class="check-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Live Summary Output -->
+                    <div class="estimator-summary-box">
+                        <div>
+                            <div class="summary-header">
+                                <span>خلاصه برآورد پروژه</span>
+                                <i data-lucide="sparkles" style="color: var(--color-secondary);"></i>
+                            </div>
+
+                            <div class="summary-row">
+                                <span class="label">نوع پروژه:</span>
+                                <span class="value" id="summary-type">وب‌اپلیکیشن B2B / پنل مدیریتی</span>
+                            </div>
+
+                            <div class="summary-row">
+                                <span class="label">سطح پیچیدگی:</span>
+                                <span class="value" id="summary-complexity">استاندارد / متوسط</span>
+                            </div>
+
+                            <div class="summary-total">
+                                <div class="total-label">زمان تقریبی تحویل (اسپرینت چابک):</div>
+                                <div class="total-time" id="summary-time">۳ الی ۵ هفته</div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                            <button id="send-telegram-btn" class="btn btn-gold" style="width: 100%;">
+                                <i data-lucide="send"></i>
+                                <span>ارسال اطلاعات به تلگرام ویرانود</span>
+                            </button>
+                            <a href="#contact-form" class="btn btn-outline" style="width: 100%;">
+                                <span>ثبت فرم مشاوره رایگان</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Direct Contact Form & Channels -->
+                <div class="contact-grid" id="contact-form">
+                    <!-- Form -->
+                    <div>
+                        <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: #ffffff;">ثبت فرم مشاوره مستقیم</h3>
+                        <form id="direct-contact-form">
+                            <div class="form-group">
+                                <label>نام و نام خانوادگی / نام شرکت</label>
+                                <input type="text" class="form-control" placeholder="مثلاً: علی محمدی" required>
+                            </div>
+                            <div class="form-group">
+                                <label>شماره تماس یا آیدی تلگرام</label>
+                                <input type="text" class="form-control" placeholder="0912... یا @username" required>
+                            </div>
+                            <div class="form-group">
+                                <label>توضیحات مختصر ایده یا پروژه</label>
+                                <textarea class="form-control" placeholder="درباره پروژه خود برای ما بنویسید..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                <i data-lucide="send"></i>
+                                <span>ثبت درخواست مشاوره فنی</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Channels -->
+                    <div class="direct-touchpoints">
+                        <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: #ffffff;">ارتباط مستقیم با تیم</h3>
+                        <p style="color: var(--color-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                            اگر مایلید مستقیماً گفتگو کنیم، از کانال‌های زیر با ما در ارتباط باشید:
+                        </p>
+
+                        <a href="https://t.me/ViraNode" target="_blank" class="touchpoint-card">
+                            <div class="touchpoint-icon"><i data-lucide="send"></i></div>
+                            <div>
+                                <div class="touchpoint-title">پشتیبانی تلگرام</div>
+                                <div class="touchpoint-sub">پاسخگویی سریع در تلگرام: @ViraNode</div>
+                            </div>
+                        </a>
+
+                        <div class="touchpoint-card">
+                            <div class="touchpoint-icon"><i data-lucide="mail"></i></div>
+                            <div>
+                                <div class="touchpoint-title">ایمیل رسمی</div>
+                                <div class="touchpoint-sub">info@viranode.com</div>
+                            </div>
+                        </div>
+
+                        <div class="touchpoint-card">
+                            <div class="touchpoint-icon"><i data-lucide="clock"></i></div>
+                            <div>
+                                <div class="touchpoint-title">زمان پاسخگویی</div>
+                                <div class="touchpoint-sub">شنبه تا پنج‌شنبه: ۹ صبح الی ۸ شب</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- -------------------------------------------------------------------------- -->
+    <!-- FOOTER                                                                     -->
+    <!-- -------------------------------------------------------------------------- -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <div class="logo-symbol">
+                            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <polygon points="50,5 63,37 95,50 63,63 50,95 37,63 5,50 37,37" fill="none" stroke="#06b6d4" stroke-width="4"/>
+                                <polygon points="50,18 72,28 82,50 72,72 50,82 28,72 18,50 28,28" fill="none" stroke="#f59e0b" stroke-width="2.5" opacity="0.8"/>
+                                <circle cx="50" cy="50" r="8" fill="#06b6d4"/>
+                            </svg>
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-title">ویرا<span>نود</span></span>
+                            <span class="logo-sub">VIRANODE TECH</span>
+                        </div>
+                    </div>
+                    <p>
+                        ویرانود تیم تخصصی معماری و توسعه نرم‌افزار است که ایده‌های نوآورانه بنیان‌گذاران را به محصولات واقعی، امن و مقیاس‌پذیر تبدیل می‌کند.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">دسترسی سریع</h4>
+                    <ul class="footer-links">
+                        <li><a href="#why-us">چرا ویرانود؟</a></li>
+                        <li><a href="#process">مسیر همکاری</a></li>
+                        <li><a href="#work">نمونه‌کارها</a></li>
+                        <li><a href="#team">تیم متخصصین</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">خدمات ما</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">توسعه وب‌اپلیکیشن B2B</a></li>
+                        <li><a href="#">ساخت MVP استارتاپی</a></li>
+                        <li><a href="#">معماری سیستم و دیتابیس</a></li>
+                        <li><a href="#">توسعه API و وب‌سرویس</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>© ۱۴۰۵ تمامی حقوق برای تیم ویرانود (ViraNode) محفوظ است.</div>
+                <div>طراحی با الگوهای هندسی گره ایرانی و استانداردهای وب مدرن</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- -------------------------------------------------------------------------- -->
+    <!-- INTERACTIVE GIRIH CANVAS & JAVASCRIPT LOGIC                                 -->
+    <!-- -------------------------------------------------------------------------- -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Header Scroll Shadow effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 40) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 80) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // initial trigger
+
+        /* -------------------------------------------------------------------------- */
+        /* PERSIAN GIRIH GEOMETRIC NODE CANVAS SYSTEM                                 */
+        /* -------------------------------------------------------------------------- */
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initNodes();
+        });
+
+        let mouse = { x: width / 2, y: height / 2, active: false };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            mouse.active = true;
+        });
+
+        window.addEventListener('mouseleave', () => {
+            mouse.active = false;
+        });
+
+        // Node Definition with Girih Star Vertices
+        class GirihNode {
+            constructor(x, y) {
+                this.x = x || Math.random() * width;
+                this.y = y || Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.6;
+                this.vy = (Math.random() - 0.5) * 0.6;
+                this.radius = Math.random() * 2.5 + 1.5;
+                this.isStar = Math.random() > 0.7; // 30% are 8-point Girih star nodes
+                this.baseAlpha = Math.random() * 0.4 + 0.3;
+                this.pulse = Math.random() * Math.PI;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                this.pulse += 0.03;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+
+                const currentAlpha = this.baseAlpha + Math.sin(this.pulse) * 0.2;
+
+                if (this.isStar) {
+                    // Draw mini 8-point Girih Star
+                    ctx.strokeStyle = `rgba(245, 158, 11, ${currentAlpha})`;
+                    ctx.lineWidth = 1.2;
+                    ctx.beginPath();
+                    for (let i = 0; i < 8; i++) {
+                        const angle = (i * Math.PI) / 4;
+                        const r = i % 2 === 0 ? 8 : 4;
+                        const px = Math.cos(angle) * r;
+                        const py = Math.sin(angle) * r;
+                        if (i === 0) ctx.moveTo(px, py);
+                        else ctx.lineTo(px, py);
+                    }
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    ctx.fillStyle = `rgba(6, 182, 212, ${currentAlpha})`;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 2, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    // Standard Node Dot
+                    ctx.fillStyle = `rgba(6, 182, 212, ${currentAlpha})`;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        let nodes = [];
+        function initNodes() {
+            nodes = [];
+            const count = Math.floor((width * height) / 18000);
+            for (let i = 0; i < Math.min(count, 70); i++) {
+                nodes.push(new GirihNode());
+            }
+        }
+        initNodes();
+
+        // Helper to check if line angle matches Girih geometric angles (45°, 60°, 90°, 120°, 135°)
+        function isGirihAngle(dx, dy) {
+            const angleDeg = Math.abs((Math.atan2(dy, dx) * 180) / Math.PI) % 90;
+            // Snap tolerance +/- 12 degrees for dynamic aesthetic connections
+            return (angleDeg < 15 || Math.abs(angleDeg - 45) < 15 || Math.abs(angleDeg - 60) < 15);
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Update & Draw Nodes
+            nodes.forEach(node => {
+                node.update();
+                node.draw();
+            });
+
+            // Connect Nodes with Girih Angle Lines
+            const maxDistance = 160;
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < maxDistance) {
+                        const alpha = (1 - dist / maxDistance) * 0.35;
+                        const isGirih = isGirihAngle(dx, dy);
+
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+
+                        if (isGirih) {
+                            ctx.strokeStyle = `rgba(245, 158, 11, ${alpha * 1.5})`;
+                            ctx.lineWidth = 1.2;
+                        } else {
+                            ctx.strokeStyle = `rgba(6, 182, 212, ${alpha})`;
+                            ctx.lineWidth = 0.8;
+                        }
+                        ctx.stroke();
+                    }
+                }
+
+                // Connect to Mouse if in proximity
+                if (mouse.active) {
+                    const mdx = nodes[i].x - mouse.x;
+                    const mdy = nodes[i].y - mouse.y;
+                    const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+                    if (mdist < 180) {
+                        const mAlpha = (1 - mdist / 180) * 0.6;
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.strokeStyle = `rgba(6, 182, 212, ${mAlpha})`;
+                        ctx.lineWidth = 1.2;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        /* -------------------------------------------------------------------------- */
+        /* INTERACTIVE ESTIMATOR SCRIPT                                               */
+        /* -------------------------------------------------------------------------- */
+        const typeButtons = document.querySelectorAll('#type-options .option-btn');
+        const featureButtons = document.querySelectorAll('#feature-options .option-btn');
+
+        const summaryType = document.getElementById('summary-type');
+        const summaryTime = document.getElementById('summary-time');
+        const summaryComplexity = document.getElementById('summary-complexity');
+        const sendTelegramBtn = document.getElementById('send-telegram-btn');
+
+        let selectedType = 'وب‌اپلیکیشن B2B / پنل مدیریتی';
+        let selectedTime = '۳ الی ۵ هفته';
+
+        typeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                typeButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedType = btn.querySelector('span').innerText;
+                selectedTime = btn.getAttribute('data-time');
+
+                summaryType.innerText = selectedType;
+                summaryTime.innerText = selectedTime;
+                updateComplexity();
+            });
+        });
+
+        featureButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('active');
+                updateComplexity();
+            });
+        });
+
+        function updateComplexity() {
+            const activeFeatures = document.querySelectorAll('#feature-options .option-btn.active').length;
+            if (activeFeatures <= 1) {
+                summaryComplexity.innerText = 'چابک / اولیه (MVP)';
+            } else if (activeFeatures <= 3) {
+                summaryComplexity.innerText = 'استاندارد / متوسط';
+            } else {
+                summaryComplexity.innerText = 'جامع / حرفه‌ای';
+            }
+        }
+
+        sendTelegramBtn.addEventListener('click', () => {
+            const features = Array.from(document.querySelectorAll('#feature-options .option-btn.active'))
+                .map(b => '• ' + b.querySelector('span').innerText)
+                .join('%0A');
+
+            const text = `سلام تیم ویرانود👋%0Aدرخواست برآورد پروژه:%0A📌 نوع پروژه: ${selectedType}%0A⏱ زمان مد نظر: ${selectedTime}%0A⚡️ امکانات انتخاب شده:%0A${features}`;
+            window.open(`https://t.me/ViraNode?text=${text}`, '_blank');
+        });
+
+        // Direct Contact Form Submission Handling
+        const contactForm = document.getElementById('direct-contact-form');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('درخواست مشاوره شما با موفقیت ثبت شد! کارشناسان ویرانود به‌زودی با شما تماس خواهند گرفت.');
+            contactForm.reset();
+        });
+    </script>
+</body>
+</html>

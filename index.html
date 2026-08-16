@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="گروه مهندسی زیج (Zij) - نوآوری در مهندسی، طراحی مدارات پیشرفته و فناوری‌های نوین الکترونیک و نرم‌افزار.">
+  <meta name="keywords" content="گروه مهندسی زیج, زیج, Zij, مهندسی الکترونیک, طراحی سخت‌افزار, نرم‌افزار">
+  <title>گروه مهندسی زیج | Zij Engineering Group</title>
+
+  <!-- Favicon placeholder SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%231b1b1e'/><path d='M35 32 A25 25 0 1 0 65 50 L65 38 L72 38' fill='none' stroke='%2358a4b0' stroke-width='8' stroke-linecap='round'/><line x1='50' y1='30' x2='50' y2='52' stroke='%2358a4b0' stroke-width='8' stroke-linecap='round'/><circle cx='50' cy='18' r='4.5' fill='%2358a4b0'/></svg>">
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/hero.css">
+</head>
+<body>
+
+  <!-- Hero Interactive Section -->
+  <main class="hero-section" id="hero">
+    
+    <!-- Inward Convergence Circuit Canvas Layer -->
+    <canvas id="circuit-canvas"></canvas>
+
+    <!-- Ambient Glow Layer -->
+    <div class="ambient-glow" aria-hidden="true"></div>
+
+    <!-- Top UI Header Bar -->
+    <header class="hero-header">
+      <!-- Live Status Indicator -->
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        <span class="status-text">OFFLINE</span>
+      </div>
+
+      <!-- Futuristic Sound Toggle -->
+      <button class="sound-toggle-btn" id="soundToggle" aria-label="تنظیمات صدا">
+        <span class="sound-icon">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+        </span>
+        <span class="sound-label">صدا: روشن</span>
+      </button>
+    </header>
+
+    <!-- Center Stage: Logo & Power Interaction -->
+    <div class="center-stage">
+      
+      <!-- Interactive Logo SVG Container -->
+      <div class="logo-container standby" id="logoContainer" title="کلیک برای راه‌اندازی مدار">
+        <svg class="zij-logo-svg" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="لوگوی زیج (Zij)">
+          
+          <!-- Letter 'Z' Component (Hidden in standby, awakens on surge completion) -->
+          <g class="letter-z-group" id="letterZ">
+            <path class="letter-z-path" d="M 68 56 L 182 56 L 68 184 L 182 184" />
+          </g>
+
+          <!-- Power Button / 'ij' Component -->
+          <g class="power-btn-group" id="powerBtnGroup">
+            <!-- Full Interactive Hit Box (ensures all negative space is clickable) -->
+            <circle cx="275" cy="120" r="72" fill="transparent" pointer-events="all" class="power-hitbox" />
+            <!-- Crescent Arc & 'j' stem -->
+            <path class="power-crescent" d="M 238 88 A 52 52 0 1 0 326 125 L 326 92 L 348 92" />
+            <!-- Vertical 'i' Stem -->
+            <line class="power-stem" x1="275" y1="78" x2="275" y2="135" />
+            <!-- Dot of 'i' -->
+            <circle class="power-dot" cx="275" cy="50" r="8.5" />
+          </g>
+
+        </svg>
+      </div>
+
+      <!-- Standby User Prompt -->
+      <p class="power-hint" id="powerHint">
+        <span>لطفا بر روی دکمه کلیک کنید</span>
+      </p>
+
+      <!-- Post-Surge Brand Typography -->
+      <div class="brand-title-wrap" id="brandTitleWrap">
+        <h1 class="brand-title">گروه مهندسی زیج</h1>
+        <p class="brand-subtitle">ZIJ ENGINEERING GROUP</p>
+      </div>
+
+    </div>
+
+    <!-- Minimal Explore Prompt -->
+    <div class="explore-prompt" aria-hidden="true">
+      <span class="explore-text">کاوش در دنیای زیج</span>
+      <svg class="chevron-icon" viewBox="0 0 24 24">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </div>
+
+    <!-- Power Cycle / Replay Button -->
+    <button class="power-cycle-btn" id="powerCycleBtn" title="راه‌اندازی مجدد مدار" aria-label="راه‌اندازی مجدد">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M23 4v6h-6"></path>
+        <path d="M1 20v-6h6"></path>
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+      </svg>
+    </button>
+
+  </main>
+
+  <!-- JavaScript Modules -->
+  <script src="js/audio-synthesizer.js"></script>
+  <script src="js/circuit-engine.js"></script>
+  <script src="js/logo-controller.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

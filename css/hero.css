@@ -1,0 +1,418 @@
+/* ==========================================================================
+   ZIJ HERO SECTION - STYLES & INTERACTION SYSTEM
+   ========================================================================== */
+
+.hero-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 50%, rgba(55, 63, 81, 0.18) 0%, rgba(27, 27, 30, 0.85) 60%, var(--color-bg-deep) 100%);
+  overflow: hidden;
+  z-index: var(--z-content);
+}
+
+/* Background Canvas for Inward Circuits */
+#circuit-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-canvas);
+  pointer-events: none;
+}
+
+/* Vignette & Ambient Radial Glow overlay */
+.ambient-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(88, 164, 176, 0.08) 0%, rgba(88, 164, 176, 0.02) 45%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 1.5s ease, transform 1.5s ease, background 1.5s ease;
+  opacity: 0.6;
+}
+
+.hero-section.powered-on .ambient-glow {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.3);
+  background: radial-gradient(circle, rgba(88, 164, 176, 0.16) 0%, rgba(169, 188, 208, 0.05) 50%, transparent 75%);
+}
+
+/* Top UI Bar (Sound toggle, Status) */
+.hero-header {
+  position: absolute;
+  top: 2rem;
+  left: 2.5rem;
+  right: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: var(--z-ui);
+  pointer-events: auto;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-dim);
+  text-transform: uppercase;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-slate-light);
+  box-shadow: 0 0 0 rgba(88, 164, 176, 0);
+  transition: all 0.5s ease;
+}
+
+.hero-section.powered-on .status-dot {
+  background-color: var(--color-accent-teal);
+  box-shadow: 0 0 10px var(--color-accent-teal), 0 0 20px var(--color-accent-teal);
+  animation: pulse-dot 2.5s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Sound Toggle Control */
+.sound-toggle-btn {
+  background: rgba(34, 34, 39, 0.6);
+  border: 1px solid rgba(88, 164, 176, 0.25);
+  border-radius: 24px;
+  padding: 0.5rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-platinum);
+  font-family: var(--font-persian);
+  font-size: 0.8rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all var(--transition-smooth);
+}
+
+.sound-toggle-btn:hover {
+  border-color: var(--color-accent-teal);
+  background: rgba(45, 52, 68, 0.7);
+  box-shadow: var(--glow-cyan-subtle);
+  transform: translateY(-1px);
+}
+
+.sound-toggle-btn .sound-icon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Center Stage Container */
+.center-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-content);
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Brand Logo Vector Wrapper */
+.logo-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.logo-container.standby {
+  cursor: pointer;
+}
+
+.power-hitbox {
+  cursor: pointer;
+}
+
+/* SVG Logo Element */
+.zij-logo-svg {
+  width: 280px;
+  height: 220px;
+  overflow: visible;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+  transition: filter var(--transition-smooth);
+}
+
+@media (min-width: 768px) {
+  .zij-logo-svg {
+    width: 380px;
+    height: 300px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .zij-logo-svg {
+    width: 440px;
+    height: 350px;
+  }
+}
+
+/* Power Button & Morphing Parts */
+.power-btn-group {
+  cursor: pointer;
+  transform-origin: 275px 125px;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), filter var(--transition-smooth);
+}
+
+/* Initial Standalone Power Button Alignment */
+.logo-container.standby .power-btn-group {
+  /* Center the standalone power button (center at 275px -> viewBox center at 200px) */
+  transform: translateX(-75px);
+}
+
+.logo-container.standby:hover .power-btn-group {
+  transform: translateX(-75px) scale(1.06);
+  filter: drop-shadow(0 0 18px rgba(88, 164, 176, 0.85)) drop-shadow(0 0 35px rgba(88, 164, 176, 0.45));
+}
+
+.power-btn-group:active {
+  transform: translateX(-75px) scale(0.96) !important;
+}
+
+.hero-section.powered-on .power-btn-group:active {
+  transform: translateX(0) scale(0.96) !important;
+}
+
+/* The 'ij' Power Symbol Path Styles */
+.power-crescent, .power-stem, .power-dot {
+  stroke: var(--color-accent-teal);
+  fill: none;
+  stroke-width: 16;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke var(--transition-smooth), filter var(--transition-smooth);
+}
+
+.power-dot {
+  fill: var(--color-accent-teal);
+  stroke: none;
+}
+
+/* The 'Z' Glyph Component */
+.letter-z-group {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.letter-z-path {
+  stroke: var(--color-text-platinum);
+  stroke-width: 16;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 650;
+  stroke-dashoffset: 650;
+  transition: stroke-dashoffset 1.0s cubic-bezier(0.25, 1, 0.5, 1) 0.1s, stroke var(--transition-smooth), filter var(--transition-smooth);
+}
+
+/* Activated States */
+.hero-section.powered-on .letter-z-group {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.hero-section.powered-on .letter-z-path {
+  stroke-dashoffset: 0;
+  filter: drop-shadow(0 0 8px rgba(216, 219, 226, 0.7));
+}
+
+.hero-section.powered-on .logo-container .power-btn-group {
+  transform: translateX(0);
+  filter: drop-shadow(0 0 16px rgba(88, 164, 176, 0.9)) drop-shadow(0 0 35px rgba(88, 164, 176, 0.4));
+}
+
+/* Standby Click Instruction */
+.power-hint {
+  margin-top: 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  color: var(--color-text-dim);
+  opacity: 0.85;
+  transition: all var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: breathe-hint 3s infinite ease-in-out;
+}
+
+@keyframes breathe-hint {
+  0%, 100% { opacity: 0.5; transform: translateY(0); }
+  50% { opacity: 0.95; transform: translateY(-3px); }
+}
+
+.hero-section.charging .power-hint,
+.hero-section.powered-on .power-hint {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  visibility: hidden;
+  height: 0;
+  margin: 0;
+}
+
+/* Post-Activation Brand Title "گروه مهندسی زیج" */
+.brand-title-wrap {
+  margin-top: 1.75rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.hero-section.powered-on .brand-title-wrap {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.brand-title {
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text-platinum);
+  text-shadow: 0 0 20px rgba(216, 219, 226, 0.2);
+}
+
+@media (min-width: 768px) {
+  .brand-title {
+    font-size: 2.35rem;
+  }
+}
+
+.brand-subtitle {
+  font-family: var(--font-english);
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-accent-teal);
+  opacity: 0.9;
+}
+
+/* Minimal Explore / Scroll Indicator */
+.explore-prompt {
+  position: absolute;
+  bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s, transform 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+  pointer-events: none;
+  z-index: var(--z-ui);
+}
+
+.hero-section.powered-on .explore-prompt {
+  opacity: 0.75;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.explore-prompt:hover {
+  opacity: 1;
+}
+
+.explore-text {
+  font-size: 0.78rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--color-accent-blue);
+}
+
+.chevron-icon {
+  width: 18px;
+  height: 18px;
+  stroke: var(--color-accent-teal);
+  stroke-width: 2;
+  fill: none;
+  animation: bounce-chevron 2s infinite ease-in-out;
+}
+
+@keyframes bounce-chevron {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(5px); }
+  60% { transform: translateY(3px); }
+}
+
+/* Reset / Power Cycle Button (Discreet) */
+.power-cycle-btn {
+  position: absolute;
+  bottom: 2.5rem;
+  right: 2.5rem;
+  background: transparent;
+  border: 1px solid rgba(88, 164, 176, 0.2);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-dim);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: all var(--transition-smooth);
+  z-index: var(--z-ui);
+}
+
+.hero-section.powered-on .power-cycle-btn {
+  opacity: 0.6;
+  pointer-events: auto;
+}
+
+.power-cycle-btn:hover {
+  opacity: 1;
+  border-color: var(--color-accent-teal);
+  color: var(--color-accent-teal);
+  box-shadow: var(--glow-cyan-subtle);
+  transform: rotate(180deg);
+}
+
+.power-cycle-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}

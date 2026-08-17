@@ -1,0 +1,768 @@
+/* ==========================================================================
+   ZIJ HOW WE WORK (به چه شکل باهم کار می‌کنیم؟) - SKETCH-ACCURATE INFINITY SECTION
+   ========================================================================== */
+
+.process-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  padding: 2.5rem 1.5rem;
+  background: linear-gradient(180deg, var(--color-bg-primary) 0%, rgba(32, 33, 38, 0.85) 45%, var(--color-bg-primary) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-content);
+  overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Section Header */
+.process-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  z-index: 10;
+  max-width: 800px;
+}
+
+.process-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.9rem;
+  border-radius: 20px;
+  background: rgba(88, 164, 176, 0.08);
+  border: 1px solid rgba(88, 164, 176, 0.25);
+  color: var(--color-accent-teal);
+  font-size: 0.82rem;
+  font-weight: 500;
+  margin-bottom: 0.85rem;
+}
+
+.process-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent-teal);
+  box-shadow: 0 0 8px var(--color-accent-teal);
+}
+
+.process-main-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-platinum);
+  margin-bottom: 0.65rem;
+  line-height: 1.35;
+  text-shadow: 0 0 25px rgba(216, 219, 226, 0.15);
+}
+
+@media (min-width: 768px) {
+  .process-main-title {
+    font-size: 2.6rem;
+  }
+}
+
+.process-description {
+  font-size: 0.98rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--color-text-dim);
+}
+
+/* ==========================================================================
+   INFINITY DIAGRAM CONTAINER & SVG TRACK
+   ========================================================================== */
+
+.infinity-canvas-stage {
+  position: relative;
+  width: 100%;
+  max-width: 1140px;
+  min-height: 520px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Background SVG Circuit Tracks */
+.infinity-circuit-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+  display: none;
+}
+
+@media (min-width: 992px) {
+  .infinity-circuit-svg {
+    display: block;
+  }
+}
+
+/* Base Circuit Lines */
+.track-base {
+  stroke: rgba(55, 63, 81, 0.5);
+  stroke-width: 2.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Single Unified Electric Pulse flowing: Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 1 */
+.single-unified-pulse {
+  stroke: var(--color-accent-teal);
+  stroke-width: 3.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 10px rgba(88, 164, 176, 0.95)) drop-shadow(0 0 20px rgba(88, 164, 176, 0.45));
+  stroke-dasharray: 140 2200;
+  animation: single-pulse-cycle 7s infinite linear;
+}
+
+@keyframes single-pulse-cycle {
+  0% { stroke-dashoffset: 2340; }
+  100% { stroke-dashoffset: 0; }
+}
+
+/* Circuit Node Via Pads */
+.circuit-via {
+  fill: rgba(34, 34, 39, 0.95);
+  stroke: var(--color-accent-teal);
+  stroke-width: 2;
+}
+
+/* ==========================================================================
+   4 STAGE INTERACTIVE NODES (GRID LAYOUT)
+   ========================================================================== */
+
+.stages-grid {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.85rem;
+  z-index: 5;
+}
+
+@media (min-width: 992px) {
+  .stages-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 2.5rem 8rem;
+    padding: 0.5rem 0;
+  }
+}
+
+/* RTL Grid Placements:
+   Column 1 (Right): Stage 1 (Top-Right), Stage 4 (Bottom-Right)
+   Column 2 (Left): Stage 3 (Top-Left), Stage 2 (Bottom-Left)
+*/
+@media (min-width: 992px) {
+  .node-pos-1 {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .node-pos-4 {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .node-pos-3 {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .node-pos-2 {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+/* Stage Node Element */
+.stage-node-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* Visual Frame Box */
+.node-visual-box {
+  width: 100%;
+  max-width: 300px;
+  height: 165px;
+  background: rgba(34, 34, 39, 0.75);
+  border: 1.5px solid rgba(88, 164, 176, 0.25);
+  border-radius: 18px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  transition: transform var(--transition-smooth), border-color var(--transition-smooth), box-shadow var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.stage-node-item:hover .node-visual-box {
+  transform: translateY(-4px) scale(1.02);
+  border-color: var(--color-accent-teal);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), var(--glow-cyan-medium);
+}
+
+/* Stage Clean Title */
+.node-title-wrap {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.node-number-pill {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-accent-teal);
+  padding: 0.12rem 0.5rem;
+  border-radius: 6px;
+  background: rgba(88, 164, 176, 0.1);
+  border: 1px solid rgba(88, 164, 176, 0.25);
+}
+
+.node-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text-platinum);
+  transition: color var(--transition-smooth);
+}
+
+.stage-node-item:hover .node-title {
+  color: var(--color-accent-teal);
+  text-shadow: 0 0 12px rgba(88, 164, 176, 0.4);
+}
+
+/* ==========================================================================
+   DYNAMIC MOUSE-FOLLOWING DETAILS TOOLTIP
+   ========================================================================== */
+
+.cursor-details-tooltip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -100%);
+  margin-top: -14px;
+  width: 320px;
+  max-width: 88vw;
+  background: rgba(23, 23, 27, 0.97);
+  border: 1.5px solid var(--color-accent-teal);
+  border-radius: 14px;
+  padding: 1.15rem 1.3rem;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75), var(--glow-cyan-subtle);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.08s ease-out;
+  z-index: 1000;
+  text-align: right;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.cursor-details-tooltip.active {
+  opacity: 1;
+}
+
+.popover-heading {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--color-accent-teal);
+  margin-bottom: 0.45rem;
+}
+
+.popover-body {
+  font-size: 0.88rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--color-text-platinum);
+  margin-bottom: 0.7rem;
+}
+
+.popover-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.popover-tag {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--color-accent-blue);
+  background: rgba(169, 188, 208, 0.1);
+  border: 1px solid rgba(169, 188, 208, 0.2);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   STAGE 1: TWO PERSONS TALKING TURN-BY-TURN & LOGGED NOTES
+   ========================================================================== */
+
+.sketch-discovery-dialogue {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.1rem 0.4rem;
+}
+
+/* Top Row: Two Conversing Avatars */
+.dialogue-speakers-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.4rem;
+}
+
+.speaker-avatar {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(45, 52, 68, 0.7);
+  border: 1.8px solid rgba(88, 164, 176, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-platinum);
+  transition: all 0.4s ease;
+}
+
+.speaker-avatar svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+/* Alternating Speaking Aura */
+.speaker-left {
+  animation: aura-speaker-left 5s infinite ease-in-out;
+}
+
+.speaker-right {
+  animation: aura-speaker-right 5s infinite ease-in-out;
+}
+
+@keyframes aura-speaker-left {
+  0%, 45% {
+    border-color: var(--color-accent-teal);
+    box-shadow: 0 0 14px rgba(88, 164, 176, 0.8);
+    transform: scale(1.08);
+    color: #ffffff;
+  }
+  50%, 100% {
+    border-color: rgba(88, 164, 176, 0.3);
+    box-shadow: none;
+    transform: scale(1);
+    color: var(--color-text-dim);
+  }
+}
+
+@keyframes aura-speaker-right {
+  0%, 45% {
+    border-color: rgba(169, 188, 208, 0.3);
+    box-shadow: none;
+    transform: scale(1);
+    color: var(--color-text-dim);
+  }
+  50%, 95% {
+    border-color: var(--color-accent-blue);
+    box-shadow: 0 0 14px rgba(169, 188, 208, 0.8);
+    transform: scale(1.08);
+    color: #ffffff;
+  }
+  100% {
+    border-color: rgba(169, 188, 208, 0.3);
+    box-shadow: none;
+    transform: scale(1);
+    color: var(--color-text-dim);
+  }
+}
+
+/* Conversational Speech Wave Stream */
+.dialogue-wave-container {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 22px;
+}
+
+.speech-frequency-bar {
+  width: 3px;
+  height: 10px;
+  background: var(--color-accent-teal);
+  border-radius: 2px;
+  animation: freq-dialogue-cycle 5s infinite ease-in-out;
+}
+
+.speech-frequency-bar:nth-child(1) { animation-delay: 0.1s; }
+.speech-frequency-bar:nth-child(2) { animation-delay: 0.25s; }
+.speech-frequency-bar:nth-child(3) { animation-delay: 0.4s; }
+.speech-frequency-bar:nth-child(4) { animation-delay: 0.55s; }
+
+@keyframes freq-dialogue-cycle {
+  0%, 45% {
+    height: 18px;
+    background: var(--color-accent-teal);
+    box-shadow: 0 0 8px var(--color-accent-teal);
+  }
+  50%, 95% {
+    height: 16px;
+    background: var(--color-accent-blue);
+    box-shadow: 0 0 8px var(--color-accent-blue);
+  }
+  100% {
+    height: 6px;
+    background: rgba(88, 164, 176, 0.3);
+    box-shadow: none;
+  }
+}
+
+/* Bottom: Layered Meeting Notes Document Sheets */
+.logged-paper-wrapper {
+  position: relative;
+  width: 86px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brief-sheet-under {
+  position: absolute;
+  width: 70px;
+  height: 48px;
+  background: rgba(35, 40, 52, 0.7);
+  border: 1px solid rgba(88, 164, 176, 0.25);
+  border-radius: 6px;
+  transform: rotate(-6deg) translateX(-4px);
+}
+
+.brief-sheet-top {
+  position: absolute;
+  width: 74px;
+  height: 52px;
+  background: rgba(28, 32, 42, 0.95);
+  border: 1.5px solid var(--color-accent-teal);
+  border-radius: 6px;
+  padding: 5px 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+.logged-line {
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(216, 219, 226, 0.3);
+  transition: all 0.4s ease;
+}
+
+.logged-line.line-client {
+  animation: line-log-client 5s infinite ease-in-out;
+}
+
+.logged-line.line-engineer {
+  animation: line-log-engineer 5s infinite ease-in-out;
+}
+
+@keyframes line-log-client {
+  0%, 45% {
+    background: var(--color-accent-teal);
+    box-shadow: 0 0 6px var(--color-accent-teal);
+    width: 85%;
+  }
+  50%, 100% {
+    background: rgba(88, 164, 176, 0.5);
+    box-shadow: none;
+    width: 75%;
+  }
+}
+
+@keyframes line-log-engineer {
+  0%, 45% {
+    background: rgba(169, 188, 208, 0.25);
+    box-shadow: none;
+    width: 50%;
+  }
+  50%, 95% {
+    background: var(--color-accent-blue);
+    box-shadow: 0 0 6px var(--color-accent-blue);
+    width: 90%;
+  }
+  100% {
+    background: rgba(169, 188, 208, 0.4);
+    box-shadow: none;
+    width: 80%;
+  }
+}
+
+/* ==========================================================================
+   STAGE 2: UI/UX ARTBOARD AUTO-ASSEMBLY
+   ========================================================================== */
+
+.sketch-ui-artboard {
+  position: relative;
+  width: 90%;
+  height: 88%;
+  background: #15161a;
+  border: 1.5px solid rgba(88, 164, 176, 0.4);
+  border-radius: 10px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.artboard-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(55, 63, 81, 0.6);
+}
+
+.artboard-dots {
+  display: flex;
+  gap: 3px;
+}
+
+.art-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(216, 219, 226, 0.4);
+}
+
+.art-close {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-accent-teal);
+}
+
+.artboard-body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-grow: 1;
+}
+
+.art-banner {
+  height: 22px;
+  border-radius: 4px;
+  background: rgba(55, 63, 81, 0.5);
+  border: 1px solid rgba(88, 164, 176, 0.3);
+  animation: ui-dock 4s infinite ease-in-out;
+}
+
+.art-card-row {
+  display: flex;
+  gap: 5px;
+}
+
+.art-card-col {
+  flex: 1;
+  height: 30px;
+  border-radius: 4px;
+  background: rgba(45, 52, 68, 0.4);
+  border: 1px solid rgba(169, 188, 208, 0.25);
+  animation: ui-dock 4s infinite ease-in-out 0.5s;
+}
+
+.art-button {
+  width: 44px;
+  height: 11px;
+  border-radius: 3px;
+  background: var(--color-accent-teal);
+  box-shadow: 0 0 8px rgba(88, 164, 176, 0.5);
+  animation: ui-dock 4s infinite ease-in-out 1s;
+}
+
+@keyframes ui-dock {
+  0%, 15% { opacity: 0.2; transform: translateY(4px); }
+  35%, 85% { opacity: 1; transform: translateY(0); }
+  95%, 100% { opacity: 0.3; }
+}
+
+/* ==========================================================================
+   STAGE 3: OVERLAPPING IDE TERMINAL SHEETS & 3-PHASE TYPING
+   ========================================================================== */
+
+.sketch-code-sheets {
+  position: relative;
+  width: 90%;
+  height: 88%;
+}
+
+.ide-sheet-back {
+  position: absolute;
+  inset: 0 0 8px 12px;
+  background: #121317;
+  border: 1px solid rgba(55, 63, 81, 0.6);
+  border-radius: 8px;
+  opacity: 0.5;
+}
+
+.ide-sheet-front {
+  position: absolute;
+  inset: 6px 10px 0 0;
+  background: #17181e;
+  border: 1.5px solid var(--color-accent-teal);
+  border-radius: 8px;
+  padding: 6px 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  direction: ltr;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6), 0 0 15px rgba(88, 164, 176, 0.15);
+}
+
+.ide-traffic-dots {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 3px;
+}
+
+.ide-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.ide-dot:nth-child(1) { background: #ff5f56; }
+.ide-dot:nth-child(2) { background: #ffbd2e; }
+.ide-dot:nth-child(3) { background: #27c93f; }
+
+.ide-code-line {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 16px;
+  color: var(--color-text-platinum);
+  white-space: nowrap;
+}
+
+.ide-cursor {
+  display: inline-block;
+  width: 5px;
+  height: 11px;
+  background: var(--color-accent-teal);
+  animation: blink-caret 0.9s infinite step-start;
+}
+
+@keyframes blink-caret {
+  50% { opacity: 0; }
+}
+
+/* ==========================================================================
+   STAGE 4: GROWTH PIE CHART WITH CENTERED '$'
+   ========================================================================== */
+
+.sketch-growth-chart {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sketch-pie-wrapper {
+  position: relative;
+  width: 86px;
+  height: 86px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sketch-pie-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.sketch-slice-1 {
+  stroke: var(--color-accent-teal);
+  stroke-width: 14;
+  fill: none;
+  stroke-dasharray: 55 100;
+  animation: oscillate-pie-1 4s infinite ease-in-out;
+}
+
+.sketch-slice-2 {
+  stroke: var(--color-accent-emerald);
+  stroke-width: 14;
+  fill: none;
+  stroke-dasharray: 30 100;
+  stroke-dashoffset: -55;
+  animation: oscillate-pie-2 4s infinite ease-in-out;
+}
+
+.sketch-slice-3 {
+  stroke: var(--color-accent-blue);
+  stroke-width: 14;
+  fill: none;
+  stroke-dasharray: 15 100;
+  stroke-dashoffset: -85;
+}
+
+@keyframes oscillate-pie-1 {
+  0%, 100% { stroke-dasharray: 55 100; }
+  50% { stroke-dasharray: 45 100; }
+}
+
+@keyframes oscillate-pie-2 {
+  0%, 100% { stroke-dasharray: 30 100; }
+  50% { stroke-dasharray: 40 100; }
+}
+
+/* Centered Dollar Emblem */
+.sketch-dollar-center {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(27, 27, 30, 0.95);
+  border: 1.5px solid var(--color-accent-emerald);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-english);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-accent-emerald);
+  box-shadow: 0 0 12px rgba(78, 186, 135, 0.4);
+  animation: pulse-dollar 3s infinite ease-in-out;
+}
+
+@keyframes pulse-dollar {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(78, 186, 135, 0.3); }
+  50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(78, 186, 135, 0.6); }
+}

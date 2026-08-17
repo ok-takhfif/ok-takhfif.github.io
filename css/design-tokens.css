@@ -13,15 +13,22 @@
   --color-slate-light: #485269;
   --color-accent-teal: #58a4b0;
   --color-accent-blue: #a9bcd0;
+  --color-accent-emerald: #4eba87;
   --color-text-platinum: #d8dbe2;
   --color-text-dim: rgba(216, 219, 226, 0.6);
   --color-text-muted: rgba(216, 219, 226, 0.35);
+
+  /* Glass Card Surface */
+  --color-card-bg: rgba(34, 34, 39, 0.75);
+  --color-card-border: rgba(88, 164, 176, 0.22);
+  --color-card-border-active: rgba(88, 164, 176, 0.65);
 
   /* Electric Glow Gradients & Shadows */
   --glow-cyan-subtle: 0 0 15px rgba(88, 164, 176, 0.25);
   --glow-cyan-medium: 0 0 25px rgba(88, 164, 176, 0.55), 0 0 50px rgba(88, 164, 176, 0.25);
   --glow-cyan-intense: 0 0 35px rgba(88, 164, 176, 0.85), 0 0 70px rgba(88, 164, 176, 0.45), 0 0 100px rgba(88, 164, 176, 0.2);
   --glow-blue-subtle: 0 0 20px rgba(169, 188, 208, 0.3);
+  --glow-emerald-subtle: 0 0 15px rgba(78, 186, 135, 0.3);
 
   /* Typography */
   --font-persian: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -49,19 +56,28 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html, body {
   width: 100%;
-  height: 100%;
-  min-height: 100vh;
+  height: 100vh;
   background-color: var(--color-bg-primary);
   color: var(--color-text-platinum);
   font-family: var(--font-persian);
   direction: rtl;
-  overflow: hidden;
+  overflow: hidden; /* Locked while system is OFFLINE */
   position: relative;
-  user-select: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Discrete Scroll-Snap when system is ONLINE */
+html.online-unlocked, body.online-unlocked {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
 }
 
 /* Selection */

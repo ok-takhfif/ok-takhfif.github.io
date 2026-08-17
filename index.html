@@ -13,10 +13,13 @@
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" href="css/design-tokens.css">
   <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/process.css">
 </head>
-<body>
+<body class="offline-locked">
 
-  <!-- Hero Interactive Section -->
+  <!-- ==========================================================================
+       SECTION 1: HERO INTERACTIVE SECTION
+       ========================================================================== -->
   <main class="hero-section" id="hero">
     
     <!-- Inward Convergence Circuit Canvas Layer -->
@@ -27,22 +30,16 @@
 
     <!-- Top UI Header Bar -->
     <header class="hero-header">
-      <!-- Live Status Indicator -->
+      <!-- Brand Name on Top Right (RTL Start) -->
+      <div class="brand-header-title">
+        <span class="brand-name-fa">گروه مهندسی زیج</span>
+      </div>
+
+      <!-- Live Status Indicator on Top Left (RTL End) -->
       <div class="status-indicator">
         <span class="status-dot"></span>
         <span class="status-text">OFFLINE</span>
       </div>
-
-      <!-- Futuristic Sound Toggle -->
-      <button class="sound-toggle-btn" id="soundToggle" aria-label="تنظیمات صدا">
-        <span class="sound-icon">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-          </svg>
-        </span>
-        <span class="sound-label">صدا: روشن</span>
-      </button>
     </header>
 
     <!-- Center Stage: Logo & Power Interaction -->
@@ -59,8 +56,8 @@
 
           <!-- Power Button / 'ij' Component -->
           <g class="power-btn-group" id="powerBtnGroup">
-            <!-- Full Interactive Hit Box (ensures all negative space is clickable) -->
-            <circle cx="275" cy="120" r="72" fill="transparent" pointer-events="all" class="power-hitbox" />
+            <!-- Full Interactive Hit Box (ensures all negative space is clickable across all browsers) -->
+            <circle cx="275" cy="120" r="80" fill="#ffffff" fill-opacity="0.001" pointer-events="all" class="power-hitbox" style="cursor: pointer;" />
             <!-- Crescent Arc & 'j' stem -->
             <path class="power-crescent" d="M 238 88 A 52 52 0 1 0 326 125 L 326 92 L 348 92" />
             <!-- Vertical 'i' Stem -->
@@ -77,21 +74,20 @@
         <span>لطفا بر روی دکمه کلیک کنید</span>
       </p>
 
-      <!-- Post-Surge Brand Typography -->
+      <!-- Post-Surge Brand Value Statement -->
       <div class="brand-title-wrap" id="brandTitleWrap">
-        <h1 class="brand-title">گروه مهندسی زیج</h1>
-        <p class="brand-subtitle">ZIJ ENGINEERING GROUP</p>
+        <p class="brand-statement">خلق سیستم‌های اثرگذار از طریق شفافیت فنی، طراحی مشارکتی و مهندسی اصولی</p>
       </div>
 
     </div>
 
-    <!-- Minimal Explore Prompt -->
-    <div class="explore-prompt" aria-hidden="true">
+    <!-- Minimal Explore Prompt (Smooth Scroll Anchor) -->
+    <a href="#process-section" class="explore-prompt" id="exploreBtn" aria-label="مشاهده فرآیند کار ما">
       <span class="explore-text">کاوش در دنیای زیج</span>
       <svg class="chevron-icon" viewBox="0 0 24 24">
         <polyline points="6 9 12 15 18 9"></polyline>
       </svg>
-    </div>
+    </a>
 
     <!-- Power Cycle / Replay Button -->
     <button class="power-cycle-btn" id="powerCycleBtn" title="راه‌اندازی مجدد مدار" aria-label="راه‌اندازی مجدد">
@@ -104,10 +100,208 @@
 
   </main>
 
+
+  <!-- ==========================================================================
+       SECTION 2: HOW WE WORK (به چه شکل باهم کار می‌کنیم؟)
+       ========================================================================== -->
+  <section class="process-section" id="process-section">
+
+    <!-- Section Header -->
+    <div class="process-header">
+      <div class="process-badge">
+        <span class="process-badge-dot"></span>
+        <span>چرخه مهندسی و ارزش‌آفرینی</span>
+      </div>
+      <h2 class="process-main-title">به چه شکل باهم کار می‌کنیم؟</h2>
+      <p class="process-description">
+        مسیری پیوسته و تکرارشونده از نیازسنجی تا طراحی، پیاده‌سازی و رشد ارزش تجاری.
+      </p>
+    </div>
+
+    <!-- Infinity Diagram Canvas Stage -->
+    <div class="infinity-canvas-stage">
+
+      <!-- Background SVG Circuit Tracks for Infinity Loop -->
+      <svg class="infinity-circuit-svg" viewBox="0 0 1100 640" fill="none">
+        <!-- Single Continuous PCB Infinity Loop (Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 1) -->
+        <!-- Stage 1 (Top-Right: 890,110) -> Stage 2 (Bottom-Left: 210,530) -> Stage 3 (Top-Left: 210,110) -> Stage 4 (Bottom-Right: 890,530) -> Stage 1 (890,110) -->
+        <path class="track-base" d="M 890 110 L 680 110 L 420 530 L 210 530 L 210 110 L 420 110 L 680 530 L 890 530 Z" />
+        <path class="single-unified-pulse" d="M 890 110 L 680 110 L 420 530 L 210 530 L 210 110 L 420 110 L 680 530 L 890 530 Z" />
+        
+        <!-- Via Pads at Turn Vertices -->
+        <circle cx="680" cy="110" r="5" class="circuit-via" />
+        <circle cx="420" cy="530" r="5" class="circuit-via" />
+        <circle cx="420" cy="110" r="5" class="circuit-via" />
+        <circle cx="680" cy="530" r="5" class="circuit-via" />
+      </svg>
+
+      <!-- 4 Stages Grid matching User's Layout (RTL Order) -->
+      <div class="stages-grid">
+
+        <!-- ==========================================
+             STAGE (1): Top-Right (کشف و ارزیابی نیازها)
+             ========================================== -->
+        <div class="stage-node-item node-pos-1" id="nodeStage1"
+             data-title="تحلیل شفاف و نیازسنجی دقیق"
+             data-desc="در آغاز مسیر، از طریق گفت‌وگوی هم‌افزا میان تیم شما و معماران فنی زیج، اهداف کلیدی پروژه شناسایی و مستندسازی می‌شود."
+             data-tags="شفافیت فنی, ارزیابی ریسک, طراحی مشارکتی">
+          <div class="node-visual-box">
+            <div class="sketch-discovery-dialogue">
+              <!-- Top Row: Two Conversing People Avatars + Speech Waves -->
+              <div class="dialogue-speakers-row">
+                <!-- Person 1: Client / Stakeholder (Left) -->
+                <div class="speaker-avatar speaker-left" title="مشتری / ذی‌نفع">
+                  <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+
+                <!-- Turn-by-Turn Speech Wave Frequencies -->
+                <div class="dialogue-wave-container" title="امواج مکالمه هم‌افزا">
+                  <span class="speech-frequency-bar"></span>
+                  <span class="speech-frequency-bar"></span>
+                  <span class="speech-frequency-bar"></span>
+                  <span class="speech-frequency-bar"></span>
+                </div>
+
+                <!-- Person 2: Lead Engineer / Consultant (Right) -->
+                <div class="speaker-avatar speaker-right" title="مهندس معمار زیج">
+                  <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+              </div>
+
+              <!-- Bottom Row: Layered Meeting Notes Document Sheets -->
+              <div class="logged-paper-wrapper" title="مستندسازی نیازمندی‌ها">
+                <div class="brief-sheet-under"></div>
+                <div class="brief-sheet-top">
+                  <div class="logged-line line-client"></div>
+                  <div class="logged-line line-engineer"></div>
+                  <div class="logged-line line-client" style="width: 60%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Clean Title under Node -->
+          <div class="node-title-wrap">
+            <span class="node-number-pill">گام اول</span>
+            <h3 class="node-title">۱. کشف و ارزیابی نیازها</h3>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             STAGE (3): Top-Left (کدنویسی و پیاده‌سازی)
+             ========================================== -->
+        <div class="stage-node-item node-pos-3" id="nodeStage3"
+             data-title="توسعه مهندسی تمیز و مقیاس‌پذیر"
+             data-desc="پیاده‌سازی ماژولار و باکیفیت کدها بر پایه متدولوژی‌های روز، پایداری بالا، تست‌های خودکار و امنیت ساختاری."
+             data-tags="Clean Code, معماری مقیاس‌پذیر, CI/CD">
+          <div class="node-visual-box">
+            <div class="sketch-code-sheets">
+              <div class="ide-sheet-back"></div>
+              <div class="ide-sheet-front">
+                <div class="ide-traffic-dots">
+                  <span class="ide-dot"></span>
+                  <span class="ide-dot"></span>
+                  <span class="ide-dot"></span>
+                </div>
+                <div class="ide-code-line">
+                  <span id="liveTypingCode"></span>
+                  <span class="ide-cursor"></span>
+                </div>
+                <div class="ide-code-line" style="color: rgba(216, 219, 226, 0.4); font-size: 0.65rem;">
+                  <span>// Clean Architecture</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Clean Title under Node -->
+          <div class="node-title-wrap">
+            <span class="node-number-pill">گام سوم</span>
+            <h3 class="node-title">۳. کدنویسی و پیاده‌سازی</h3>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             STAGE (4): Bottom-Right (استقرار، رشد و بازدهی)
+             ========================================== -->
+        <div class="stage-node-item node-pos-4" id="nodeStage4"
+             data-title="استقرار امن و همراهی در رشد تجاری"
+             data-desc="عرضه نهایی محصول به بازار، پایش پیوسته عملکرد و شاخص‌های مالی، و ارتقای مداوم برای خلق حداکثر ارزش اقتصادی."
+             data-tags="رشد بازدهی, پایش مداوم, مقیاس‌پذیری">
+          <div class="node-visual-box">
+            <div class="sketch-growth-chart">
+              <div class="sketch-pie-wrapper">
+                <!-- Oscillating Dynamic Pie Chart -->
+                <svg class="sketch-pie-svg" viewBox="0 0 40 40">
+                  <circle class="sketch-slice-1" cx="20" cy="20" r="15.915" />
+                  <circle class="sketch-slice-2" cx="20" cy="20" r="15.915" />
+                  <circle class="sketch-slice-3" cx="20" cy="20" r="15.915" />
+                </svg>
+
+                <!-- Centered Dollar Sign '$' -->
+                <div class="sketch-dollar-center" title="بازدهی مالی و ارزش‌آفرینی">
+                  <span>$</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Clean Title under Node -->
+          <div class="node-title-wrap">
+            <span class="node-number-pill">گام چهارم</span>
+            <h3 class="node-title">۴. استقرار، رشد و بازدهی</h3>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             STAGE (2): Bottom-Left (طراحی تجربه و رابط کاربری)
+             ========================================== -->
+        <div class="stage-node-item node-pos-2" id="nodeStage2"
+             data-title="معماری اطلاعات و طراحی کاربرمحور"
+             data-desc="تبدیل نیازمندی‌ها به وایرفریم‌ها و پروتوتایپ‌های تعاملی با بالاترین استانداردهای بصری و سهولت کاربری."
+             data-tags="طراحی تعاملی, سیستم دیزاین, تست کاربری">
+          <div class="node-visual-box">
+            <div class="sketch-ui-artboard">
+              <div class="artboard-topbar">
+                <div class="artboard-dots">
+                  <span class="art-dot"></span>
+                  <span class="art-dot"></span>
+                  <span class="art-dot"></span>
+                </div>
+                <span class="art-close">✕</span>
+              </div>
+              <div class="artboard-body">
+                <div class="art-banner"></div>
+                <div class="art-card-row">
+                  <div class="art-card-col"></div>
+                  <div class="art-card-col"></div>
+                </div>
+                <div class="art-button"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Clean Title under Node -->
+          <div class="node-title-wrap">
+            <span class="node-number-pill">گام دوم</span>
+            <h3 class="node-title">۲. طراحی رابط و تجربه کاربری</h3>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Dynamic Cursor Details Tooltip (Follows Mouse Cursor Above Nodes) -->
+  <div class="cursor-details-tooltip" id="cursorTooltip" aria-live="polite"></div>
+
   <!-- JavaScript Modules -->
   <script src="js/audio-synthesizer.js"></script>
   <script src="js/circuit-engine.js"></script>
   <script src="js/logo-controller.js"></script>
+  <script src="js/process-animations.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

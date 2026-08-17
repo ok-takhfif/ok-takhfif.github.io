@@ -4,16 +4,18 @@
 
 .hero-section {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 50% 50%, rgba(55, 63, 81, 0.18) 0%, rgba(27, 27, 30, 0.85) 60%, var(--color-bg-deep) 100%);
+  background: radial-gradient(circle at 50% 45%, rgba(55, 63, 81, 0.18) 0%, rgba(27, 27, 30, 0.92) 65%, var(--color-bg-primary) 100%);
   overflow: hidden;
   z-index: var(--z-content);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 /* Background Canvas for Inward Circuits */
@@ -92,38 +94,28 @@
   50% { opacity: 1; transform: scale(1.2); }
 }
 
-/* Sound Toggle Control */
-.sound-toggle-btn {
-  background: rgba(34, 34, 39, 0.6);
-  border: 1px solid rgba(88, 164, 176, 0.25);
-  border-radius: 24px;
-  padding: 0.5rem 0.9rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--color-text-platinum);
-  font-family: var(--font-persian);
-  font-size: 0.8rem;
-  cursor: pointer;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: all var(--transition-smooth);
-}
-
-.sound-toggle-btn:hover {
-  border-color: var(--color-accent-teal);
-  background: rgba(45, 52, 68, 0.7);
-  box-shadow: var(--glow-cyan-subtle);
-  transform: translateY(-1px);
-}
-
-.sound-toggle-btn .sound-icon {
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
+/* Brand Header Title (Top Right in RTL) */
+.brand-header-title {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.5rem;
+}
+
+.brand-name-fa {
+  font-family: var(--font-persian);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-text-platinum);
+  opacity: 0.9;
+  text-shadow: 0 0 12px rgba(216, 219, 226, 0.15);
+  transition: opacity var(--transition-smooth), color var(--transition-smooth);
+}
+
+.hero-section.powered-on .brand-name-fa {
+  opacity: 1;
+  color: var(--color-text-platinum);
+  text-shadow: 0 0 16px rgba(88, 164, 176, 0.35);
 }
 
 /* Center Stage Container */
@@ -136,6 +128,19 @@
   z-index: var(--z-content);
   text-align: center;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 1.5rem 2rem;
+}
+
+.center-stage::before {
+  content: '';
+  position: absolute;
+  inset: -15px -25px;
+  background: radial-gradient(ellipse at center, rgba(27, 27, 30, 0.96) 25%, rgba(27, 27, 30, 0.75) 60%, transparent 80%);
+  border-radius: 36px;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.95;
+  transition: opacity 1s ease;
 }
 
 /* Brand Logo Vector Wrapper */
@@ -257,75 +262,82 @@
 
 /* Standby Click Instruction */
 .power-hint {
-  margin-top: 1.25rem;
+  position: absolute;
+  top: calc(100% - 1.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
   font-size: 0.9rem;
   font-weight: 300;
   letter-spacing: 0.05em;
   color: var(--color-text-dim);
   opacity: 0.85;
-  transition: all var(--transition-smooth);
+  transition: opacity var(--transition-smooth), transform var(--transition-smooth);
   display: flex;
   align-items: center;
   gap: 0.5rem;
   animation: breathe-hint 3s infinite ease-in-out;
+  pointer-events: none;
 }
 
 @keyframes breathe-hint {
-  0%, 100% { opacity: 0.5; transform: translateY(0); }
-  50% { opacity: 0.95; transform: translateY(-3px); }
+  0%, 100% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 0.95; transform: translateX(-50%) translateY(-3px); }
 }
 
 .hero-section.charging .power-hint,
 .hero-section.powered-on .power-hint {
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateX(-50%) translateY(10px);
   pointer-events: none;
   visibility: hidden;
-  height: 0;
-  margin: 0;
 }
 
-/* Post-Activation Brand Title "گروه مهندسی زیج" */
+/* Post-Activation Brand Value Statement */
 .brand-title-wrap {
-  margin-top: 1.75rem;
+  position: absolute;
+  top: calc(100% - 1.25rem);
+  left: 50%;
+  transform: translateX(-50%) translateY(15px);
+  width: max-content;
+  max-width: 90vw;
   opacity: 0;
-  transform: translateY(20px);
   transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
+  text-align: center;
+  padding: 0 1rem;
 }
 
 .hero-section.powered-on .brand-title-wrap {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
   pointer-events: auto;
 }
 
-.brand-title {
-  font-size: 1.85rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+.brand-statement {
+  font-family: var(--font-persian);
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.85;
+  letter-spacing: 0.01em;
   color: var(--color-text-platinum);
-  text-shadow: 0 0 20px rgba(216, 219, 226, 0.2);
+  text-shadow: 0 0 16px rgba(216, 219, 226, 0.18);
+  opacity: 0.92;
 }
 
 @media (min-width: 768px) {
-  .brand-title {
-    font-size: 2.35rem;
+  .brand-statement {
+    font-size: 1.18rem;
   }
 }
 
-.brand-subtitle {
-  font-family: var(--font-english);
-  font-size: 0.95rem;
-  font-weight: 400;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--color-accent-teal);
-  opacity: 0.9;
+@media (min-width: 1200px) {
+  .brand-statement {
+    font-size: 1.25rem;
+  }
 }
 
 /* Minimal Explore / Scroll Indicator */

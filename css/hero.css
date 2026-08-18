@@ -14,8 +14,13 @@
   background: radial-gradient(circle at 50% 45%, rgba(55, 63, 81, 0.18) 0%, rgba(27, 27, 30, 0.92) 65%, var(--color-bg-primary) 100%);
   overflow: hidden;
   z-index: var(--z-content);
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
+}
+
+@media (min-width: 992px) {
+  .hero-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
 }
 
 /* Background Canvas for Inward Circuits */

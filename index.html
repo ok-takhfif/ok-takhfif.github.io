@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="گروه مهندسی زیج (Zij) - نوآوری در مهندسی، طراحی مدارات پیشرفته و فناوری‌های نوین الکترونیک و نرم‌افزار.">
-  <meta name="keywords" content="گروه مهندسی زیج, زیج, Zij, مهندسی الکترونیک, طراحی سخت‌افزار, نرم‌افزار">
+  <meta name="keywords" content="گروه مهندسی زیج, زیج, Zij, مهندسی الکترونیک, طراحی سخت‌افزار, نرم‌افزار, پروژه‌ها">
   <title>گروه مهندسی زیج | Zij Engineering Group</title>
 
   <!-- Favicon placeholder SVG -->
@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="css/design-tokens.css">
   <link rel="stylesheet" href="css/hero.css">
   <link rel="stylesheet" href="css/process.css">
+  <link rel="stylesheet" href="css/projects.css">
 </head>
 <body class="offline-locked">
 
@@ -294,7 +295,122 @@
 
   </section>
 
-  <!-- Dynamic Cursor Details Tooltip (Follows Mouse Cursor Above Nodes) -->
+
+  <!-- ==========================================================================
+       SECTION 3: PROOF OF WORK / PROJECTS (پروژه‌های زیج)
+       ========================================================================== -->
+  <section class="projects-section" id="projects-section">
+
+    <!-- Section Header -->
+    <div class="projects-header">
+      <div class="projects-badge">
+        <span class="projects-badge-dot"></span>
+        <span>نمونه‌کارهای مهندسی</span>
+      </div>
+      <h2 class="projects-main-title">پروژه‌های زیج</h2>
+      <p class="projects-description">
+        خلق راهکارهای نرم‌افزاری و سخت‌افزاری مقیاس‌پذیر، پایدار و ارزش‌آفرین برای کسب‌وکارهای پیشرو.
+      </p>
+    </div>
+
+    <!-- Horizontal Carousel Container -->
+    <div class="projects-carousel-wrapper">
+
+      <!-- Horizontal Circuit Conduit (Centered on Cards, Flows Right to Left) -->
+      <div class="horizontal-circuit-container" aria-hidden="true">
+        <svg class="horizontal-circuit-svg" viewBox="0 0 1400 40" preserveAspectRatio="none">
+          <line x1="0" y1="20" x2="1400" y2="20" class="h-circuit-base" />
+          <line x1="0" y1="20" x2="1400" y2="20" class="h-circuit-pulse" />
+        </svg>
+      </div>
+      
+      <!-- Prev / Next Navigation Buttons -->
+      <button class="carousel-nav-btn btn-prev" aria-label="پروژه قبلی">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+
+      <!-- Carousel Track with 2 Showcase Project Cards -->
+      <div class="projects-track">
+
+        <!-- ==========================================
+             PROJECT 1: FinCore (Completed / تکمیل‌شده)
+             ========================================== -->
+        <article class="project-card" id="projectCard1">
+          <!-- Screenshot Background -->
+          <div class="card-bg-screenshot screenshot-fincore"></div>
+          <div class="card-contrast-shield"></div>
+
+          <!-- Centered Business Logo (Glides Up on Hover) -->
+          <div class="card-business-logo" title="لوگوی پروژه FinCore">
+            <svg class="logo-icon-svg" viewBox="0 0 40 40">
+              <polygon points="20,4 36,12 36,28 20,36 4,28 4,12" stroke="currentColor" stroke-width="2.5" fill="none"/>
+              <circle cx="20" cy="20" r="6" fill="currentColor"/>
+              <line x1="20" y1="4" x2="20" y2="14" stroke="currentColor" stroke-width="2"/>
+              <line x1="20" y1="26" x2="20" y2="36" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+
+          <!-- Horizontal Bottom Details Panel (Slides Up on Hover) -->
+          <div class="card-bottom-panel">
+            <div class="card-header-meta">
+              <span class="project-status-pill status-completed">
+                <span class="status-dot-mini"></span>
+                <span>تکمیل‌شده</span>
+              </span>
+            </div>
+            <h3 class="project-card-title">سامانه زیرساخت مالی و پرداخت (FinCore)</h3>
+            <p class="project-card-desc">
+              پلتفرم مقیاس‌پذیر پردازش تراکنش‌ها با <span class="neon-keyword">معماری رویدادمحور</span> و پیاده‌سازی بر پایه <span class="neon-keyword neon-blue">Rust و Go</span> با تضمین <span class="neon-keyword neon-emerald">پایداری ۹۹.۹۹٪</span> و تأخیر زیر ۱۰ میلی‌ثانیه.
+            </p>
+          </div>
+        </article>
+
+        <!-- ==========================================
+             PROJECT 2: CloudGrid (In Progress / در حال توسعه)
+             ========================================== -->
+        <article class="project-card" id="projectCard2">
+          <!-- Screenshot Background -->
+          <div class="card-bg-screenshot screenshot-cloudgrid"></div>
+          <div class="card-contrast-shield"></div>
+
+          <!-- Centered Business Logo (Glides Up on Hover) -->
+          <div class="card-business-logo" title="لوگوی پروژه CloudGrid">
+            <svg class="logo-icon-svg" viewBox="0 0 40 40">
+              <circle cx="20" cy="20" r="14" stroke="currentColor" stroke-width="2" stroke-dasharray="6 3" fill="none"/>
+              <circle cx="20" cy="8" r="3.5" fill="currentColor"/>
+              <circle cx="32" cy="20" r="3.5" fill="currentColor"/>
+              <circle cx="20" cy="32" r="3.5" fill="currentColor"/>
+              <circle cx="8" cy="20" r="3.5" fill="currentColor"/>
+              <circle cx="20" cy="20" r="4" fill="currentColor"/>
+            </svg>
+          </div>
+
+          <!-- Horizontal Bottom Details Panel (Slides Up on Hover) -->
+          <div class="card-bottom-panel">
+            <div class="card-header-meta">
+              <span class="project-status-pill status-inprogress">
+                <span class="status-dot-mini"></span>
+                <span>در حال توسعه</span>
+              </span>
+            </div>
+            <h3 class="project-card-title">پلتفرم توزیع‌شده پایش و پردازش ابری IoT (CloudGrid)</h3>
+            <p class="project-card-desc">
+              بستر جامع جمع‌آوری و تحلیل کلان‌داده‌های تله‌متری حسگرها با استفاده از <span class="neon-keyword">میکروسرویس‌های توزیع‌شده</span>، خطوط لوله <span class="neon-keyword neon-blue">Apache Kafka</span> و داشبوردهای بلادرنگ.
+            </p>
+          </div>
+        </article>
+
+      </div>
+
+      <button class="carousel-nav-btn btn-next" aria-label="پروژه بعدی">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- Dynamic Cursor Details Tooltip (Follows Mouse Cursor Above Nodes in Section 2) -->
   <div class="cursor-details-tooltip" id="cursorTooltip" aria-live="polite"></div>
 
   <!-- JavaScript Modules -->
@@ -302,6 +418,7 @@
   <script src="js/circuit-engine.js"></script>
   <script src="js/logo-controller.js"></script>
   <script src="js/process-animations.js"></script>
+  <script src="js/projects-carousel.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

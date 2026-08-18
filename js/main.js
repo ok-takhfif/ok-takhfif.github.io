@@ -13,7 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
     window.processAnimations = new ProcessAnimations();
   }
 
-  // 4. User interaction listener to unlock Web Audio API on initial touch/click
+  // 4. Initialize Projects Carousel Controller
+  if (window.ProjectsCarousel) {
+    window.projectsCarousel = new ProjectsCarousel();
+  }
+
+  // 5. User interaction listener to unlock Web Audio API on initial touch/click
   const unlockAudio = () => {
     if (window.AudioEngine) {
       window.AudioEngine.init();
@@ -31,14 +36,17 @@ document.addEventListener('DOMContentLoaded', () => {
     exploreBtn.addEventListener('click', (e) => {
       e.preventDefault();
       if (document.body.classList.contains('online-unlocked')) {
-        scrollToSection(1);
+        const targetEl = document.getElementById('process-section');
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth' });
+        }
       }
     });
   }
 
-  // 6. Discrete Section Navigation (Snaps exactly 1 full section per scroll/wheel/swipe)
+  // 6. Discrete Section Navigation (Desktop Only: >= 992px)
   let isNavigating = false;
-  const sections = ['hero', 'process-section'];
+  const sections = ['hero', 'process-section', 'projects-section'];
   let currentSectionIdx = 0;
 
   const scrollToSection = (idx) => {
@@ -57,11 +65,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // Sync index on native scroll
   window.addEventListener('scroll', () => {
     const scrollPos = window.scrollY;
-    const heroHeight = window.innerHeight * 0.5;
-    currentSectionIdx = scrollPos > heroHeight ? 1 : 0;
+    const vh = window.innerHeight;
+    if (scrollPos < vh * 0.5) {
+      currentSectionIdx = 0;
+    } else if (scrollPos < vh * 1.5) {
+      currentSectionIdx = 1;
+    } else {
+      currentSectionIdx = 2;
+    }
   }, { passive: true });
 
-  // Discrete Mouse Wheel Paging
+  // Discrete Mouse Wheel Paging (Active strictly on Desktop screens >= 992px)
   window.addEventListener('wheel', (e) => {
     // If offline: completely block scrolling
     if (!document.body.classList.contains('online-unlocked')) {
@@ -69,18 +83,21 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    if (Math.abs(e.deltaY) > 20) {
-      if (e.deltaY > 0 && currentSectionIdx === 0) {
-        e.preventDefault();
-        scrollToSection(1);
-      } else if (e.deltaY < 0 && currentSectionIdx === 1) {
-        e.preventDefault();
-        scrollToSection(0);
+    // Discrete jump only on desktop viewports
+    if (window.innerWidth >= 992) {
+      if (Math.abs(e.deltaY) > 25) {
+        if (e.deltaY > 0 && currentSectionIdx < sections.length - 1) {
+          e.preventDefault();
+          scrollToSection(currentSectionIdx + 1);
+        } else if (e.deltaY < 0 && currentSectionIdx > 0) {
+          e.preventDefault();
+          scrollToSection(currentSectionIdx - 1);
+        }
       }
     }
   }, { passive: false });
 
-  // Discrete Keyboard Paging
+  // Discrete Keyboard Paging (Desktop only)
   window.addEventListener('keydown', (e) => {
     if (!document.body.classList.contains('online-unlocked')) {
       if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Space'].includes(e.key)) {
@@ -88,35 +105,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       return;
     }
-    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
-      if (currentSectionIdx === 0) {
-        e.preventDefault();
-        scrollToSection(1);
-      }
-    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-      if (currentSectionIdx === 1) {
-        e.preventDefault();
-        scrollToSection(0);
+    if (window.innerWidth >= 992) {
+      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+        if (currentSectionIdx < sections.length - 1) {
+          e.preventDefault();
+          scrollToSection(currentSectionIdx + 1);
+        }
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        if (currentSectionIdx > 0) {
+          e.preventDefault();
+          scrollToSection(currentSectionIdx - 1);
+        }
       }
     }
   });
-
-  // Discrete Touch Swipe Paging for Mobile
-  let touchStartY = 0;
-  window.addEventListener('touchstart', (e) => {
-    touchStartY = e.touches[0].clientY;
-  }, { passive: true });
-
-  window.addEventListener('touchend', (e) => {
-    if (!document.body.classList.contains('online-unlocked')) return;
-    const touchEndY = e.changedTouches[0].clientY;
-    const diff = touchStartY - touchEndY;
-    if (Math.abs(diff) > 45) {
-      if (diff > 0 && currentSectionIdx === 0) {
-        scrollToSection(1);
-      } else if (diff < 0 && currentSectionIdx === 1) {
-        scrollToSection(0);
-      }
-    }
-  }, { passive: true });
 });

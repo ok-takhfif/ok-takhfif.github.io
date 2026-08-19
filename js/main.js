@@ -18,7 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
     window.projectsCarousel = new ProjectsCarousel();
   }
 
-  // 5. User interaction listener to unlock Web Audio API on initial touch/click
+  // 5. Initialize Iran Map Circuit Network Engine
+  if (window.MapNetworkEngine) {
+    window.mapNetwork = new MapNetworkEngine();
+  }
+
+  // 6. User interaction listener to unlock Web Audio API on initial touch/click
   const unlockAudio = () => {
     if (window.AudioEngine) {
       window.AudioEngine.init();
@@ -30,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('pointerdown', unlockAudio, { once: true });
   window.addEventListener('keydown', unlockAudio, { once: true });
 
-  // 5. Smooth Scroll Navigation for Explore Button
+  // 7. Smooth Scroll Navigation for Explore Button
   const exploreBtn = document.getElementById('exploreBtn');
   if (exploreBtn) {
     exploreBtn.addEventListener('click', (e) => {
@@ -44,9 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 6. Discrete Section Navigation (Desktop Only: >= 992px)
+  // 8. Discrete Section Navigation (Desktop Only: >= 992px)
   let isNavigating = false;
-  const sections = ['hero', 'process-section', 'projects-section'];
+  const sections = ['hero', 'process-section', 'projects-section', 'contact-section'];
   let currentSectionIdx = 0;
 
   const scrollToSection = (idx) => {
@@ -70,8 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
       currentSectionIdx = 0;
     } else if (scrollPos < vh * 1.5) {
       currentSectionIdx = 1;
-    } else {
+    } else if (scrollPos < vh * 2.5) {
       currentSectionIdx = 2;
+    } else {
+      currentSectionIdx = 3;
     }
   }, { passive: true });
 

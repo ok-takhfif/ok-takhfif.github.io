@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="گروه مهندسی زیج (Zij) - نوآوری در مهندسی، طراحی مدارات پیشرفته و فناوری‌های نوین الکترونیک و نرم‌افزار.">
-  <meta name="keywords" content="گروه مهندسی زیج, زیج, Zij, مهندسی الکترونیک, طراحی سخت‌افزار, نرم‌افزار, پروژه‌ها">
+  <meta name="keywords" content="گروه مهندسی زیج, زیج, Zij, مهندسی الکترونیک, طراحی سخت‌افزار, نرم‌افزار, پروژه‌ها, تماس با ما">
   <title>گروه مهندسی زیج | Zij Engineering Group</title>
 
   <!-- Favicon placeholder SVG -->
@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="css/hero.css">
   <link rel="stylesheet" href="css/process.css">
   <link rel="stylesheet" href="css/projects.css">
+  <link rel="stylesheet" href="css/contact.css">
 </head>
 <body class="offline-locked">
 
@@ -125,7 +126,6 @@
       <!-- Background SVG Circuit Tracks for Infinity Loop -->
       <svg class="infinity-circuit-svg" viewBox="0 0 1100 640" fill="none">
         <!-- Single Continuous PCB Infinity Loop (Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 1) -->
-        <!-- Stage 1 (Top-Right: 890,110) -> Stage 2 (Bottom-Left: 210,530) -> Stage 3 (Top-Left: 210,110) -> Stage 4 (Bottom-Right: 890,530) -> Stage 1 (890,110) -->
         <path class="track-base" d="M 890 110 L 680 110 L 420 530 L 210 530 L 210 110 L 420 110 L 680 530 L 890 530 Z" />
         <path class="single-unified-pulse" d="M 890 110 L 680 110 L 420 530 L 210 530 L 210 110 L 420 110 L 680 530 L 890 530 Z" />
         
@@ -410,6 +410,241 @@
 
   </section>
 
+
+  <!-- ==========================================================================
+       SECTION 4: ABOUT US & CONTACT (درباره زیج و ارتباط با ما)
+       ========================================================================== -->
+  <section class="contact-section" id="contact-section">
+
+    <!-- Main Dual Column Content Grid -->
+    <div class="contact-main-grid">
+
+      <!-- Right Column (RTL Start): Info Block & Cyber Iran Map -->
+      <div class="contact-info-col">
+        <div class="contact-badge">
+          <span class="contact-badge-dot"></span>
+          <span>پوشش سراسری و ارتباط پایدار</span>
+        </div>
+        <h2 class="contact-main-title">هر نقطه از این بوم، ارتباط جاریست</h2>
+        <p class="contact-description">
+          گروه مهندسی زیج در هر جای کشور به صورت حضوری و غیرحضوری با مشتریان و ذی‌نفعان خود همکاری پویا، شفاف و نتیجه‌بخش را فراهم می‌سازد.
+        </p>
+
+        <!-- Cyber Iran Map Container -->
+        <div class="iran-map-wrapper">
+          <svg class="iran-map-svg" id="iranMapSvg" viewBox="0 0 2000 2000" fill="none" xmlns="http://www.w3.org/2000/svg">
+            
+            <!-- Authentic Iran Map PNG Silhouette with Invert & Neon Theme Filter -->
+            <image href="assets/Iran-map.png" x="0" y="0" width="2000" height="2000" class="iran-map-img" preserveAspectRatio="xMidYMid meet" />
+
+            <!-- Interconnected Neighbor Mesh Circuit Traces (Connecting each dot to all neighbors) -->
+            <g class="network-mesh-lines">
+              <!-- Tehran Connections -->
+              <line class="network-trace-base" x1="820" y1="580" x2="450" y2="420" />
+              <line class="network-trace-base" x1="820" y1="580" x2="1420" y2="560" />
+              <line class="network-trace-base" x1="820" y1="580" x2="900" y2="920" />
+              <!-- Tabriz Connections -->
+              <line class="network-trace-base" x1="450" y1="420" x2="620" y2="1080" />
+              <line class="network-trace-base" x1="450" y1="420" x2="900" y2="920" />
+              <!-- Ahvaz Connections -->
+              <line class="network-trace-base" x1="620" y1="1080" x2="900" y2="920" />
+              <line class="network-trace-base" x1="620" y1="1080" x2="980" y2="1260" />
+              <!-- Shiraz Connections -->
+              <line class="network-trace-base" x1="980" y1="1260" x2="900" y2="920" />
+              <line class="network-trace-base" x1="980" y1="1260" x2="1280" y2="1420" />
+              <!-- Kerman / Bandar Connections -->
+              <line class="network-trace-base" x1="1280" y1="1420" x2="900" y2="920" />
+              <line class="network-trace-base" x1="1280" y1="1420" x2="1420" y2="560" />
+              <!-- Mashhad Connections -->
+              <line class="network-trace-base" x1="1420" y1="560" x2="900" y2="920" />
+            </g>
+
+            <!-- Dynamic Active Electric Pulse (Single traveling pulse) -->
+            <circle class="network-active-pulse" id="activeNetworkPulse" cx="820" cy="580" r="16" />
+
+            <!-- 7 Strategic City Node Hubs (Safely inside borders) -->
+
+            <!-- 1. Node Tehran (820, 580) -->
+            <g class="city-node-group active" id="nodeTehran" transform="translate(820, 580)">
+              <circle class="node-ripple-ring" cx="0" cy="0" r="45" />
+              <circle class="city-node-pad" cx="0" cy="0" r="18" />
+              <circle class="city-node-center" cx="0" cy="0" r="9" />
+            </g>
+
+            <!-- 2. Node Tabriz (450, 420) -->
+            <g class="city-node-group" id="nodeTabriz" transform="translate(450, 420)">
+              <circle class="node-ripple-ring" cx="0" cy="0" r="45" />
+              <circle class="city-node-pad" cx="0" cy="0" r="18" />
+              <circle class="city-node-center" cx="0" cy="0" r="9" />
+            </g>
+
+            <!-- 3. Node Ahvaz (620, 1080) -->
+            <g class="city-node-group" id="nodeAhvaz" transform="translate(620, 1080)">
+              <circle class="node-ripple-ring" cx="0" cy="0" r="45" />
+              <circle class="city-node-pad" cx="0" cy="0" r="18" />
+              <circle class="city-node-center" cx="0" cy="0" r="9" />
+            </g>
+
+            <!-- 4. Node Shiraz (980, 1260) -->
+            <g class="city-node-group" id="nodeShiraz" transform="translate(980, 1260)">
+              <circle class="node-ripple-ring" cx="0" cy="0" r="45" />
+              <circle class="city-node-pad" cx="0" cy="0" r="18" />
+              <circle class="city-node-center" cx="0" cy="0" r="9" />
+            </g>
+
+            <!-- 5. Node Bandar Abbas / Kerman (1280, 1420) -->
+            <g class="city-node-group" id="nodeBandar" transform="translate(1280, 1420)">
+              <circle class="node-ripple-ring" cx="0" cy="0" r="45" />
+              <circle class="city-node-pad" cx="0" cy="0" r="18" />
+              <circle class="city-node-center" cx="0" cy="0" r="9" />
+            </g>
+
+            <!-- 6. Node Isfahan (900, 920) -->
+            <g class="city-node-group" id="nodeIsfahan" transform="translate(900, 920)">
+              <circle class="node-ripple-ring" cx="0" cy="0" r="45" />
+              <circle class="city-node-pad" cx="0" cy="0" r="18" />
+              <circle class="city-node-center" cx="0" cy="0" r="9" />
+            </g>
+
+            <!-- 7. Node Mashhad (1420, 560) -->
+            <g class="city-node-group" id="nodeMashhad" transform="translate(1420, 560)">
+              <circle class="node-ripple-ring" cx="0" cy="0" r="45" />
+              <circle class="city-node-pad" cx="0" cy="0" r="18" />
+              <circle class="city-node-center" cx="0" cy="0" r="9" />
+            </g>
+
+          </svg>
+        </div>
+      </div>
+
+      <!-- Left Column (RTL End): 2 Authentic Hardware IC Chipsets -->
+      <div class="contact-chipsets-col">
+
+        <!-- CHIPSET 1 (Smaller IC - 1 Pin): Project Estimation Module -->
+        <a href="#" class="ic-chipset-package chipset-estimation" id="chipsetEstimation" title="ورود به سامانه برآورد هوشمند پروژه">
+          <!-- Alignment Notch -->
+          <div class="ic-notch"></div>
+
+          <!-- Silkscreen Laser Etch -->
+          <div class="ic-silkscreen-code">
+            <span>ZIJ-EST-v1.0</span>
+            <span class="ic-brand-tag">ZIJ SILICON LAB</span>
+          </div>
+
+          <!-- Chip Content -->
+          <div class="estimation-content">
+            <div class="estimation-text-group">
+              <h3 class="chipset-title">برآورد آنلاین و هوشمند پروژه</h3>
+              <p class="chipset-subtitle">محاسبه زمان‌بندی، فازبندی فنی و بودجه مورد نیاز</p>
+            </div>
+            <div class="estimation-action-badge">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+
+          <!-- Protruding Metallic Solder Leads (1 Pin on Left) -->
+          <div class="ic-pin-leads">
+            <div class="ic-pin-lead" title="Pin 1: EST_TRIGGER"></div>
+          </div>
+        </a>
+
+        <!-- CHIPSET 2 (Larger IC - 3 Pins): Direct Contact Channels -->
+        <div class="ic-chipset-package chipset-contacts" id="chipsetContacts">
+          <!-- Alignment Notch -->
+          <div class="ic-notch"></div>
+
+          <!-- Silkscreen Laser Etch -->
+          <div class="ic-silkscreen-code">
+            <span>ZIJ-COMMS-CORE</span>
+            <span class="ic-brand-tag">IO BUS 4.0</span>
+          </div>
+
+          <h3 class="chipset-title">راه‌های ارتباط مستقیم</h3>
+
+          <!-- Contact Rows (3 Pins Mapping) -->
+          <div class="contacts-list">
+            
+            <!-- Pin 1: Telegram & Eitaa ID -->
+            <div class="contact-row-item">
+              <div class="contact-item-left">
+                <div class="contact-icon-box" title="پیام‌رسان">
+                  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+                </div>
+                <div class="contact-label-group">
+                  <span class="contact-type-label">تلگرام و ایتا</span>
+                  <a href="https://t.me/ZijEngineering" target="_blank" rel="noopener noreferrer" class="contact-value-text">@ZijEngineering</a>
+                </div>
+              </div>
+              <button class="copy-badge-btn" data-copy="@ZijEngineering" title="کپی آیدی" aria-label="کپی آیدی پیام‌رسان">
+                <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+
+            <!-- Pin 2: Phone Number -->
+            <div class="contact-row-item">
+              <div class="contact-item-left">
+                <div class="contact-icon-box" title="تماس تلفنی">
+                  <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                </div>
+                <div class="contact-label-group">
+                  <span class="contact-type-label">شماره تماس مستقیم</span>
+                  <a href="tel:02188990000" class="contact-value-text">۰۲۱-۸۸۹۹۰۰۰۰</a>
+                </div>
+              </div>
+              <button class="copy-badge-btn" data-copy="02188990000" title="کپی شماره تماس" aria-label="کپی شماره تلفن">
+                <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+
+            <!-- Pin 3: Email Address -->
+            <div class="contact-row-item">
+              <div class="contact-item-left">
+                <div class="contact-icon-box" title="پست الکترونیک">
+                  <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                </div>
+                <div class="contact-label-group">
+                  <span class="contact-type-label">ایمیل رسمی</span>
+                  <a href="mailto:contact@zij.group" class="contact-value-text">contact@zij.group</a>
+                </div>
+              </div>
+              <button class="copy-badge-btn" data-copy="contact@zij.group" title="کپی ایمیل" aria-label="کپی ایمیل">
+                <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Protruding Metallic Solder Leads (3 Pins on Left) -->
+          <div class="ic-pin-leads">
+            <div class="ic-pin-lead" title="Pin 1: COMM_TG_EITAA"></div>
+            <div class="ic-pin-lead" title="Pin 2: COMM_TEL_LINE"></div>
+            <div class="ic-pin-lead" title="Pin 3: COMM_MAIL_BUS"></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bottom Footer: Policy & System Status Bar -->
+    <footer class="contact-footer-bar">
+      <p class="footer-policy-text">
+        تمامی حقوق مادی و معنوی، مستندات فنی و نشان‌های این سامانه متعلق به گروه مهندسی زیج (Zij) می‌باشد. © ۱۴۰۵
+      </p>
+      <div class="footer-system-status">
+        <span class="status-pulse-dot"></span>
+        <span>سامانه پایدار و عملیاتی</span>
+      </div>
+    </footer>
+
+  </section>
+
+  <!-- Copy Toast Notification Container -->
+  <div class="copy-toast" id="copyToast">
+    <span>✓</span>
+    <span>اطلاعات تماس در کلیپ‌بورد کپی شد</span>
+  </div>
+
   <!-- Dynamic Cursor Details Tooltip (Follows Mouse Cursor Above Nodes in Section 2) -->
   <div class="cursor-details-tooltip" id="cursorTooltip" aria-live="polite"></div>
 
@@ -419,6 +654,7 @@
   <script src="js/logo-controller.js"></script>
   <script src="js/process-animations.js"></script>
   <script src="js/projects-carousel.js"></script>
+  <script src="js/map-network.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

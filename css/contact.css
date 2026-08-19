@@ -1,0 +1,568 @@
+/* ==========================================================================
+   ZIJ CONTACT & ABOUT US (درباره زیج و ارتباط با ما) - SECTION 4
+   ========================================================================== */
+
+.contact-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  padding: 2.5rem 2rem 1.5rem;
+  background: linear-gradient(180deg, var(--color-bg-primary) 0%, rgba(28, 29, 35, 0.95) 50%, #151518 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  z-index: var(--z-content);
+  overflow: hidden;
+}
+
+@media (min-width: 992px) {
+  .contact-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
+@media (max-width: 991px) {
+  .contact-section {
+    height: auto !important;
+    min-height: 100vh;
+    padding: 4rem 1.25rem 3rem !important;
+    overflow: visible !important;
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
+  }
+}
+
+/* ==========================================================================
+   MAIN CONTENT GRID: RIGHT (IRAN MAP & TITLE) | LEFT (2 IC CHIPSETS)
+   ========================================================================== */
+
+.contact-main-grid {
+  width: 100%;
+  max-width: 1280px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 3.5rem;
+  align-items: center;
+  margin: auto 0;
+  z-index: 10;
+}
+
+@media (max-width: 991px) {
+  .contact-main-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+/* ==========================================================================
+   RIGHT COLUMN: HEADER TEXT & CYBER IRAN MAP
+   ========================================================================== */
+
+.contact-info-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: right;
+  direction: rtl;
+}
+
+.contact-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.9rem;
+  border-radius: 20px;
+  background: rgba(88, 164, 176, 0.08);
+  border: 1px solid rgba(88, 164, 176, 0.25);
+  color: var(--color-accent-teal);
+  font-size: 0.82rem;
+  font-weight: 500;
+  margin-bottom: 0.85rem;
+}
+
+.contact-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent-teal);
+  box-shadow: 0 0 8px var(--color-accent-teal);
+}
+
+.contact-main-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-platinum);
+  margin-bottom: 0.8rem;
+  line-height: 1.35;
+  text-shadow: 0 0 25px rgba(216, 219, 226, 0.15);
+}
+
+@media (min-width: 768px) {
+  .contact-main-title {
+    font-size: 2.5rem;
+  }
+}
+
+.contact-description {
+  font-size: 0.96rem;
+  font-weight: 400;
+  line-height: 1.8;
+  color: var(--color-text-dim);
+  max-width: 580px;
+  margin-bottom: 1.8rem;
+}
+
+/* Iran Cyber Map Container */
+.iran-map-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  height: 380px;
+  background: rgba(22, 23, 28, 0.6);
+  border: 1px solid rgba(88, 164, 176, 0.18);
+  border-radius: 20px;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.4);
+}
+
+.iran-map-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.5));
+}
+
+/* Iran PNG Map Contour Overlay with Invert & Theme Glow */
+.iran-map-img {
+  filter: invert(1) drop-shadow(0 0 10px rgba(88, 164, 176, 0.5)) brightness(1.15);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* Interconnecting PCB Network Traces */
+.network-trace-base {
+  stroke: rgba(88, 164, 176, 0.4);
+  stroke-width: 5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 12 10;
+}
+
+/* Pulse Glow moving between nodes */
+.network-active-pulse {
+  fill: #ffffff;
+  stroke: var(--color-accent-teal);
+  stroke-width: 4;
+  filter: drop-shadow(0 0 15px var(--color-accent-teal)) drop-shadow(0 0 30px rgba(88, 164, 176, 0.9));
+  transition: transform 0.1s linear;
+}
+
+/* City Node Hubs */
+.city-node-group {
+  cursor: pointer;
+}
+
+.city-node-pad {
+  fill: rgba(27, 27, 32, 0.95);
+  stroke: var(--color-accent-teal);
+  stroke-width: 5;
+  transition: all 0.3s ease;
+}
+
+.city-node-center {
+  fill: var(--color-accent-teal);
+  transition: all 0.3s ease;
+}
+
+.city-node-group.active .city-node-pad {
+  stroke: #ffffff;
+  fill: var(--color-accent-teal);
+  filter: drop-shadow(0 0 20px var(--color-accent-teal));
+}
+
+.city-node-group.active .city-node-center {
+  fill: #ffffff;
+}
+
+/* Expanding Neon Ripple Ring on 0.35s Dwell */
+.node-ripple-ring {
+  fill: none;
+  stroke: var(--color-accent-teal);
+  stroke-width: 5;
+  opacity: 0;
+  transform-origin: center;
+}
+
+.city-node-group.active .node-ripple-ring {
+  animation: node-ripple-expand 0.7s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes node-ripple-expand {
+  0% {
+    r: 12;
+    opacity: 0.95;
+    stroke-width: 7;
+  }
+  100% {
+    r: 65;
+    opacity: 0;
+    stroke-width: 1.5;
+  }
+}
+
+.city-node-group.active .city-label-text {
+  fill: var(--color-text-platinum);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   LEFT COLUMN: 2 AUTHENTIC HARDWARE IC CHIPSETS
+   ========================================================================== */
+
+.contact-chipsets-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  align-items: stretch;
+  justify-content: center;
+}
+
+/* Base IC Chipset Container */
+.ic-chipset-package {
+  position: relative;
+  background: linear-gradient(145deg, #222329 0%, #17181c 100%);
+  border: 1.5px solid rgba(88, 164, 176, 0.3);
+  border-radius: 14px;
+  padding: 1.4rem 1.6rem;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform var(--transition-smooth), border-color var(--transition-smooth), box-shadow var(--transition-smooth);
+  direction: rtl;
+  text-align: right;
+}
+
+.ic-chipset-package:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-accent-teal);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7), var(--glow-cyan-subtle);
+}
+
+/* IC Alignment Notch / Pin-1 Orientation Mark */
+.ic-notch {
+  position: absolute;
+  top: -6px;
+  right: 28px;
+  width: 18px;
+  height: 6px;
+  background: #111215;
+  border-radius: 0 0 9px 9px;
+  border-bottom: 1.5px solid rgba(88, 164, 176, 0.3);
+}
+
+/* Silk-Screen Part Number Code */
+.ic-silkscreen-code {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(88, 164, 176, 0.6);
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ic-brand-tag {
+  color: rgba(216, 219, 226, 0.4);
+  font-size: 0.62rem;
+}
+
+/* Protruding Metallic Solder Leads / Pins on the Left Edge */
+.ic-pin-leads {
+  position: absolute;
+  left: -12px;
+  top: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 1.2rem 0;
+  pointer-events: none;
+}
+
+.ic-pin-lead {
+  width: 12px;
+  height: 5px;
+  background: linear-gradient(90deg, #8c9ba5 0%, #c4d1d9 60%, #e0e8ed 100%);
+  border-radius: 2px 0 0 2px;
+  box-shadow: -2px 0 6px rgba(0, 0, 0, 0.5);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.ic-chipset-package:hover .ic-pin-lead {
+  background: linear-gradient(90deg, var(--color-accent-teal) 0%, #a0e8f2 100%);
+  box-shadow: -3px 0 10px var(--color-accent-teal);
+}
+
+/* ==========================================================
+   CHIPSET 1: SMART PROJECT ESTIMATION (SMALLER IC - 1 PIN)
+   ========================================================== */
+
+.chipset-estimation {
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+
+.estimation-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.estimation-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.chipset-title {
+  font-size: 1.08rem;
+  font-weight: 800;
+  color: var(--color-text-platinum);
+  line-height: 1.4;
+}
+
+.chipset-subtitle {
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--color-text-dim);
+  line-height: 1.6;
+}
+
+.estimation-action-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(88, 164, 176, 0.12);
+  border: 1px solid rgba(88, 164, 176, 0.3);
+  color: var(--color-accent-teal);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.chipset-estimation:hover .estimation-action-badge {
+  background: var(--color-accent-teal);
+  color: var(--color-bg-primary);
+  transform: scale(1.08);
+  box-shadow: 0 0 15px rgba(88, 164, 176, 0.5);
+}
+
+.estimation-action-badge svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  fill: none;
+  transform: rotate(180deg);
+}
+
+/* ==========================================================
+   CHIPSET 2: DIRECT CONTACT CHANNELS (LARGER IC - 3 PINS)
+   ========================================================== */
+
+.chipset-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.3rem;
+}
+
+.contact-row-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.85rem;
+  background: rgba(30, 32, 38, 0.6);
+  border: 1px solid rgba(88, 164, 176, 0.15);
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.contact-row-item:hover {
+  background: rgba(88, 164, 176, 0.1);
+  border-color: rgba(88, 164, 176, 0.4);
+  transform: translateX(-3px);
+}
+
+.contact-item-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.contact-icon-box {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(88, 164, 176, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent-teal);
+  flex-shrink: 0;
+}
+
+.contact-icon-box svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.contact-label-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.contact-type-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--color-text-dim);
+}
+
+.contact-value-text {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text-platinum);
+  direction: ltr;
+  text-align: right;
+}
+
+.copy-badge-btn {
+  background: none;
+  border: none;
+  color: rgba(216, 219, 226, 0.45);
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copy-badge-btn:hover {
+  color: var(--color-accent-teal);
+  background: rgba(88, 164, 176, 0.15);
+}
+
+.copy-badge-btn svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+/* Copy Toast Notification */
+.copy-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(50px);
+  background: rgba(27, 27, 30, 0.95);
+  border: 1px solid var(--color-accent-teal);
+  color: var(--color-text-platinum);
+  padding: 0.6rem 1.4rem;
+  border-radius: 20px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), var(--glow-cyan-subtle);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.copy-toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ==========================================================================
+   BOTTOM FOOTER: SHORT POLICY & STATUS BAR
+   ========================================================================== */
+
+.contact-footer-bar {
+  width: 100%;
+  max-width: 1280px;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(88, 164, 176, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: rgba(216, 219, 226, 0.5);
+  direction: rtl;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .contact-footer-bar {
+    flex-direction: column;
+    gap: 0.6rem;
+    text-align: center;
+  }
+}
+
+.footer-policy-text {
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.footer-system-status {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-accent-emerald);
+}
+
+.status-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent-emerald);
+  box-shadow: 0 0 8px var(--color-accent-emerald);
+  animation: pulse-dot-green 2s infinite ease-in-out;
+}
+
+@keyframes pulse-dot-green {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+}

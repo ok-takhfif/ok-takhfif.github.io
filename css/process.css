@@ -824,4 +824,18 @@
     max-width: 360px;
     height: 180px;
   }
+
+  /* Explicit mobile order: 1 -> 2 -> 3 -> 4 */
+  .node-pos-1 {
+    order: 1;
+  }
+  .node-pos-2 {
+    order: 2;
+  }
+  .node-pos-3 {
+    order: 3;
+  }
+  .node-pos-4 {
+    order: 4;
+  }
 }

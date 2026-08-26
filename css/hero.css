@@ -77,6 +77,13 @@
   letter-spacing: 0.1em;
   color: var(--color-text-dim);
   text-transform: uppercase;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.status-text {
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 
 .status-dot {

@@ -3,12 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="گروه مهندسی زیج (Zij) - نوآوری در مهندسی، طراحی مدارات پیشرفته و فناوری‌های نوین الکترونیک و نرم‌افزار.">
-  <meta name="keywords" content="گروه مهندسی زیج, زیج, Zij, مهندسی الکترونیک, طراحی سخت‌افزار, نرم‌افزار, پروژه‌ها, تماس با ما">
+  <meta name="description" content="گروه مهندسی زیج (Zij) - ارائه راهکارهای پیشرفته نرم‌افزاری، توسعه چندسکویی (وب، موبایل، دسکتاپ)، سیستم‌های هوش مصنوعی (AI) و معماری داده‌های مقیاس‌پذیر.">
+  <meta name="keywords" content="گروه مهندسی زیج, زیج, Zij, توسعه نرم‌افزار, هوش مصنوعی, یادگیری ماشین, توسعه چندسکویی, نرم‌افزار وب, موبایل, معماری نرم‌افزار, هوش مصنوعی کاربردی, پروژه‌ها">
+  <meta name="author" content="گروه مهندسی زیج | Zij Engineering Group">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="color-scheme" content="dark">
+
+  <!-- Open Graph / Facebook / Telegram / WhatsApp Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fa_IR">
+  <meta property="og:site_name" content="گروه مهندسی زیج | Zij Engineering Group">
+  <meta property="og:title" content="گروه مهندسی زیج | نوآوری در نرم‌افزار و هوش مصنوعی">
+  <meta property="og:description" content="ارائه راهکارهای پیشرفته نرم‌افزاری چندسکویی، معماری داده و سامانه‌های نوین هوش مصنوعی (AI).">
+  <meta property="og:image" content="assets/logo_b.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="625">
+  <meta property="og:image:height" content="436">
+  <meta property="og:image:alt" content="لوگوی گروه مهندسی زیج - Zij Engineering Group">
+
+  <!-- Twitter Card Preview -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="گروه مهندسی زیج | Zij Engineering Group">
+  <meta name="twitter:description" content="ارائه راهکارهای پیشرفته نرم‌افزاری چندسکویی، معماری داده و سامانه‌های نوین هوش مصنوعی (AI).">
+  <meta name="twitter:image" content="assets/logo_b.png">
+  <meta name="twitter:image:alt" content="لوگوی گروه مهندسی زیج">
+
   <title>گروه مهندسی زیج | Zij Engineering Group</title>
 
-  <!-- Favicon placeholder SVG -->
+  <!-- Favicon & Touch Icons -->
+  <link rel="icon" type="image/png" href="assets/logo_b.png">
+  <link rel="apple-touch-icon" href="assets/logo_b.png">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%231b1b1e'/><path d='M35 32 A25 25 0 1 0 65 50 L65 38 L72 38' fill='none' stroke='%2358a4b0' stroke-width='8' stroke-linecap='round'/><line x1='50' y1='30' x2='50' y2='52' stroke='%2358a4b0' stroke-width='8' stroke-linecap='round'/><circle cx='50' cy='18' r='4.5' fill='%2358a4b0'/></svg>">
+
+  <!-- Structured Data (JSON-LD) for Search Engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "گروه مهندسی زیج",
+    "alternateName": "Zij Engineering Group",
+    "description": "ارائه راهکارهای پیشرفته نرم‌افزاری چندسکویی و سامانه‌های هوشمند مبتنی بر هوش مصنوعی (AI)",
+    "logo": "assets/logo_b.png",
+    "knowsAbout": [
+      "توسعه نرم‌افزار چندسکویی (Multi-platform Software Development)",
+      "هوش مصنوعی و یادگیری ماشین (AI & Machine Learning)",
+      "طراحی سیستم‌های مقیاس‌پذیر و پایدار",
+      "توسعه وب، موبایل و سرویس‌های ابری"
+    ]
+  }
+  </script>
 
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" href="css/design-tokens.css">
@@ -23,7 +67,7 @@
        SECTION 1: HERO INTERACTIVE SECTION
        ========================================================================== -->
   <main class="hero-section" id="hero">
-    
+
     <!-- Inward Convergence Circuit Canvas Layer -->
     <canvas id="circuit-canvas"></canvas>
 
@@ -46,11 +90,11 @@
 
     <!-- Center Stage: Logo & Power Interaction -->
     <div class="center-stage">
-      
+
       <!-- Interactive Logo SVG Container -->
       <div class="logo-container standby" id="logoContainer" title="کلیک برای راه‌اندازی مدار">
         <svg class="zij-logo-svg" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="لوگوی زیج (Zij)">
-          
+
           <!-- Letter 'Z' Component (Hidden in standby, awakens on surge completion) -->
           <g class="letter-z-group" id="letterZ">
             <path class="letter-z-path" d="M 68 56 L 182 56 L 68 184 L 182 184" />
@@ -128,7 +172,7 @@
         <!-- Single Continuous PCB Infinity Loop (Stage 1 -> Stage 2 -> Stage 3 -> Stage 4 -> Stage 1) -->
         <path class="track-base" d="M 890 110 L 680 110 L 420 530 L 210 530 L 210 110 L 420 110 L 680 530 L 890 530 Z" />
         <path class="single-unified-pulse" d="M 890 110 L 680 110 L 420 530 L 210 530 L 210 110 L 420 110 L 680 530 L 890 530 Z" />
-        
+
         <!-- Via Pads at Turn Vertices -->
         <circle cx="680" cy="110" r="5" class="circuit-via" />
         <circle cx="420" cy="530" r="5" class="circuit-via" />
@@ -309,7 +353,7 @@
       </div>
       <h2 class="projects-main-title">پروژه‌های زیج</h2>
       <p class="projects-description">
-        خلق راهکارهای نرم‌افزاری و سخت‌افزاری مقیاس‌پذیر، پایدار و ارزش‌آفرین برای کسب‌وکارهای پیشرو.
+        خلق راهکارهای نرم‌افزاری مدرن، پلتفرم‌های چندسکویی و سامانه‌های هوشمند مبتنی بر هوش مصنوعی (AI) با معماری پایدار و مقیاس‌پذیر.
       </p>
     </div>
 
@@ -323,7 +367,7 @@
           <line x1="0" y1="20" x2="1400" y2="20" class="h-circuit-pulse" />
         </svg>
       </div>
-      
+
       <!-- Prev / Next Navigation Buttons -->
       <button class="carousel-nav-btn btn-prev" aria-label="پروژه قبلی">
         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -421,7 +465,7 @@
         <!-- Cyber Iran Map Container -->
         <div class="iran-map-wrapper">
           <svg class="iran-map-svg" id="iranMapSvg" viewBox="0 0 2000 2000" fill="none" xmlns="http://www.w3.org/2000/svg">
-            
+
             <!-- Authentic Iran Map PNG Silhouette with Invert & Neon Theme Filter -->
             <image href="assets/Iran-map.png" x="0" y="0" width="2000" height="2000" class="iran-map-img" preserveAspectRatio="xMidYMid meet" />
 
@@ -551,7 +595,7 @@
 
           <!-- Contact Rows (3 Pins Mapping) -->
           <div class="contacts-list">
-            
+
             <!-- Pin 1: Telegram & Eitaa ID -->
             <div class="contact-row-item">
               <div class="contact-item-left">
@@ -560,7 +604,7 @@
                 </div>
                 <div class="contact-label-group">
                   <span class="contact-type-label">تلگرام/ایتا</span>
-                  <a href="https://t.me/ZijEngineering" target="_blank" rel="noopener noreferrer" class="contact-value-text">@mahdi_mghs</a>
+                  <a href="https://t.me/mahdi_mghs" target="_blank" rel="noopener noreferrer" class="contact-value-text">@mahdi_mghs</a>
                 </div>
               </div>
               <button class="copy-badge-btn" data-copy="@mahdi_mghs" title="کپی آیدی" aria-label="کپی آیدی پیام‌رسان">
@@ -576,7 +620,7 @@
                 </div>
                 <div class="contact-label-group">
                   <span class="contact-type-label">شماره تماس مستقیم</span>
-                  <a href="tel:02188990000" class="contact-value-text">09232644916</a>
+                  <a href="tel:09232644916" class="contact-value-text">09232644916</a>
                 </div>
               </div>
               <button class="copy-badge-btn" data-copy="09232644916" title="کپی شماره تماس" aria-label="کپی شماره تلفن">
@@ -592,7 +636,7 @@
                 </div>
                 <div class="contact-label-group">
                   <span class="contact-type-label">ایمیل رسمی</span>
-                  <a href="mailto:contact@zij.group" class="contact-value-text">micrmahdi@gmail.com</a>
+                  <a href="mailto:micrmahdi@gmail.com" class="contact-value-text">micrmahdi@gmail.com</a>
                 </div>
               </div>
               <button class="copy-badge-btn" data-copy="micrmahdi@gmail.com" title="کپی ایمیل" aria-label="کپی ایمیل">

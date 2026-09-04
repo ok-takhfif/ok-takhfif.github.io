@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برآورد هوشمند زمان پروژه | گروه مهندسی زیج</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --zij-bg: #0a0a0f;
+            --zij-surface: #12121a;
+            --zij-card: #1a1a24;
+            --zij-border: #2a2a3a;
+            --zij-teal: #58a4b0;
+            --zij-teal-glow: rgba(88, 164, 176, 0.4);
+            --zij-cyan: #00d4ff;
+            --zij-green: #00e676;
+            --zij-amber: #ffb300;
+            --zij-orange: #ff6d00;
+            --zij-red: #ff1744;
+            --zij-text: #e0e0e8;
+            --zij-text-muted: #9090a8;
+            --zij-text-dim: #606070;
+            
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--zij-bg);
+            font-family: 'Vazirmatn', sans-serif;
+            color: var(--zij-text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .est-ambient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(88, 164, 176, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(88, 164, 176, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(10, 10, 15, 0.9) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .est-circuit-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(88, 164, 176, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(88, 164, 176, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .estimator-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 720px;
+            padding: 20px;
+            margin: 20px auto;
+        }
+
+        .est-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .est-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(88, 164, 176, 0.1);
+            border: 1px solid rgba(88, 164, 176, 0.3);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--zij-teal);
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .est-badge-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--zij-teal);
+            border-radius: 50%;
+            animation: estPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes estPulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--zij-teal); }
+            50% { opacity: 0.4; box-shadow: 0 0 2px var(--zij-teal); }
+        }
+
+        .est-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #fff 0%, var(--zij-teal) 50%, var(--zij-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .est-subtitle {
+            font-size: 0.85rem;
+            color: var(--zij-text-muted);
+            letter-spacing: 2px;
+        }
+
+        .est-progress-wrap {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .est-progress-track {
+            width: 100%;
+            height: 6px;
+            background: var(--zij-surface);
+            border-radius: 3px;
+            overflow: hidden;
+            border: 1px solid var(--zij-border);
+        }
+
+        .est-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--zij-teal), var(--zij-cyan));
+            border-radius: 3px;
+            transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 12px var(--zij-teal-glow);
+            position: relative;
+        }
+
+        .est-progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: estShine 2s infinite;
+        }
+
+        @keyframes estShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .est-progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.7rem;
+            color: var(--zij-text-dim);
+        }
+
+        .est-card {
+            background: var(--zij-card);
+            border: 1px solid var(--zij-border);
+            border-radius: 16px;
+            padding: 30px 25px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            animation: estCardIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes estCardIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .est-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--zij-teal), transparent);
+        }
+
+        .est-question-number {
+            display: inline-block;
+            background: rgba(88, 164, 176, 0.12);
+            color: var(--zij-teal);
+            padding: 4px 12px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .est-question-text {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.7;
+            color: #fff;
+        }
+
+        .est-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .est-option {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            background: var(--zij-surface);
+            border: 1px solid var(--zij-border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .est-option:hover {
+            border-color: rgba(88, 164, 176, 0.5);
+            background: rgba(88, 164, 176, 0.06);
+            transform: translateX(-4px);
+        }
+
+        .est-option.selected {
+            border-color: var(--zij-teal);
+            background: rgba(88, 164, 176, 0.12);
+            box-shadow: 0 0 20px rgba(88, 164, 176, 0.15);
+        }
+
+        .est-radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--zij-border);
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .est-option.selected .est-radio {
+            border-color: var(--zij-teal);
+        }
+
+        .est-radio-inner {
+            width: 10px;
+            height: 10px;
+            background: var(--zij-teal);
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.2s;
+        }
+
+        .est-option.selected .est-radio-inner {
+            transform: scale(1);
+        }
+
+        .est-option-label {
+            flex: 1;
+            color: var(--zij-text);
+        }
+
+        .est-option-label strong {
+            color: #fff;
+        }
+
+        .est-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .est-btn {
+            padding: 13px 28px;
+            border-radius: 10px;
+            font-family: 'Vazirmatn', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .est-btn-back {
+            background: transparent;
+            border: 1px solid var(--zij-border);
+            color: var(--zij-text-muted);
+        }
+
+        .est-btn-back:hover {
+            border-color: var(--zij-text-muted);
+            color: #fff;
+        }
+
+        .est-btn-next {
+            background: linear-gradient(135deg, var(--zij-teal), #3a7a88);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(88, 164, 176, 0.3);
+        }
+
+        .est-btn-next:hover {
+            box-shadow: 0 8px 25px rgba(88, 164, 176, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .est-btn-next:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .est-result {
+            text-align: center;
+            animation: estResultIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes estResultIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .est-result-icon {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            animation: estResultBounce 1s ease-in-out infinite;
+        }
+
+        @keyframes estResultBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .est-result-badge {
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+        }
+
+        .est-result-badge.simple {
+            background: rgba(0, 230, 118, 0.15);
+            color: var(--zij-green);
+            border: 1px solid rgba(0, 230, 118, 0.3);
+        }
+
+        .est-result-badge.standard {
+            background: rgba(255, 179, 0, 0.15);
+            color: var(--zij-amber);
+            border: 1px solid rgba(255, 179, 0, 0.3);
+        }
+
+        .est-result-badge.complex {
+            background: rgba(255, 109, 0, 0.15);
+            color: var(--zij-orange);
+            border: 1px solid rgba(255, 109, 0, 0.3);
+        }
+
+        .est-result-badge.enterprise {
+            background: rgba(255, 23, 68, 0.15);
+            color: var(--zij-red);
+            border: 1px solid rgba(255, 23, 68, 0.3);
+        }
+
+        .est-result-time {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #fff;
+            margin: 15px 0;
+            text-shadow: 0 0 30px rgba(88, 164, 176, 0.5);
+            line-height: 1.4;
+        }
+
+        .est-result-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .est-result-detail-item {
+            background: var(--zij-surface);
+            border: 1px solid var(--zij-border);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .est-result-detail-label {
+            font-size: 0.7rem;
+            color: var(--zij-text-dim);
+            margin-bottom: 5px;
+        }
+
+        .est-result-detail-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--zij-teal);
+        }
+
+        .est-btn-restart {
+            background: transparent;
+            border: 1px solid var(--zij-teal);
+            color: var(--zij-teal);
+            margin: 0 auto;
+        }
+
+        .est-btn-restart:hover {
+            background: rgba(88, 164, 176, 0.1);
+            box-shadow: 0 0 20px rgba(88, 164, 176, 0.2);
+        }
+
+        .est-btn-send {
+            background: linear-gradient(135deg, var(--zij-green), #00b85c);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
+            margin: 0 auto;
+        }
+
+        .est-btn-send:hover {
+            box-shadow: 0 8px 25px rgba(0, 230, 118, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .est-fallback {
+            text-align: center;
+            animation: estResultIn 0.6s ease-out;
+        }
+
+        .est-fallback-icon {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .est-fallback-message {
+            background: rgba(255, 23, 68, 0.08);
+            border: 1px solid rgba(255, 23, 68, 0.25);
+            border-radius: 12px;
+            padding: 20px;
+            font-size: 0.9rem;
+            line-height: 1.9;
+            color: var(--zij-text);
+            margin: 15px 0;
+        }
+
+        .est-contact-info {
+            background: var(--zij-surface);
+            border: 1px solid var(--zij-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: right;
+        }
+
+        .est-contact-info h3 {
+            font-size: 0.9rem;
+            color: var(--zij-teal);
+            margin-bottom: 12px;
+        }
+
+        .est-contact-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            color: var(--zij-text);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .est-contact-row:last-child {
+            border-bottom: none;
+        }
+
+        .est-contact-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .est-form-group {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .est-form-label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--zij-text-muted);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .est-form-label .required {
+            color: var(--zij-red);
+        }
+
+        .est-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--zij-surface);
+            border: 1px solid var(--zij-border);
+            border-radius: 10px;
+            color: var(--zij-text);
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .est-input:focus {
+            border-color: var(--zij-teal);
+            box-shadow: 0 0 15px rgba(88, 164, 176, 0.2);
+        }
+
+        .est-input::placeholder {
+            color: var(--zij-text-dim);
+            font-size: 0.8rem;
+        }
+
+        textarea.est-input {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .est-send-success {
+            text-align: center;
+            padding: 30px;
+            animation: estResultIn 0.5s ease-out;
+        }
+
+        .est-send-success .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .estimator-wrapper { padding: 12px; margin: 10px auto; }
+            .est-title { font-size: 1.2rem; }
+            .est-card { padding: 20px 15px; }
+            .est-question-text { font-size: 1rem; }
+            .est-option { padding: 11px 12px; font-size: 0.8rem; }
+            .est-result-time { font-size: 1.8rem; }
+            .est-result-details { grid-template-columns: 1fr; }
+            .est-btn { padding: 11px 18px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="est-ambient"></div>
+    <div class="est-circuit-grid"></div>
+
+    <div class="estimator-wrapper" id="estimatorApp">
+        <div class="est-header">
+            <div class="est-badge">
+                <span class="est-badge-dot"></span>
+                <span>ZIJ-EST v1.0 | سامانه برآورد هوشمند</span>
+            </div>
+            <h1 class="est-title">برآورد آنلاین زمان پروژه</h1>
+            <p class="est-subtitle">PROJECT TIMELINE CALCULATOR</p>
+        </div>
+
+        <div class="est-progress-wrap" id="progressWrap">
+            <div class="est-progress-track">
+                <div class="est-progress-fill" id="progressFill" style="width: 0%;"></div>
+            </div>
+            <div class="est-progress-label">
+                <span id="progressStepText">سوال ۱ از ۵</span>
+                <span id="progressPercent">۰٪</span>
+            </div>
+        </div>
+
+        <div id="dynamicContent"></div>
+    </div>
+
+    <script>
+        const questions = [{
+            id: 1,
+            text: 'کاربران از چه بستری به برنامه دسترسی خواهند داشت؟',
+            options: [
+                { label: 'فقط وب', desc: 'باز شدن در مرورگر کامپیوتر یا موبایل (سایت/پنل تحت وب)', score: 10 },
+                { label: 'پیام‌رسان‌ها', desc: 'ربات هوشمند در تلگرام، بله یا سیستم‌های ارسال پیامک خودکار', score: 10 },
+                { label: 'اپلیکیشن موبایل', desc: 'اپ اختصاصی قابل نصب روی اندروید و iOS', score: 25 },
+                { label: 'چند پلتفرمی', desc: 'هم وب‌سایت و هم اپلیکیشن اختصاصی موبایل', score: 40 },
+                { label: 'ابهام', desc: 'هنوز مطمئن نیستیم کدام بستر بهینه‌تر است', score: null },
+            ]
+        }, {
+            id: 2,
+            text: 'مغز متفکر و هسته سیستم چگونه باید تصمیم‌گیری و پردازش کند؟',
+            options: [
+                { label: 'ثبت و نمایش اطلاعات', desc: 'فقط فرم‌ها، ثبت اطلاعات و جستجو/گزارش‌گیری معمولی (بدون AI)', score: 10 },
+                { label: 'اتوماسیون قوانین ثابت', desc: 'انجام کارهای خودکار طبق شروط مشخص (فرمول‌محور)', score: 20 },
+                { label: 'هوش متنی و دستیار گفتگو', desc: 'پاسخ‌دهی خودکار، جستجوی مفهومی، خلاصه‌سازی اسناد متنی', score: 40 },
+                { label: 'هوش اختصاصی پیشرفته', desc: 'تشخیص اشیا/چهره، تبدیل صوت، پیش‌بینی الگوهای آینده', score: 60 },
+                { label: 'ابهام', desc: 'سناریوی ما ترکیبی/پیچیده است یا هنوز شفاف نیست', score: null },
+            ]
+        }, {
+            id: 3,
+            text: 'سیستم باید با چه سرویس‌ها یا نرم‌افزارهایی ارتباط برقرار کند؟',
+            options: [
+                { label: 'مستقل', desc: 'از پایه ساخته می‌شود و به نرم‌افزار دیگری وصل نیست', score: 10 },
+                { label: 'سرویس‌های متداول عمومی', desc: 'اتصال به درگاه پرداخت، پنل پیامک، یا نقشه آنلاین', score: 15 },
+                { label: 'سیستم‌های موجود سازمان', desc: 'هماهنگی با حسابداری، CRM، اتوماسیون اداری', score: 35 },
+                { label: 'یکپارچه‌سازی چندگانه', desc: 'اتصال همزمان به چند سیستم و پاکسازی اطلاعات پراکنده', score: 50 },
+                { label: 'ابهام', desc: 'از زیرساخت‌های فعلی شرکت مطلع نیستیم', score: null },
+            ]
+        }, {
+            id: 4,
+            text: 'چند گروه کاربر با سامانه کار می‌کنند و زنجیره وظایف چگونه است؟',
+            options: [
+                { label: 'ساده', desc: '۱ یا ۲ گروه کاربر با دسترسی‌های مشخص (مثل مشتری و ادمین)', score: 10 },
+                { label: 'متوسط', desc: '۳ تا ۴ نقش با وظایف مشخص (ثبت‌کننده، تاییدکننده، مالی)', score: 25 },
+                { label: 'سازمانی و چندمرحله‌ای', desc: 'چندین بخش با زنجیره‌های طولانی تایید و ارجاع مرحله‌ای', score: 45 },
+                { label: 'ابهام', desc: 'چارت دقیق دسترسی‌ها هنوز مکتوب نشده است', score: null },
+            ]
+        }, {
+            id: 5,
+            text: 'مستندات و طراحی ظاهری پروژه در چه مرحله‌ای قرار دارد؟',
+            options: [
+                { label: 'آماده پیاده‌سازی', desc: 'نقشه‌ها و طرح‌های گرافیکی (Figma/وایرفریم) کاملاً نهایی است', score: 5 },
+                { label: 'مشخصات مکتوب', desc: 'نیازمندی‌ها نوشته شده اما طراحی گرافیکی ندارد', score: 20 },
+                { label: 'ایده اولیه', desc: 'فقط ایده کلی و نمونه‌های مشابه - باید از صفر طراحی شود', score: 40 },
+                { label: 'ابهام', desc: 'اهداف کلی را می‌دانیم اما نیازمندی‌ها هفتگی تغییر می‌کنند', score: null },
+            ]
+        }];
+
+        const results = [
+            { maxScore: 65, label: 'نسخه اولیه سبک (MVP)', timeText: '۱.۵ تا ۲.۵ هفته', badge: 'simple' },
+            { maxScore: 120, label: 'پروژه استاندارد / متوسط', timeText: '۳ تا ۵ هفته (~ ۱ ماه)', badge: 'standard' },
+            { maxScore: 180, label: 'پروژه جامع و هوشمند', timeText: '۱.۵ تا ۲ ماه', badge: 'complex' },
+            { maxScore: Infinity, label: 'سامانه سازمانی پیشرفته', timeText: '۲ تا ۳.۵ ماه', badge: 'enterprise' },
+        ];
+
+        let currentStep = 0;
+        let answers = [null, null, null, null, null];
+        let totalScore = 0;
+        let ambiguityCount = 0;
+        let userData = { name: '', phone: '', extra: '' };
+        let isSubmitted = false;
+
+        const dynamicContent = document.getElementById('dynamicContent');
+        const progressFill = document.getElementById('progressFill');
+        const progressStepText = document.getElementById('progressStepText');
+        const progressPercent = document.getElementById('progressPercent');
+        const progressWrap = document.getElementById('progressWrap');
+
+        function renderQuestion() {
+            const q = questions[currentStep];
+            const selected = answers[currentStep];
+
+            let optionsHTML = '';
+            q.options.forEach((opt, i) => {
+                const isSelected = selected === i;
+                optionsHTML += `
+                    <div class="est-option ${isSelected ? 'selected' : ''}" data-opt-index="${i}">
+                        <div class="est-radio"><div class="est-radio-inner"></div></div>
+                        <div class="est-option-label"><strong>${opt.label}</strong> — ${opt.desc}</div>
+                    </div>
+                `;
+            });
+
+            const isLast = currentStep === questions.length - 1;
+            const backBtnHTML = currentStep > 0 ? `
+                <button class="est-btn est-btn-back" onclick="goBack()">→ بازگشت</button>
+            ` : `<div></div>`;
+
+            const nextBtnHTML = `
+                <button class="est-btn est-btn-next" ${selected === null ? 'disabled' : ''} onclick="goNext()">
+                    ${isLast ? 'مرحله بعد ←' : 'سوال بعدی ←'}
+                </button>
+            `;
+
+            dynamicContent.innerHTML = `
+                <div class="est-card">
+                    <span class="est-question-number">سوال ${q.id} از ۵</span>
+                    <p class="est-question-text">${q.text}</p>
+                    <div class="est-options">${optionsHTML}</div>
+                </div>
+                <div class="est-nav">${backBtnHTML}${nextBtnHTML}</div>
+            `;
+
+            document.querySelectorAll('.est-option').forEach(el => {
+                el.addEventListener('click', () => {
+                    const idx = parseInt(el.dataset.optIndex);
+                    answers[currentStep] = idx;
+                    renderQuestion();
+                });
+            });
+
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const answered = answers.filter(a => a !== null).length;
+            const percent = Math.round((answered / questions.length) * 100);
+            progressFill.style.width = percent + '%';
+            progressStepText.textContent = `سوال ${currentStep + 1} از ۵`;
+            progressPercent.textContent = `${percent}٪`;
+        }
+
+        function goBack() {
+            if (currentStep > 0) { currentStep--;
+                renderQuestion(); }
+        }
+
+        function goNext() {
+            if (answers[currentStep] === null) return;
+            if (currentStep < questions.length - 1) { currentStep++;
+                renderQuestion(); } else { renderContactForm(); }
+        }
+
+        function renderContactForm() {
+            progressWrap.style.display = 'none';
+
+            dynamicContent.innerHTML = `
+                <div class="est-card">
+                    <span class="est-question-number">اطلاعات تکمیلی</span>
+                    <p class="est-question-text">لطفاً اطلاعات تماس خود را وارد کنید:</p>
+                    <div class="est-form-group">
+                        <label class="est-form-label">نام و نام خانوادگی <span class="required">*</span></label>
+                        <input type="text" class="est-input" id="userName" placeholder="مثال: علی محمدی" value="${userData.name}">
+                    </div>
+                    <div class="est-form-group">
+                        <label class="est-form-label">شماره تماس <span class="required">*</span></label>
+                        <input type="tel" class="est-input" id="userPhone" placeholder="مثال: ۰۹۱۲۳۴۵۶۷۸۹" value="${userData.phone}">
+                    </div>
+                    <div class="est-form-group">
+                        <label class="est-form-label">توضیحات اضافه (اختیاری)</label>
+                        <textarea class="est-input" id="userExtra" placeholder="اگر توضیحات اضافه‌ای در مورد پروژه دارید بنویسید...">${userData.extra}</textarea>
+                    </div>
+                    <div class="est-nav">
+                        <button class="est-btn est-btn-back" onclick="backToQuestions()">→ بازگشت</button>
+                        <button class="est-btn est-btn-next" onclick="submitContactForm()">مشاهده برآورد زمان</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function backToQuestions() {
+            userData.name = document.getElementById('userName')?.value || '';
+            userData.phone = document.getElementById('userPhone')?.value || '';
+            userData.extra = document.getElementById('userExtra')?.value || '';
+            currentStep = questions.length - 1;
+            progressWrap.style.display = 'block';
+            renderQuestion();
+        }
+
+        function submitContactForm() {
+            const name = document.getElementById('userName').value.trim();
+            const phone = document.getElementById('userPhone').value.trim();
+            const extra = document.getElementById('userExtra').value.trim();
+
+            if (!name || !phone) {
+                if (!name) document.getElementById('userName').style.borderColor = 'var(--zij-red)';
+                if (!phone) document.getElementById('userPhone').style.borderColor = 'var(--zij-red)';
+                setTimeout(() => {
+                    document.getElementById('userName').style.borderColor = 'var(--zij-border)';
+                    document.getElementById('userPhone').style.borderColor = 'var(--zij-border)';
+                }, 2000);
+                return;
+            }
+
+            userData = { name, phone, extra };
+            calculateResult();
+        }
+
+        function calculateResult() {
+            totalScore = 0;
+            ambiguityCount = 0;
+            let hasContradiction = false;
+
+            answers.forEach((ansIdx, qIdx) => {
+                const opt = questions[qIdx].options[ansIdx];
+                if (opt.score === null) { ambiguityCount++; } else { totalScore += opt.score; }
+            });
+
+            if (answers[1] === 3 && (answers[4] === 2 || answers[4] === 3)) { hasContradiction = true; }
+
+            if (ambiguityCount >= 2 || hasContradiction || totalScore > 200) {
+                renderFallback(ambiguityCount >= 5);
+            } else {
+                renderResult();
+            }
+        }
+
+        function renderResult() {
+            const result = results.find(r => totalScore < r.maxScore) || results[results.length - 1];
+
+            progressWrap.style.display = 'none';
+
+            dynamicContent.innerHTML = `
+                <div class="est-card est-result">
+                    <span class="est-result-badge ${result.badge}">${result.label}</span>
+                    <div class="est-result-time">${result.timeText}</div>
+                    <p style="color:var(--zij-text-muted);font-size:0.85rem;">زمان تخمینی تحویل پروژه</p>
+                    <div class="est-nav" style="justify-content:center;flex-wrap:wrap;margin-top:20px;">
+                        <button class="est-btn est-btn-send" onclick="sendEstimate()">ارسال اطلاعات</button>
+                        <button class="est-btn est-btn-restart" onclick="restartAll()">شروع مجدد</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderFallback(allAmbiguous = false) {
+            let reasonText = '';
+            if (allAmbiguous) reasonText = 'به دلیل وجود ابهامات متعدد در تمام پاسخ‌ها';
+            else if (ambiguityCount >= 2) reasonText = 'به دلیل وجود چند ابهام در پاسخ‌ها';
+            else if (totalScore > 200) reasonText = 'به دلیل بزرگی و پیچیدگی بالای پروژه';
+            else reasonText = 'به دلیل تناقض در پاسخ‌های ثبت‌شده';
+
+            progressWrap.style.display = 'none';
+
+            dynamicContent.innerHTML = `
+                <div class="est-card est-fallback">
+                    <div class="est-fallback-icon">؟</div>
+                    <h2 style="font-size:1.3rem;margin-bottom:10px;color:#fff;">نیاز به ارتباط مستقیم</h2>
+                    <p style="color:var(--zij-text-muted);font-size:0.8rem;margin-bottom:15px;">${reasonText}</p>
+                    <div class="est-fallback-message">
+                        با توجه به ابهامات موجود در پروژه شما نیازمند این هستید که ارتباط مستقیم با گروه مهندسی برقرار کنید. در نتیجه لطفاً از طریق راه‌های ارتباطی زیر در ارتباط باشید.
+                    </div>
+                    <div class="est-contact-info">
+                        <h3>راه‌های ارتباطی گروه مهندسی زیج</h3>
+                        <div class="est-contact-row">
+                            <span class="est-contact-icon">📱</span>
+                            <span>شماره تماس: <strong style="color:var(--zij-teal);">09232644916</strong></span>
+                        </div>
+                        <div class="est-contact-row">
+                            <span class="est-contact-icon">💬</span>
+                            <span>تلگرام و ایتا: <strong style="color:var(--zij-teal);">@mahdi_mghs</strong></span>
+                        </div>
+                        <div class="est-contact-row">
+                            <span class="est-contact-icon">✉️</span>
+                            <span>ایمیل رسمی: <strong style="color:var(--zij-teal);">micrmahdi@gmail.com</strong></span>
+                        </div>
+                    </div>
+                    <div class="est-nav" style="justify-content:center;flex-wrap:wrap;">
+                        <button class="est-btn est-btn-send" onclick="sendEstimate()">ارسال اطلاعات</button>
+                        <button class="est-btn est-btn-restart" onclick="restartAll()">شروع مجدد</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function sendEstimate() {
+            if (isSubmitted) return;
+            isSubmitted = true;
+
+            const data = {
+                name: userData.name,
+                phone: userData.phone,
+                extra: userData.extra,
+                score: totalScore,
+                ambiguityCount: ambiguityCount,
+                answers: answers,
+            };
+
+            console.log('اطلاعات ارسال شد:', data);
+
+            dynamicContent.innerHTML = `
+                <div class="est-card est-send-success">
+                    <div class="icon">✓</div>
+                    <h2 style="font-size:1.2rem;color:var(--zij-green);margin-bottom:10px;">اطلاعات با موفقیت ارسال شد</h2>
+                    <p style="color:var(--zij-text-muted);font-size:0.85rem;line-height:1.8;">
+                        ${userData.name} عزیز، اطلاعات شما ثبت شد.<br>
+                        تیم مهندسی زیج به زودی با شما تماس خواهد گرفت.
+                    </p>
+                    <div class="est-nav" style="justify-content:center;margin-top:20px;">
+                        <button class="est-btn est-btn-restart" onclick="restartAll()">شروع مجدد</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function restartAll() {
+            currentStep = 0;
+            answers = [null, null, null, null, null];
+            totalScore = 0;
+            ambiguityCount = 0;
+            userData = { name: '', phone: '', extra: '' };
+            isSubmitted = false;
+            progressWrap.style.display = 'block';
+            renderQuestion();
+        }
+
+        renderQuestion();
+
+        console.log('ZIJ-EST v1.0 | Active');
+    </script>
+</body>
+</html>

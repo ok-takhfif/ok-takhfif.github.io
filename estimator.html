@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="سامانه هوشمند برآورد زمان و فازبندی پروژه‌های نرم‌افزاری | گروه مهندسی زیج">
+    <meta name="theme-color" content="#0a0a0f">
+    <link rel="icon" type="image/png" href="assets/logo_b.png">
     <title>برآورد هوشمند زمان پروژه | گروه مهندسی زیج</title>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
@@ -82,6 +85,27 @@
         .est-header {
             text-align: center;
             margin-bottom: 25px;
+        }
+
+        .est-back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--zij-teal);
+            font-size: 0.75rem;
+            text-decoration: none;
+            margin-bottom: 14px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            background: rgba(88, 164, 176, 0.08);
+            border: 1px solid rgba(88, 164, 176, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .est-back-home:hover {
+            background: rgba(88, 164, 176, 0.16);
+            color: #fff;
+            transform: translateX(3px);
         }
 
         .est-badge {
@@ -568,6 +592,48 @@
             margin-bottom: 15px;
         }
 
+        .est-send-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0 10px;
+        }
+
+        .est-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            color: #fff;
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .est-action-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
+
+        .est-btn-telegram {
+            background: #229ed9;
+        }
+
+        .est-btn-email {
+            background: var(--zij-teal);
+        }
+
+        .est-btn-copy {
+            background: var(--zij-surface);
+            border: 1px solid var(--zij-border);
+            color: var(--zij-text);
+        }
+
         @media (max-width: 600px) {
             .estimator-wrapper { padding: 12px; margin: 10px auto; }
             .est-title { font-size: 1.2rem; }
@@ -587,6 +653,9 @@
 
     <div class="estimator-wrapper" id="estimatorApp">
         <div class="est-header">
+            <div>
+                <a href="index.html" class="est-back-home" title="بازگشت به سایت اصلی">← بازگشت به صفحه اصلی زیج</a>
+            </div>
             <div class="est-badge">
                 <span class="est-badge-dot"></span>
                 <span>ZIJ-EST v1.0 | سامانه برآورد هوشمند</span>
@@ -679,6 +748,15 @@
         const progressPercent = document.getElementById('progressPercent');
         const progressWrap = document.getElementById('progressWrap');
 
+        function escapeHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         function renderQuestion() {
             const q = questions[currentStep];
             const selected = answers[currentStep];
@@ -716,9 +794,14 @@
 
             document.querySelectorAll('.est-option').forEach(el => {
                 el.addEventListener('click', () => {
-                    const idx = parseInt(el.dataset.optIndex);
+                    const idx = parseInt(el.dataset.optIndex, 10);
                     answers[currentStep] = idx;
-                    renderQuestion();
+                    document.querySelectorAll('.est-option').forEach((opt, i) => {
+                        opt.classList.toggle('selected', i === idx);
+                    });
+                    const nextBtn = document.querySelector('.est-btn-next');
+                    if (nextBtn) nextBtn.disabled = false;
+                    updateProgress();
                 });
             });
 
@@ -734,14 +817,20 @@
         }
 
         function goBack() {
-            if (currentStep > 0) { currentStep--;
-                renderQuestion(); }
+            if (currentStep > 0) {
+                currentStep--;
+                renderQuestion();
+            }
         }
 
         function goNext() {
             if (answers[currentStep] === null) return;
-            if (currentStep < questions.length - 1) { currentStep++;
-                renderQuestion(); } else { renderContactForm(); }
+            if (currentStep < questions.length - 1) {
+                currentStep++;
+                renderQuestion();
+            } else {
+                renderContactForm();
+            }
         }
 
         function renderContactForm() {
@@ -753,15 +842,15 @@
                     <p class="est-question-text">لطفاً اطلاعات تماس خود را وارد کنید:</p>
                     <div class="est-form-group">
                         <label class="est-form-label">نام و نام خانوادگی <span class="required">*</span></label>
-                        <input type="text" class="est-input" id="userName" placeholder="مثال: علی محمدی" value="${userData.name}">
+                        <input type="text" class="est-input" id="userName" placeholder="مثال: علی محمدی" value="${escapeHtml(userData.name)}">
                     </div>
                     <div class="est-form-group">
                         <label class="est-form-label">شماره تماس <span class="required">*</span></label>
-                        <input type="tel" class="est-input" id="userPhone" placeholder="مثال: ۰۹۱۲۳۴۵۶۷۸۹" value="${userData.phone}">
+                        <input type="tel" class="est-input" id="userPhone" placeholder="مثال: ۰۹۱۲۳۴۵۶۷۸۹" value="${escapeHtml(userData.phone)}">
                     </div>
                     <div class="est-form-group">
                         <label class="est-form-label">توضیحات اضافه (اختیاری)</label>
-                        <textarea class="est-input" id="userExtra" placeholder="اگر توضیحات اضافه‌ای در مورد پروژه دارید بنویسید...">${userData.extra}</textarea>
+                        <textarea class="est-input" id="userExtra" placeholder="اگر توضیحات اضافه‌ای در مورد پروژه دارید بنویسید...">${escapeHtml(userData.extra)}</textarea>
                     </div>
                     <div class="est-nav">
                         <button class="est-btn est-btn-back" onclick="backToQuestions()">→ بازگشت</button>
@@ -789,8 +878,10 @@
                 if (!name) document.getElementById('userName').style.borderColor = 'var(--zij-red)';
                 if (!phone) document.getElementById('userPhone').style.borderColor = 'var(--zij-red)';
                 setTimeout(() => {
-                    document.getElementById('userName').style.borderColor = 'var(--zij-border)';
-                    document.getElementById('userPhone').style.borderColor = 'var(--zij-border)';
+                    const uName = document.getElementById('userName');
+                    const uPhone = document.getElementById('userPhone');
+                    if (uName) uName.style.borderColor = 'var(--zij-border)';
+                    if (uPhone) uPhone.style.borderColor = 'var(--zij-border)';
                 }, 2000);
                 return;
             }
@@ -828,6 +919,16 @@
                     <span class="est-result-badge ${result.badge}">${result.label}</span>
                     <div class="est-result-time">${result.timeText}</div>
                     <p style="color:var(--zij-text-muted);font-size:0.85rem;">زمان تخمینی تحویل پروژه</p>
+                    <div class="est-result-details">
+                        <div class="est-result-detail-item">
+                            <div class="est-result-detail-label">سطح نیازمندی فنی</div>
+                            <div class="est-result-detail-value">${result.label}</div>
+                        </div>
+                        <div class="est-result-detail-item">
+                            <div class="est-result-detail-label">امتیاز پیچیدگی محاسبه‌شده</div>
+                            <div class="est-result-detail-value">${totalScore} امتیاز</div>
+                        </div>
+                    </div>
                     <div class="est-nav" style="justify-content:center;flex-wrap:wrap;margin-top:20px;">
                         <button class="est-btn est-btn-send" onclick="sendEstimate()">ارسال اطلاعات</button>
                         <button class="est-btn est-btn-restart" onclick="restartAll()">شروع مجدد</button>
@@ -877,33 +978,50 @@
         }
 
         function sendEstimate() {
-            if (isSubmitted) return;
-            isSubmitted = true;
+            const result = results.find(r => totalScore < r.maxScore) || results[results.length - 1];
+            const safeName = escapeHtml(userData.name);
+            const report = `برآورد پروژه زیج\nنام: ${userData.name}\nتلفن: ${userData.phone}\nتخمین: ${result.timeText} (${result.label})\nامتیاز: ${totalScore} (ابهامات: ${ambiguityCount})\nتوضیحات: ${userData.extra || 'ندارد'}`;
+            const tgUrl = `https://t.me/mahdi_mghs?text=${encodeURIComponent(report)}`;
+            const mailUrl = `mailto:micrmahdi@gmail.com?subject=${encodeURIComponent('درخواست برآورد پروژه - ' + userData.name)}&body=${encodeURIComponent(report)}`;
 
-            const data = {
-                name: userData.name,
-                phone: userData.phone,
-                extra: userData.extra,
-                score: totalScore,
-                ambiguityCount: ambiguityCount,
-                answers: answers,
-            };
-
-            console.log('اطلاعات ارسال شد:', data);
+            console.log('اطلاعات برآورد:', { userData, totalScore, ambiguityCount, answers });
 
             dynamicContent.innerHTML = `
                 <div class="est-card est-send-success">
                     <div class="icon">✓</div>
-                    <h2 style="font-size:1.2rem;color:var(--zij-green);margin-bottom:10px;">اطلاعات با موفقیت ارسال شد</h2>
+                    <h2 style="font-size:1.2rem;color:var(--zij-green);margin-bottom:10px;">اطلاعات شما آماده ارسال است</h2>
                     <p style="color:var(--zij-text-muted);font-size:0.85rem;line-height:1.8;">
-                        ${userData.name} عزیز، اطلاعات شما ثبت شد.<br>
-                        تیم مهندسی زیج به زودی با شما تماس خواهد گرفت.
+                        ${safeName} عزیز، برآورد پروژه شما با موفقیت محاسبه شد.<br>
+                        برای هماهنگی و بررسی فوری با تیم فنی، ارسال مستقیم را انتخاب فرمایید:
                     </p>
+                    <div class="est-send-actions">
+                        <a href="${tgUrl}" target="_blank" rel="noopener noreferrer" class="est-action-btn est-btn-telegram">
+                            ارسال در تلگرام
+                        </a>
+                        <a href="${mailUrl}" class="est-action-btn est-btn-email">
+                            ارسال ایمیل رسمی
+                        </a>
+                        <button class="est-action-btn est-btn-copy" onclick="copyEstimateSummary(this)">
+                            کپی متن برآورد
+                        </button>
+                    </div>
                     <div class="est-nav" style="justify-content:center;margin-top:20px;">
                         <button class="est-btn est-btn-restart" onclick="restartAll()">شروع مجدد</button>
                     </div>
                 </div>
             `;
+        }
+
+        function copyEstimateSummary(btn) {
+            const result = results.find(r => totalScore < r.maxScore) || results[results.length - 1];
+            const report = `برآورد پروژه زیج\nنام: ${userData.name}\nتلفن: ${userData.phone}\nتخمین: ${result.timeText} (${result.label})\nامتیاز: ${totalScore}\nتوضیحات: ${userData.extra || 'ندارد'}`;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(report).then(() => {
+                    const orig = btn.textContent;
+                    btn.textContent = '✓ کپی شد';
+                    setTimeout(() => { btn.textContent = orig; }, 2000);
+                });
+            }
         }
 
         function restartAll() {

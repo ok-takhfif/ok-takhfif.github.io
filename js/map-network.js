@@ -26,6 +26,7 @@ class MapNetworkEngine {
     this.isResting = false;
     this.travelSpeed = 0.018; // Smooth travel speed (~0.9s per segment)
     this.restDurationMs = 350; // Nap time (0.35s) at each node
+    this.isVisible = false;
 
     this.init();
   }
@@ -37,8 +38,20 @@ class MapNetworkEngine {
     this.setPulsePos(this.nodes[0].x, this.nodes[0].y);
     this.triggerNodeActive(0);
 
-    // Start render loop
-    requestAnimationFrame(() => this.tick());
+    // Pause map pulse ticker when offscreen
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(([entry]) => {
+        const wasVisible = this.isVisible;
+        this.isVisible = entry.isIntersecting;
+        if (!wasVisible && this.isVisible) {
+          requestAnimationFrame(() => this.tick());
+        }
+      }, { threshold: 0.05 });
+      observer.observe(this.svg);
+    } else {
+      this.isVisible = true;
+      requestAnimationFrame(() => this.tick());
+    }
 
     // Init copy-to-clipboard buttons
     this.initClipboardHandlers();
@@ -69,6 +82,8 @@ class MapNetworkEngine {
   }
 
   tick() {
+    if (!this.isVisible) return;
+
     if (!this.isResting) {
       this.progress += this.travelSpeed;
 

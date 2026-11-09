@@ -67,15 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 750);
   };
 
-  // Sync index on native scroll
+  // Sync index on native scroll.
+  // Each section occupies ~1 viewport; use 0.4 thresholds so the reported
+  // index flips only after the center of a section passes the viewport top,
+  // which avoids the 0.5vh/1.5vh "half-in-hero" miscount on continuous mobile scroll.
   window.addEventListener('scroll', () => {
     const scrollPos = window.scrollY;
     const vh = window.innerHeight;
-    if (scrollPos < vh * 0.5) {
+    if (scrollPos < vh * 0.4) {
       currentSectionIdx = 0;
-    } else if (scrollPos < vh * 1.5) {
+    } else if (scrollPos < vh * 1.4) {
       currentSectionIdx = 1;
-    } else if (scrollPos < vh * 2.5) {
+    } else if (scrollPos < vh * 2.4) {
       currentSectionIdx = 2;
     } else {
       currentSectionIdx = 3;

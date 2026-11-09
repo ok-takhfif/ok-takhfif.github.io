@@ -31,13 +31,32 @@ class CircuitEngine {
 
     this.mouse = { x: -1000, y: -1000, active: false };
     this.lastFrameTime = performance.now();
+    this.isVisible = true;
 
     this.init();
   }
 
   init() {
     this.resize();
-    window.addEventListener('resize', () => this.resize());
+    // Throttle resize handling during window dragging so generateCircuits
+    // only rebuilds once the user stops resizing (~150ms).
+    let resizeTimeout = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => this.resize(), 150);
+    });
+
+    // Pause rendering when scrolled out of view to save battery/CPU
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(([entry]) => {
+        const wasVisible = this.isVisible;
+        this.isVisible = entry.isIntersecting;
+        if (!wasVisible && this.isVisible) {
+          requestAnimationFrame(this.loop);
+        }
+      }, { threshold: 0.05 });
+      observer.observe(this.canvas);
+    }
     
     const updateMouse = (x, y) => {
       this.mouse.x = x;
@@ -45,8 +64,8 @@ class CircuitEngine {
       this.mouse.active = true;
     };
 
-    window.addEventListener('mousemove', (e) => updateMouse(e.clientX, e.clientY));
-    window.addEventListener('pointermove', (e) => updateMouse(e.clientX, e.clientY));
+    // pointermove covers mouse + touch pointer events in one handler
+    window.addEventListener('pointermove', (e) => updateMouse(e.clientX, e.clientY), { passive: true });
     window.addEventListener('touchmove', (e) => {
       if (e.touches && e.touches.length > 0) {
         updateMouse(e.touches[0].clientX, e.touches[0].clientY);
@@ -314,6 +333,8 @@ class CircuitEngine {
   }
 
   loop(timestamp) {
+    if (!this.isVisible) return;
+
     this.ctx.save();
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -347,52 +368,79 @@ class CircuitEngine {
   }
 
   /**
-   * Soft radar / flashlight ghost shadow of circuits in Standby mode
+   * Soft radar / flashlight ghost shadow of circuits in Standby mode.
+   * Optimized: grid-culls traces first so distToSegment only runs on segments
+   * crossing the cursor's neighborhood (~30x fewer calls per frame).
    */
   drawStandbyGhostCircuits(timestamp) {
-    const radarRadius = 240;
+    if (!this.mouse.active) return;
+    const m = this.mouse;
+
+    // Grid culling: inspect only the 4 grid cells around the cursor.
+    const grid = 120;
+    const gx = Math.floor(m.x / grid) * grid;
+    const gy = Math.floor(m.y / grid) * grid;
+    const cells = [
+      [gx - grid, gy - grid], [gx + grid, gy - grid],
+      [gx - grid, gy + grid], [gx + grid, gy + grid],
+    ];
+
     this.ctx.save();
     this.ctx.globalCompositeOperation = 'screen';
 
     this.traces.forEach(trace => {
-      let minDistance = Infinity;
+      // Coarse AABB check against the cursor's grid cells.
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      for (let i = 0; i < trace.points.length; i++) {
+        const p = trace.points[i];
+        if (p.x < minX) minX = p.x;
+        if (p.x > maxX) maxX = p.x;
+        if (p.y < minY) minY = p.y;
+        if (p.y > maxY) maxY = p.y;
+      }
+      let coarseHit = false;
+      for (const [cx, cy] of cells) {
+        if (!(minX > cx + grid || maxX < cx || minY > cy + grid || maxY < cy)) {
+          coarseHit = true;
+          break;
+        }
+      }
+      if (!coarseHit) return;
+
+      // Only now compute exact segment distances in the cursor's neighborhood.
+      let minDist = 240;
       for (let i = 0; i < trace.points.length - 1; i++) {
         const p1 = trace.points[i];
         const p2 = trace.points[i + 1];
-        const d = this.distToSegment(this.mouse.x, this.mouse.y, p1.x, p1.y, p2.x, p2.y);
-        if (d < minDistance) minDistance = d;
+        const d = this.distToSegment(m.x, m.y, p1.x, p1.y, p2.x, p2.y);
+        if (d < minDist) minDist = d;
+      }
+      if (minDist >= 240) return;
+
+      const proximity = 1 - minDist / 240;
+      const ghostAlpha = 0.08 + proximity * 0.42;
+
+      this.ctx.beginPath();
+      this.ctx.moveTo(trace.points[0].x, trace.points[0].y);
+      for (let i = 1; i < trace.points.length; i++) {
+        this.ctx.lineTo(trace.points[i].x, trace.points[i].y);
       }
 
-      if (minDistance < radarRadius) {
-        const proximity = 1 - minDistance / radarRadius;
-        const ghostAlpha = 0.08 + proximity * 0.42;
-
-        this.ctx.beginPath();
-        this.ctx.moveTo(trace.points[0].x, trace.points[0].y);
-        for (let i = 1; i < trace.points.length; i++) {
-          this.ctx.lineTo(trace.points[i].x, trace.points[i].y);
-        }
-
-        this.ctx.strokeStyle = `rgba(88, 164, 176, ${ghostAlpha})`;
-        this.ctx.lineWidth = trace.lineWidth * (1 + proximity * 0.7);
-        this.ctx.lineCap = 'round';
-        this.ctx.lineJoin = 'round';
-        this.ctx.shadowColor = '#58a4b0';
-        this.ctx.shadowBlur = 8 * proximity;
-        this.ctx.stroke();
-      }
+      this.ctx.strokeStyle = `rgba(88, 164, 176, ${ghostAlpha})`;
+      this.ctx.lineWidth = trace.lineWidth * (1 + proximity * 0.7);
+      this.ctx.lineCap = 'round';
+      this.ctx.lineJoin = 'round';
+      this.ctx.stroke();
     });
 
-    // Faint terminal connection dots near mouse in standby
+    // Faint terminal dots: cull by radius, no per-frame shadowBlur.
     this.terminals.forEach(term => {
-      const d = Math.hypot(this.mouse.x - term.x, this.mouse.y - term.y);
-      if (d < radarRadius) {
-        const proximity = 1 - d / radarRadius;
+      const d = Math.hypot(m.x - term.x, m.y - term.y);
+      if (d < 240) {
+        const proximity = 1 - d / 240;
         this.ctx.beginPath();
         this.ctx.arc(term.x, term.y, term.radius * (1 + proximity * 0.4), 0, Math.PI * 2);
         this.ctx.fillStyle = `rgba(88, 164, 176, ${0.15 + proximity * 0.55})`;
-        this.ctx.shadowColor = '#58a4b0';
-        this.ctx.shadowBlur = 6 * proximity;
         this.ctx.fill();
       }
     });
@@ -529,18 +577,13 @@ class CircuitEngine {
 
   drawTerminals() {
     this.ctx.save();
+    this.ctx.shadowColor = '#58a4b0';
+    this.ctx.shadowBlur = this.state === 'POWERED' ? 6 : 0;
+
     this.terminals.forEach(term => {
       this.ctx.beginPath();
       this.ctx.arc(term.x, term.y, term.radius, 0, Math.PI * 2);
-
-      if (this.state === 'POWERED') {
-        this.ctx.fillStyle = '#58a4b0';
-        this.ctx.shadowColor = '#58a4b0';
-        this.ctx.shadowBlur = 6;
-      } else {
-        this.ctx.fillStyle = 'rgba(88, 164, 176, 0.5)';
-      }
-
+      this.ctx.fillStyle = this.state === 'POWERED' ? '#58a4b0' : 'rgba(88, 164, 176, 0.5)';
       this.ctx.fill();
     });
     this.ctx.restore();

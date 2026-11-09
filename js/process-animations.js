@@ -88,8 +88,16 @@ class ProcessAnimations {
   initCursorTooltip() {
     if (!this.tooltip || !this.stageNodes.length) return;
 
+    // Hide the tooltip while scrolling so it never sticks at a stale position.
+    window.addEventListener('scroll', () => {
+      this.tooltip.classList.remove('active');
+    }, { passive: true });
+
     this.stageNodes.forEach(node => {
-      node.addEventListener('mouseenter', (e) => {
+      node.addEventListener('pointerenter', (e) => {
+        // Touch users get no hover value from a sticky popover; skip them.
+        if (e.pointerType === 'touch') return;
+
         const title = node.getAttribute('data-title') || '';
         const desc = node.getAttribute('data-desc') || '';
         const tags = (node.getAttribute('data-tags') || '').split(',');
@@ -106,11 +114,12 @@ class ProcessAnimations {
         this.updateTooltipPosition(e);
       });
 
-      node.addEventListener('mousemove', (e) => {
+      node.addEventListener('pointermove', (e) => {
+        if (e.pointerType === 'touch') return;
         this.updateTooltipPosition(e);
       });
 
-      node.addEventListener('mouseleave', () => {
+      node.addEventListener('pointerleave', () => {
         this.tooltip.classList.remove('active');
       });
     });
@@ -118,29 +127,31 @@ class ProcessAnimations {
 
   updateTooltipPosition(e) {
     if (!this.tooltip) return;
+
+    // Measure the real rendered box instead of hardcoded guesses.
+    const rect = this.tooltip.getBoundingClientRect();
+    const tooltipWidth = rect.width || 320;
+    const tooltipHeight = rect.height || 150;
+
     let x = e.clientX;
     let y = e.clientY;
 
-    // Viewport edge guards
-    const tooltipWidth = 320;
-    const tooltipHeight = 150;
-
+    // Horizontal viewport edge guards.
     if (x - tooltipWidth / 2 < 15) {
       x = tooltipWidth / 2 + 15;
     } else if (x + tooltipWidth / 2 > window.innerWidth - 15) {
       x = window.innerWidth - tooltipWidth / 2 - 15;
     }
 
-    if (y - tooltipHeight < 20) {
-      // If too close to top, show below cursor
-      this.tooltip.style.transform = 'translate(-50%, 20px)';
-    } else {
-      // Default: show above cursor
-      this.tooltip.style.transform = 'translate(-50%, -100%)';
-    }
+    // Flip below the cursor when there is no room above.
+    const flipDown = y - tooltipHeight - 14 < 20;
+    const offsetY = flipDown ? '20px' : '-100%';
 
+    // Position purely through transform + fixed left/top anchors, which keeps
+    // behavior identical in RTL documents (left/top are physical properties).
     this.tooltip.style.left = `${x}px`;
     this.tooltip.style.top = `${y}px`;
+    this.tooltip.style.transform = `translate(-50%, ${offsetY})`;
   }
 }
 
